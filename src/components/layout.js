@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
       <main>{children}</main>
       <footer className='footer'>
         <section>
-          <ul  className='communities'>
+          <ul className='communities'>
             <li>Official website <a href="https://curehht.org">https://curehht.org</a></li>
             <li>Official <a href="https://www.youtube.com/user/HHTFoundation">HHTFoundation</a> youtube channel</li>
             <li>Facebook <a href="https://www.facebook.com/hht.org">facebook.com/hht.org</a></li>

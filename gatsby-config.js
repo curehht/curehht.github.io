@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: 'curehht-gatsby.github.io',
   siteMetadata: {
     title: `curehht-gatsby.github.io`,
     description: `Сайт проекта на Gatsby default starter.`,

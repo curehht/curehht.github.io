@@ -40,7 +40,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "jest",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public -r https://$GH_TOKEN@github.com/curehht/curehht-gatsby.github.io.git"
   },
   "repository": {
     "type": "git",

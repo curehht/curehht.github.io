@@ -1,6 +1,6 @@
 ---
 title: "Продукты и пищевые добавки, разжижающие кровь"
-date: "26.01.2020"
+date: "2020-01-26"
 source: https://curehht.org/wp-content/uploads/2017/11/Blood-Thinning-Foods-to-Avoid.pdf
 tags: питание, диета, пищевые добавки
 ---

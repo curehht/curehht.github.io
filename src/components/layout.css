@@ -23,8 +23,14 @@ summary {
   display: block;
 }
 
+.content {
+  padding: 0 25px;
+  min-height: 70vh;
+}
+
 .footer {
   display: flex;
+  padding: 0 25px;
 }
 
 .communities {

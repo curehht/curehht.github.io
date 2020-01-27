@@ -1,8 +1,8 @@
 module.exports = {
   pathPrefix: 'curehht-gatsby.github.io',
   siteMetadata: {
-    title: `curehht-gatsby.github.io`,
-    description: `Сайт проекта на Gatsby default starter.`,
+    title: `Болезнь Рандю-Ослера-Вебера (HHT)`,
+    description: `Болезнь Рандю — Ослера — Вебера: Симптомы, Диагностика, Лечение`,
     author: `@gatsbyjs + @alexbaumgertner as copy-paster`,
   },
   plugins: [

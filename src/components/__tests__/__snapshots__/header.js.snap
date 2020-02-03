@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header renders correctly 1`] = `
-<header>
+<header
+  className="header"
+>
   <div>
     <h1>
       <a
@@ -10,6 +12,11 @@ exports[`Header renders correctly 1`] = `
         Default Starter
       </a>
     </h1>
+    <div
+      className="header__text"
+    >
+      
+    </div>
   </div>
 </header>
 `;

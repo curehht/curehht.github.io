@@ -1,0 +1,13 @@
+.header {
+  margin: 0 auto;
+  width: 60%;
+}
+
+.header h1 {
+  margin: 15px 0 5px 0;
+}
+
+.header__text {
+  width: 90%;
+  font-size: .8em;
+}

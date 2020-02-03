@@ -7,6 +7,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #eee2dc;
 }
 article,
 aside,
@@ -23,22 +24,44 @@ summary {
   display: block;
 }
 
+a {
+  color: #ac3b61;
+}
+
+h1,
+h2,
+h3 {
+  color: #123c69;
+}
+
 .content {
   padding: 0 25px;
   min-height: 70vh;
 }
 
 .footer {
+  width: 100%;
   display: flex;
-  padding: 0 25px;
+  background-color: #ac3c6112;
+  padding: 5px 0 25px;
+}
+
+.footer__section {
+  flex-grow: 1;
+  padding: 0 15px;
+}
+
+.section__header {
+ color: #123c69;
 }
 
 .communities {
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .communities > li {
   margin: 0;
-  padding: 0;
+  padding: 5px;
 }

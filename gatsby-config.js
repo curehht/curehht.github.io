@@ -2,37 +2,35 @@ module.exports = {
   pathPrefix: 'curehht-gatsby.github.io',
   siteMetadata: {
     title: `Болезнь Рандю-Ослера-Вебера (HHT)`,
-    title_text: `наследственное заболевание, встречается у одного из 5000 человек в результате чего на разных участках кожи и слизистых оболочках губ,
-     рта, во внутренних органах образуются множественные аномалии сосудов, которые кровоточат.`,
     description: `Болезнь Рандю — Ослера — Вебера: Симптомы, Диагностика, Лечение`,
     author: `@gatsbyjs + @alexbaumgertner as copy-paster`,
     mainMenu: [
       {
-        url: '',
+        url: '/diagnostics',
         text: 'диагностика',
       },
       {
-        url: '',
+        url: '/treatment',
         text: 'лечение',
       },
       {
-        url: '',
+        url: '/life-style',
         text: 'образ жизни',
       },
       {
-        url: 'статьи',
-        text: '',
+        url: '/articles',
+        text: 'статьи',
       },
       {
-        url: '',
+        url: '/books',
         text: 'книги',
       },
       {
-        url: '',
+        url: '/news',
         text: 'новости',
       },
       {
-        url: '',
+        url: '/contacts',
         text: 'контакты',
       },
     ],

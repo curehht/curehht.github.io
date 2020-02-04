@@ -19,7 +19,6 @@ const Layout = ({ children }) => {
       site {
         siteMetadata {
           title
-          title_text
           mainMenu {
             url
             text
@@ -33,9 +32,8 @@ const Layout = ({ children }) => {
     <>
       <Header
         siteTitle={data.site.siteMetadata.title}
-        title_text={data.site.siteMetadata.title_text}
       />
-      {/*<MainMenu mainMenu={data.site.siteMetadata.mainMenu} />*/}
+      <MainMenu mainMenu={data.site.siteMetadata.mainMenu} />
       <main className={'content'}>{children}</main>
       <footer className='footer'>
         <section className='footer__section'>

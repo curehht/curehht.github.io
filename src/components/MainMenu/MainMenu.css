@@ -1,0 +1,16 @@
+.main-menu {
+  margin: 30px 0 0 0;
+}
+
+.main-menu__list {
+  display: flex;
+  list-style: none;
+}
+
+.main-menu__item {
+  flex-grow: 1;
+}
+
+.main-menu__item_active a {
+  text-decoration: none;
+}

@@ -3,7 +3,7 @@ module.exports = {
   siteMetadata: {
     title: `Болезнь Рандю-Ослера-Вебера (HHT)`,
     description: `Болезнь Рандю — Ослера — Вебера: Симптомы, Диагностика, Лечение`,
-    author: `@gatsbyjs + @alexbaumgertner as copy-paster`,
+    author: `@gatsbyjs + @alexbaumgertner`,
     mainMenu: [
       {
         url: '/diagnostics',

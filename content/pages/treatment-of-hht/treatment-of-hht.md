@@ -2,7 +2,8 @@
 title: "Лечение"
 date: "2020-01-29"
 source: https://curehht.org/understanding-hht/diagnosis-treatment/treatment-of-hht/
-tags: лечение
+tags:
+ - лечение
 in_progress: yes
 ---
 

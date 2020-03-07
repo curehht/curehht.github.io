@@ -2,7 +2,10 @@
 title: "Рекомендации По Скринингу"
 date: "2020-01-28"
 source: https://curehht.org/understanding-hht/diagnosis-treatment/screening-guidelines/
-tags: диагностика, симптомы, осложнения
+tags:
+ - диагностика
+ - симптомы
+ - анализы
 in_progress: yes
 ---
 

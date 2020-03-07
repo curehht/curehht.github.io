@@ -35,8 +35,11 @@ h3 {
 }
 
 .content {
-  padding: 0 25px;
+  width: 70%;
+  margin: 4em auto;
   min-height: 70vh;
+  font-size: 1.2em;
+  line-height: 1.4em;
 }
 
 .footer {

@@ -42,7 +42,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "jest",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public -b master -r https://$GH_TOKEN@github.com/curehht/curehht.github.io.git"
+    "deploy": "gatsby build && gh-pages -d public -b master -r https://$GH_TOKEN@github.com/curehht/curehht.github.io.git"
   },
   "husky": {
     "hooks": {

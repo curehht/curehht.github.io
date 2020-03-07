@@ -1,5 +1,4 @@
 module.exports = {
-  pathPrefix: 'curehht.github.io',
   siteMetadata: {
     title: `Болезнь Рандю-Ослера-Вебера (HHT)`,
     description: `Болезнь Рандю — Ослера — Вебера: Симптомы, Диагностика, Лечение`,

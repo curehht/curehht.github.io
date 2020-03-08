@@ -68,3 +68,36 @@ h3 {
   margin: 0;
   padding: 5px;
 }
+
+@media only screen
+and (max-device-width : 480px) {
+
+  .header {
+    width: 100%;
+    font-size: 1.6em;
+  }
+
+  .header h1 {
+    padding: 0 1em;
+  }
+
+  .content {
+    width: 100%;
+    padding: 0 1em;
+  }
+
+  .main-menu__list {
+    display: block;
+    padding: 0 1em;
+  }
+
+  .main-menu__item {
+    font-size: 1.2em;
+    text-align: left;
+    margin-bottom: 0.6em;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+  }
+}

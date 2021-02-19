@@ -20,7 +20,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
-    "snyk": "^1.445.0"
+    "snyk": "^1.457.0"
   },
   "devDependencies": {
     "babel-jest": "^25.1.0",

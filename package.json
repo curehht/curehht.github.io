@@ -1,63 +1,36 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "curehht.github.io",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "Cure HHT russian user group",
+  "version": "1.0.0",
+  "author": "Alex Baumgertner <alex.baumgertner@gmail.com>",
   "dependencies": {
-    "gatsby": "^2.23.20",
-    "gatsby-image": "^2.2.34",
-    "gatsby-link": "^2.2.29",
-    "gatsby-plugin-manifest": "^2.2.31",
-    "gatsby-plugin-offline": "^3.0.27",
-    "gatsby-plugin-react-helmet": "^3.1.16",
-    "gatsby-plugin-sharp": "^2.3.5",
-    "gatsby-source-filesystem": "^2.1.46",
-    "gatsby-transformer-remark": "^2.6.48",
-    "gatsby-transformer-sharp": "^2.3.7",
-    "husky": "^4.2.1",
+    "gray-matter": "^4.0.2",
+    "next": "^10.0.7",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-helmet": "^5.2.1",
-    "snyk": "^1.445.0"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "remark": "^13.0.0",
+    "remark-html": "^13.0.1"
   },
-  "devDependencies": {
-    "babel-jest": "^25.1.0",
-    "babel-preset-gatsby": "^0.2.27",
-    "gh-pages": "^2.2.0",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^25.1.0",
-    "prettier": "^1.19.1",
-    "react-test-renderer": "^16.12.0"
-  },
-  "keywords": [
-    "gatsby"
-  ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "test": "jest",
-    "deploy": "gatsby build && cp CNAME public && gh-pages -d public -b master -r https://$GH_TOKEN@github.com/curehht/curehht.github.io.git",
-    "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test"
-    }
+    "dev": "next dev",
+    "dev-debug": "NODE_OPTIONS='--inspect' next dev",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/curehht/curehht.github.io"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/curehht/curehht.github.io/issues"
   },
-  "snyk": true
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "@types/react": "^17.0.2",
+    "typescript": "^4.1.5"
+  }
 }

@@ -1,0 +1,15 @@
+.columns {
+  display: flex;
+}
+
+.columns__col {
+  
+}
+
+.columns__col_left {
+  width: 29%;
+}
+
+.columns__col_right {
+  width: 70%;
+}

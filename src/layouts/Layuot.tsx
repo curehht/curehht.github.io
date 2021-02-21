@@ -1,5 +1,9 @@
 import { useEffect } from 'react'
 import Head from 'next/head'
+import {
+  Menu,
+  Footer,
+} from '../components'
 
 export default function Layout({ children }) {
   useEffect(() => {
@@ -23,6 +27,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Head>
+        <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="yandex-verification" content="108af3153e0f952a" />
         <meta name="author" content="Alex Baumgertner" />
@@ -41,13 +46,18 @@ export default function Layout({ children }) {
         <title>Болезнь Рандю-Ослера-Вебера (HHT)</title>
       </Head>
 
+   {/*   <img className="logo" src="/logo.png" alt="логотип" />*/}
+
       <div className="columns">
         <div className="columns__col columns__col_left">
-          <main>{children}</main>
+          <Menu />
         </div>
         <div className="columns__col columns__col_right">
+          <main>{children}</main>
         </div>
       </div>
+
+      <Footer />
 
       <noscript>
         <div><img src="//mc.yandex.ru/watch/72721354" style={{ 'position': 'absolute', 'left': '-9999px' }} alt="" />

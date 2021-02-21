@@ -26,6 +26,9 @@ jobs:
       - name: Disable Jekyl # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
         run: touch ./out/.nojekyll
 
+      - name: Enable custom domain
+        run: cp CNAME ./out
+
       - name: Delpoy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

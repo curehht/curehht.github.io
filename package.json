@@ -28,7 +28,7 @@
     "url": "https://github.com/curehht/curehht.github.io/issues"
   },
   "devDependencies": {
-    "@types/node": "^16.18.57",
+    "@types/node": "^20.8.2",
     "@types/react": "^18.2.25",
     "typescript": "^4.9.5"
   }

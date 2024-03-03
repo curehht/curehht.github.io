@@ -19,11 +19,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Build and Static HTML Export
         run: npm run build
-
-      - name: Static HTML Export
-        run: npm run export
 
       - name: Disable Jekyl # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
         run: touch ./out/.nojekyll

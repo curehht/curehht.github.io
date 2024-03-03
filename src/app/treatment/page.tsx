@@ -1,24 +1,18 @@
 import path from 'path'
 import Head from 'next/head'
 
-import Layout from '../../src/layouts/Layuot'
-import getFileData from '../../src/helpers/getFileData'
+import getFileData from '@/helpers/getFileData'
 
 const diagnosticsDirectory = path.join(process.cwd(), 'content', 'treatment')
 
-export async function getStaticProps () {
-  const fileData = await getFileData(path.join(diagnosticsDirectory, `treatment-of-hht.md`))
-  return {
-    props: {
-      fileData,
-    },
-  }
+async function getData () {
+  return await getFileData(path.join(diagnosticsDirectory, `treatment-of-hht.md`))
 }
 
-function TreatmentPage ({ fileData }) {
-  
+async function TreatmentPage () {
+  const fileData = await getData();
   return (
-    <Layout>
+    <div className="TreatmentPage">
       <Head>
         <title>{fileData.metaData.title}</title>
       </Head>
@@ -26,7 +20,7 @@ function TreatmentPage ({ fileData }) {
         <h2>{fileData.metaData.title}</h2>
         <div dangerouslySetInnerHTML={{ __html: fileData.html }} />
       </article>
-    </Layout>
+    </div>
   )
 }
 

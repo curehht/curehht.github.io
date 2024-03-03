@@ -3,13 +3,13 @@
 }
 
 .columns__col {
-  
+  width: 100%;
 }
 
 .columns__col_left {
-  width: 29%;
+  width: 15%;
 }
 
 .columns__col_right {
-  width: 70%;
+  width: 65%;
 }

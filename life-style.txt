@@ -1,0 +1,61 @@
+3:I[5613,[],""]
+4:I[1778,[],""]
+5:I[5250,["250","static/chunks/250-92aea3426083640b.js","185","static/chunks/app/layout-8ea4d6ed74624db4.js"],""]
+0:["F7K7ZL-n12nQkdoFzc1zC",[[["",{"children":["life-style",{"children":["__PAGE__",{}]}]},"$undefined","$undefined",true],["",{"children":["life-style",{"children":["__PAGE__",{},["$L1","$L2",null]]},["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","life-style","children"],"loading":"$undefined","loadingStyles":"$undefined","loadingScripts":"$undefined","hasLoading":false,"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined","styles":null}]]},[null,["$","html",null,{"lang":"ru","children":[null,["$","body",null,{"children":[["$","div",null,{"className":"columns","children":[["$","div",null,{"className":"columns__col columns__col_left","children":["$","nav",null,{"children":["$","ul",null,{"children":[["$","li",null,{"children":["$","$L5",null,{"href":"/","children":"главная"}]}],["$","li",null,{"children":["$","$L5",null,{"href":"/diagnostics","children":"диагностика"}]}],["$","li",null,{"children":["$","$L5",null,{"href":"/treatment","children":"лечение"}]}],["$","li",null,{"children":["$","$L5",null,{"href":"/life-style","children":"образ жизни"}]}]]}]}]}],["$","div",null,{"className":"columns__col columns__col_right","children":["$","main",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children"],"loading":"$undefined","loadingStyles":"$undefined","loadingScripts":"$undefined","hasLoading":false,"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":"404"}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],"notFoundStyles":[],"styles":null}]}]}]]}],["$","footer",null,{"className":"footer","children":[["$","section",null,{"className":"footer__section","children":[["$","h3",null,{"className":"section__header","children":"официальные источники"}],["$","ul",null,{"className":"communities","children":[["$","li",null,{"children":["Сайт ",["$","a",null,{"href":"https://curehht.org","children":"curehht.org"}]]}],["$","li",null,{"children":["Ютуб ",["$","a",null,{"href":"https://www.youtube.com/user/HHTFoundation","children":"HHTFoundation"}]]}],["$","li",null,{"children":["Facebook ",["$","a",null,{"href":"https://www.facebook.com/hht.org","children":"facebook.com/hht.org"}]]}]]}]]}],["$","section",null,{"className":"footer__section","children":[["$","h3",null,{"className":"section__header","children":"дополнительно"}],["$","ul",null,{"className":"communities","children":[["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/5484437834/","children":"HHT Awareness"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/152612813303/","children":"HHT International"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/L.W.H.H.Tphotosvideos/","children":"Living with HHT Read our stories & see our Photos & More."}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/1503220203260718/","children":"Women with HHT"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/349798917563/","children":"HHT or (Osler-Weber-Rendu Syndrome)"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/238198683185208/","children":"HHT WARRIORS"}]}]]}]]}],["$","section",null,{"className":"footer__section","children":[["$","h3",null,{"className":"section__header","children":"на русском"}],["$","ul",null,{"className":"communities","children":[["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/curehhtru/","children":"facebook/curehhtru"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://vk.com/curehhtru","children":"vk.com/curehhtru"}]}]]}],["$","h3",null,{"className":"section__header","children":"код"}],["$","p",null,{"children":["$","a",null,{"href":"https://github.com/curehht/curehht.github.io","children":"curehht.github.io"}]}]]}]]}]]}]]}],null]],[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/654f42da9789d526.css","precedence":"next","crossOrigin":""}]],"$L6"]]]]
+7:Tfb0,<h2>Пищевые добавки и продукты</h2>
+<p>При заболевании HHT нельзя принимать добавки:</p>
+<ul>
+<li>витамин E</li>
+<li>Омега 3</li>
+<li>глицин</li>
+<li>Салициловая кислота:
+<ul>
+<li>кайенский перец,</li>
+<li>корица,</li>
+<li>порошок карри,</li>
+<li>укроп,</li>
+<li>имбирь,</li>
+<li>лакрица,</li>
+<li>орегано,</li>
+<li>паприка,</li>
+<li>мята перечная,</li>
+<li>тимьян</li>
+<li>куркума</li>
+</ul>
+</li>
+</ul>
+<p>Между тем есть фрукты, которые могут помочь разжижению крови.
+К ним относятся:</p>
+<ul>
+<li>черника,</li>
+<li>вишня,</li>
+<li>клюква,</li>
+<li>виноград,</li>
+<li>апельсины,</li>
+<li>чернослив,</li>
+<li>изюм,</li>
+<li>клубника,</li>
+<li>мандарины.</li>
+</ul>
+<p>Есть несколько видов рыб, которые уменьшают свертываемость крови.
+В их числе альбакорский тунец, анчоусы, сельдь, озерная форель, скумбрия и лосось.
+Основной причиной этого является высокий уровень омега-3 жирных кислот.</p>
+<p>Хотя приведенный выше список не является полным, есть и другие продукты,
+включая оливковое масло, чеснок и лук, которые могут способствовать разжижению крови.</p>
+<p>Есть много трав и специй, которые потенциально хороши в разжижении крови.
+Эти продукты богаты салициловой кислотой, витамином Е, омега-3 жирными кислотами
+(Омега-3 является одним из наиболее распространенных природных разжижителей крови; он содержится в рыбьем жире)
+и некоторыми антибиотиками.</p>
+<p>Интересно, что все продукты, богатые витамином Е, не всегда разжижают кровь. Например, некоторые зеленые овощи,
+такие как шпинат и брокколи, содержат большое количество витамина К наряду с витамином Е.</p>
+<p>Травы, богатые аспирином (салицилат /салициловая кислота), включают
+мяту перечную, имбирь, паприку, листья карри и порошок карри, тимьян, корицу, укроп, орегано, куркуму и лакрицу.
+Имбирь, листья карри и орегано-самые распространенные приправы, используемые в приготовлении фастфуда.
+Те, у кого есть нарушения кровоточивости, должны избегать этих приправ.</p>
+<p>В австралийском исследовании имбирь показал, что он ингибирует образование сгустков крови,
+вызванное арахидоновой кислотой (полиненасыщенной жирной кислотой, присутствующей в мембранах у человека).</p>
+<p>Все фрукты в ягодном семействе, включая клубнику, клюкву и чернику, являются значительными разжижителями крови.
+Апельсины, мандарины, вишни, изюм, чернослив, ананасы и помидоры работают таким же образом.</p>
+2:["$","div",null,{"className":"LifeStylePage","children":[null,["$","article",null,{"children":[["$","h2",null,{"children":"Продукты и пищевые добавки, разжижающие кровь"}],["$","div",null,{"dangerouslySetInnerHTML":{"__html":"$7"}}]]}]]}]
+6:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}],["$","title","2",{"children":"HHT (Рандю-Ослева-Вебера) болезнь"}],["$","meta","3",{"name":"description","content":"HHT (Рандю-Ослева-Вебера) болезнь"}],["$","meta","4",{"name":"author","content":"Alex Baumgertner"}],["$","meta","5",{"name":"keywords","content":"Болезнь Рандю́ — О́слера (Рандю — Ослера — Ве́бера), синдром Ослера, семейная наследственная телеангиэктазия наследственная геморрагическая телеангиэктазия, геморрагический ангиоматоз"}]]
+1:null

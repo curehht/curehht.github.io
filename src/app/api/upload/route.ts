@@ -10,7 +10,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   console.log('userData', userData)
 
-  if (userData?.email !== 'alexbaumgertner@yandex.ru') {
+  if (userData?.email !== 'alex.baumgertner@gmail.com') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

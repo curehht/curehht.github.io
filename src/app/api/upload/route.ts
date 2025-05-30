@@ -8,8 +8,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const userData = await getUserDataFromRequest(request)
 
-  console.log('userData', userData)
-
   if (userData?.email !== 'alex.baumgertner@gmail.com') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

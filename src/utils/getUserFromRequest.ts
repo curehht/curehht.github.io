@@ -25,6 +25,8 @@ export const getUserDataFromRequest = async (req: NextRequest) => {
     .where(eq(sessions.sessionToken, sessionId))
     .limit(1)
 
+  if (!currentUserWithRoles.length) return null
+
   const result = currentUserWithRoles[0]
 
   return {

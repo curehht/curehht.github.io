@@ -72,35 +72,35 @@ export default function RootLayout({
               <Col md={2}>
                 <Nav className="flex-column">
                   <Nav.Item>
-                    <Link href="/" passHref legacyBehavior>
-                      <Nav.Link>Главная</Nav.Link>
-                    </Link>
+                    <Nav.Link as={Link} href="/">
+                      Главная
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Link href="/diagnostics" passHref legacyBehavior>
-                      <Nav.Link>Диагностика</Nav.Link>
-                    </Link>
+                    <Nav.Link as={Link} href="/diagnostics">
+                      Диагностика
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Link href="/treatment" passHref legacyBehavior>
-                      <Nav.Link>Лечение</Nav.Link>
-                    </Link>
+                    <Nav.Link as={Link} href="/treatment">
+                      Лечение
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Link href="/life-style" passHref legacyBehavior>
-                      <Nav.Link>Образ жизни</Nav.Link>
-                    </Link>
+                    <Nav.Link as={Link} href="/life-style">
+                      Образ жизни
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Link href="/news" passHref legacyBehavior>
-                      <Nav.Link>Новости</Nav.Link>
-                    </Link>
+                    <Nav.Link as={Link} href="/news">
+                      Новости
+                    </Nav.Link>
                   </Nav.Item>
                   {data?.pages.map((page) => (
                     <Nav.Item key={page.slug}>
-                      <Link href={`/${page.slug}`} passHref legacyBehavior>
-                        <Nav.Link>{page.slug_name}</Nav.Link>
-                      </Link>
+                      <Nav.Link as={Link} href={`/${page.slug}`}>
+                        {page.slug_name}
+                      </Nav.Link>
                     </Nav.Item>
                   ))}
                 </Nav>

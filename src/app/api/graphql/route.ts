@@ -12,13 +12,13 @@ import { Resources, PermissionAction } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 
-// Sentry.init({
-//   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-//   // Enable logs to be sent to Sentry
-//   _experiments: { enableLogs: true },
-// })
+Sentry.init({
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  // Enable logs to be sent to Sentry
+  _experiments: { enableLogs: true },
+})
 
-// Sentry.logger.info('Sentry.logger initialized')
+Sentry.logger.info('Sentry.logger initialized')
 
 const typeDefs = gql`
   scalar Date
@@ -143,7 +143,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch news articles', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -156,7 +156,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch news article', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -177,7 +177,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch roles', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -190,11 +190,11 @@ const resolvers = {
           action: PermissionAction.read,
         })
         if (!canDo) {
-          // Sentry.logger.error('Unauthorized', {
-          //   userData,
-          //   resourceName: Resources.users,
-          //   action: PermissionAction.read,
-          // })
+          Sentry.logger.error('Unauthorized', {
+            userData,
+            resourceName: Resources.users,
+            action: PermissionAction.read,
+          })
           throw new GraphQLError('Unauthorized', {
             extensions: { code: 'UNAUTHORIZED', status: 403 },
           })
@@ -203,7 +203,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch users', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -214,7 +214,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch pages', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -225,7 +225,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch page', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -235,7 +235,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch page', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -265,7 +265,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to create news article', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -296,7 +296,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to update news article', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -322,7 +322,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to delete news article', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -347,7 +347,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to create role', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -373,7 +373,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to update role', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -404,7 +404,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to update user role', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -429,7 +429,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to create page', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -455,7 +455,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to update page', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },
@@ -480,7 +480,7 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to delete page', {
-          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
     },

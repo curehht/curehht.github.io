@@ -8,6 +8,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { Container, Row, Col, Breadcrumb, Nav } from 'react-bootstrap'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+import * as Sentry from '@sentry/nextjs'
 
 import { ClientProvider } from '@/components/Apollo'
 import { makeClient } from '@/components/Apollo/ClientProvider'
@@ -28,9 +30,7 @@ const GET_PAGES_SLUG = gql`
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname()
   const [data, setData] = useState(null)
 

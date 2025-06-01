@@ -1,14 +1,24 @@
+import { GraphQLError } from 'graphql'
 import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { eq } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/vercel-postgres'
 import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
+import * as Sentry from '@sentry/nextjs'
 
 import { newsArticle, pages, roles, users } from '@/db/schema'
 import { Resources, PermissionAction } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
+
+// Sentry.init({
+//   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+//   // Enable logs to be sent to Sentry
+//   _experiments: { enableLogs: true },
+// })
+
+// Sentry.logger.info('Sentry.logger initialized')
 
 const typeDefs = gql`
   scalar Date
@@ -127,49 +137,107 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    newsArticles: async (_parent: unknown, _args, { db }) => {
-      const result = await db.select().from(newsArticle)
-      return result
+    newsArticles: async (_parent: unknown, _args: unknown, { db }) => {
+      try {
+        const result = await db.select().from(newsArticle)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch news articles', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
+      }
     },
     newsArticle: async (_parent: unknown, { id }, { db }) => {
-      const result = await db
-        .select()
-        .from(newsArticle)
-        .where(eq(newsArticle.id, id))
-      return result[0]
+      try {
+        const result = await db
+          .select()
+          .from(newsArticle)
+          .where(eq(newsArticle.id, id))
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch news article', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
+      }
     },
 
-    roles: async (_parent: unknown, _args, { db, userData }) => {
-      if (
-        !isAuthorized({
+    roles: async (_parent: unknown, _args: unknown, { db, userData }) => {
+      try {
+        const canDo = isAuthorized({
           userData,
-          resourceName: Resources.roles,
+          resourceName: Resources.newsArticle,
           action: PermissionAction.read,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+        const result = await db.select().from(roles)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch roles', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-      const result = await db.select().from(roles)
-      return result
     },
 
-    users: async (_parent: unknown, _args, { db }) => {
-      const result = await db.select().from(users)
-      return result
+    users: async (_parent: unknown, _args: unknown, { db, userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.users,
+          action: PermissionAction.read,
+        })
+        if (!canDo) {
+          // Sentry.logger.error('Unauthorized', {
+          //   userData,
+          //   resourceName: Resources.users,
+          //   action: PermissionAction.read,
+          // })
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+        const result = await db.select().from(users)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch users', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
+      }
     },
 
-    pages: async (_parent: unknown, _args, { db }) => {
-      const result = await db.select().from(pages)
-      return result
+    pages: async (_parent: unknown, _args: unknown, { db }) => {
+      try {
+        const result = await db.select().from(pages)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch pages', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
+      }
     },
 
     page: async (_parent: unknown, { slug }, { db }) => {
-      const result = await db.select().from(pages).where(eq(pages.slug, slug))
-      return result[0]
+      try {
+        const result = await db.select().from(pages).where(eq(pages.slug, slug))
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
+      }
     },
     pageById: async (_parent: unknown, { id }, { db }) => {
-      const result = await db.select().from(pages).where(eq(pages.id, id))
-      return result[0]
+      try {
+        const result = await db.select().from(pages).where(eq(pages.id, id))
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
+      }
     },
   },
   Mutation: {
@@ -178,100 +246,136 @@ const resolvers = {
       { article },
       { db, userData }
     ) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.newsArticle,
           action: PermissionAction.create,
         })
-      ) {
-        throw new Error('Unauthorized')
-      }
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
 
-      const result = await db
-        .insert(newsArticle)
-        .values({
-          ...article,
-          author: userData.id,
+        const result = await db
+          .insert(newsArticle)
+          .values({ ...article, author: userData.id })
+          .returning()
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to create news article', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
         })
-        .returning()
-      return result[0]
+      }
     },
     updateNewsArticle: async (
       _parent: unknown,
       { id, article },
       { db, userData }
     ) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.newsArticle,
           resourceAuthorId: article.author,
           action: PermissionAction.update,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await db
+          .update(newsArticle)
+          .set(article)
+          .where(eq(newsArticle.id, id))
+          .returning()
+
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update news article', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-
-      const result = await db
-        .update(newsArticle)
-        .set(article)
-        .where(eq(newsArticle.id, id))
-        .returning()
-
-      return result[0]
     },
     deleteNewsArticle: async (_parent: unknown, { id }, { db, userData }) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.newsArticle,
           resourceAuthorId: id,
           action: PermissionAction.delete,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await db
+          .delete(newsArticle)
+          .where(eq(newsArticle.id, id))
+          .returning()
+
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to delete news article', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-      const result = await db
-        .delete(newsArticle)
-        .where(eq(newsArticle.id, id))
-        .returning()
-      return result[0]
     },
 
     createRole: async (_parent: unknown, { role }, { db, userData }) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.roles,
           action: PermissionAction.create,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await db
+          .insert(roles)
+          .values({ ...role, owner_id: userData.id })
+          .returning()
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to create role', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-      const result = await db
-        .insert(roles)
-        .values({ ...role, owner_id: userData.id })
-        .returning()
-      return result[0]
     },
     updateRole: async (_parent: unknown, { id, role }, { db, userData }) => {
-      const canDo = isAuthorized({
-        userData,
-        resourceName: Resources.roles,
-        action: PermissionAction.update,
-      })
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.roles,
+          action: PermissionAction.update,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
 
-      if (!canDo) {
-        throw new Error('Unauthorized')
+        const result = await db
+          .update(roles)
+          .set(role)
+          .where(eq(roles.id, id))
+          .returning()
+
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update role', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-
-      const result = await db
-        .update(roles)
-        .set(role)
-        .where(eq(roles.id, id))
-        .returning()
-      return result[0]
     },
 
     updateUserRole: async (
@@ -279,69 +383,106 @@ const resolvers = {
       { userId, roleId },
       { db, userData }
     ) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.roles,
           action: PermissionAction.update,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await db
+          .update(users)
+          .set({ role_id: roleId })
+          .where(eq(users.id, userId))
+          .returning()
+
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update user role', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-      const result = await db
-        .update(users)
-        .set({ role_id: roleId })
-        .where(eq(users.id, userId))
-        .returning()
-      return result[0]
     },
 
     createPage: async (_parent: unknown, { page }, { db, userData }) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.page,
           action: PermissionAction.create,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await db
+          .insert(pages)
+          .values({ ...page, author_id: userData.id })
+          .returning()
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to create page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-      const result = await db
-        .insert(pages)
-        .values({ ...page, author_id: userData.id })
-        .returning()
-      return result[0]
     },
     updatePage: async (_parent: unknown, { id, page }, { db, userData }) => {
-      const canDo = isAuthorized({
-        userData,
-        resourceName: Resources.page,
-        action: PermissionAction.update,
-      })
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.page,
+          action: PermissionAction.update,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
 
-      if (!canDo) {
-        throw new Error('Unauthorized')
+        const result = await db
+          .update(pages)
+          .set(page)
+          .where(eq(pages.id, id))
+          .returning()
+
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-
-      const result = await db
-        .update(pages)
-        .set(page)
-        .where(eq(pages.id, id))
-        .returning()
-      return result[0]
     },
     deletePage: async (_parent: unknown, { id }, { db, userData }) => {
-      if (
-        !isAuthorized({
+      try {
+        const canDo = isAuthorized({
           userData,
           resourceName: Resources.page,
           action: PermissionAction.delete,
         })
-      ) {
-        throw new Error('Unauthorized')
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await db
+          .delete(pages)
+          .where(eq(pages.id, id))
+          .returning()
+
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to delete page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500 },
+        })
       }
-      const result = await db.delete(pages).where(eq(pages.id, id)).returning()
-      return result[0]
     },
   },
 }
@@ -357,10 +498,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
     const userData = await getUserDataFromRequest(req)
     const db = drizzle()
 
-    return {
-      db,
-      userData,
-    }
+    return { db, userData }
   },
 })
 

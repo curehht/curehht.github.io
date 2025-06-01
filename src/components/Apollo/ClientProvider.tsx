@@ -1,13 +1,14 @@
 'use client'
 // ^ this file needs the "use client" pragma
 
-import { ApolloLink, HttpLink } from '@apollo/client'
-import { onError } from '@apollo/client/link/error'
 import {
-  ApolloNextAppProvider,
   ApolloClient,
+  ApolloProvider,
   InMemoryCache,
-} from '@apollo/experimental-nextjs-app-support'
+  HttpLink,
+  ApolloLink,
+} from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
 
 // have a function to create a client for you
 export function makeClient() {
@@ -44,9 +45,5 @@ export function makeClient() {
 
 // you need to create a component to wrap your app in
 export function ClientProvider({ children }: React.PropsWithChildren) {
-  return (
-    <ApolloNextAppProvider makeClient={makeClient}>
-      {children}
-    </ApolloNextAppProvider>
-  )
+  return <ApolloProvider client={makeClient()}>{children}</ApolloProvider>
 }

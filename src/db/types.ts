@@ -9,6 +9,7 @@ export enum Resources {
   newsArticle = 'newsArticle',
   page = 'page',
   roles = 'roles',
+  users = 'users',
 }
 
 export interface Permission {

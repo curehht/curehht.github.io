@@ -21,10 +21,7 @@ type RoleFormProps = {
 type RoleFormState = Pick<Role, 'name' | 'permissions'>
 
 const createStubPermissions = () =>
-  Object.values(Resources).map((resource) => ({
-    resource,
-    actions: [],
-  }))
+  Object.values(Resources).map((resource) => ({ resource, actions: [] }))
 
 const RoleForm: React.FC<RoleFormProps> = ({
   onSubmit,
@@ -32,7 +29,6 @@ const RoleForm: React.FC<RoleFormProps> = ({
   name,
   permissions,
 }) => {
-  debugger
   const [role, setRole] = useState<RoleFormState>({
     name: name || '',
     permissions: permissions || createStubPermissions(),
@@ -40,10 +36,7 @@ const RoleForm: React.FC<RoleFormProps> = ({
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setRole((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+    setRole((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = (e: React.FormEvent) => {

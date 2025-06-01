@@ -45,6 +45,14 @@ function IndexPage() {
         </Row>
         <Row>
           <Col>
+            <button
+              type="button"
+              onClick={() => {
+                throw new Error('Sentry Test Error')
+              }}
+            >
+              Break the world
+            </button>
             <h2>Синонимы</h2>
             <ul>
               <li>Болезнь Рандю́ — О́слера (Рандю — Ослера — Ве́бера)</li>

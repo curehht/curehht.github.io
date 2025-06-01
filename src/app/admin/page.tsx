@@ -50,7 +50,7 @@ const AdminPage: React.FC = () => {
     refetchQueries: [{ query: GET_USERS }, { query: GET_ROLES }],
   })
 
-  const handleUserRoleChange = (userId, roleId) => {
+  const handleUserRoleChange = (userId: string, roleId: string) => {
     updateUserRole({ variables: { userId, roleId } })
   }
 

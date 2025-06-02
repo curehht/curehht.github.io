@@ -21,12 +21,17 @@ const GET_NEWS_ARTICLE = gql`
 `
 
 type NewsArticlePageProps = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-const NewsArticlePage = ({ params: { id } }: NewsArticlePageProps) => {
+const NewsArticlePage = async ({ params }: NewsArticlePageProps) => {
+  const { id } = await params
+  return <NewsArticlePageContent id={id} />
+}
+
+const NewsArticlePageContent = ({ id }: { id: string }) => {
   const { data, loading, error } = useQuery(GET_NEWS_ARTICLE, {
     variables: { id: parseInt(id, 10) },
   })

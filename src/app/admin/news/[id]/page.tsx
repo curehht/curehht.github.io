@@ -37,18 +37,15 @@ const UPDATE_NEWS_ARTICLE = gql`
 `
 
 type EditNewsArticlePageProps = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-const EditNewsArticlePage = ({ params: { id } }: EditNewsArticlePageProps) => {
+const EditNewsArticlePageContent = ({ id }: { id: string }) => {
   const { data, loading, error } = useQuery(GET_NEWS_ARTICLE, {
     variables: { id: parseInt(id, 10) },
   })
-
-  console.log('EditNewsArticlePage')
-  console.log({ data, loading, error, id })
 
   const [updateNewsArticle] = useMutation(UPDATE_NEWS_ARTICLE, {
     refetchQueries: [
@@ -78,6 +75,11 @@ const EditNewsArticlePage = ({ params: { id } }: EditNewsArticlePageProps) => {
       )}
     </section>
   )
+}
+
+const EditNewsArticlePage = async ({ params }: EditNewsArticlePageProps) => {
+  const { id } = await params
+  return <EditNewsArticlePageContent id={id} />
 }
 
 export default EditNewsArticlePage

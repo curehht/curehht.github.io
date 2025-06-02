@@ -1,6 +1,5 @@
 import 'dotenv/config'
 import { defineConfig } from 'drizzle-kit'
-
 import dotenv from 'dotenv'
 
 dotenv.config({
@@ -8,8 +7,8 @@ dotenv.config({
 })
 
 export default defineConfig({
+  schema: './src/db/schema.ts',
   out: './drizzle',
-  schema: ['./src/db/schema.ts', './src/db/schemas/auth.ts'],
   dialect: 'postgresql',
   dbCredentials: {
     url: process.env.POSTGRES_URL!,

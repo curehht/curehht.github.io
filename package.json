@@ -43,7 +43,17 @@
     "export": "next export",
     "start": "next start",
     "lint": "next lint --fix",
-    "drizzle-studio": "drizzle-kit studio"
+    "drizzle-studio": "drizzle-kit studio",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "next lint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "repository": {
     "type": "git",
@@ -61,6 +71,8 @@
     "eslint-config-next": "^15.3.3",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
     "prettier": "^3.3.3",
     "typescript": "^5.8.3"
   }

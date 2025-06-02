@@ -23,8 +23,8 @@ const nextConfig = {
 }
 
 module.exports = withSentryConfig(nextConfig, {
-  org: 'easy-deep-learning-01a16725a',
-  project: 'curehht-ru_org',
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
   //silent: !process.env.CI,
   //disableLogger: true,
 

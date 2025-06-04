@@ -1,21 +1,15 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { gql } from '@apollo/client'
 import { SessionProvider } from 'next-auth/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
 import { Container, Row, Col, Breadcrumb, Nav } from 'react-bootstrap'
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
-import { ClientProvider } from '@/components/Apollo'
-import { makeClient } from '@/components/Apollo/ClientProvider'
+import { ApolloWrapper } from '@/components/Apollo'
+import { getClient } from '@/components/Apollo/ApolloClient'
 import { Footer } from '@/components'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-
-const client = makeClient()
 
 const GET_PAGES_SLUG = gql`
   query GetPagesSlug {
@@ -26,20 +20,10 @@ const GET_PAGES_SLUG = gql`
   }
 `
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const pathname = usePathname()
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await client.query({ query: GET_PAGES_SLUG })
-      setData(data)
-    }
-
-    fetchData()
-  }, [])
+  const { data } = await getClient().query({ query: GET_PAGES_SLUG })
 
   return (
     <html lang="ru">
@@ -47,20 +31,7 @@ export default function RootLayout({
         <Container>
           <Row>
             <Col>
-              <Breadcrumb>
-                {pathname.split('/').map((path, index, arr) => {
-                  const href = `${arr.slice(0, index + 1).join('/')}`
-                  return (
-                    <Breadcrumb.Item
-                      key={index}
-                      active={index === arr.length - 1}
-                      href={href}
-                    >
-                      {path}
-                    </Breadcrumb.Item>
-                  )
-                })}
-              </Breadcrumb>
+              <Breadcrumb></Breadcrumb>
             </Col>
           </Row>
         </Container>
@@ -69,46 +40,31 @@ export default function RootLayout({
             <Row>
               <Col md={2}>
                 <Nav className="flex-column">
-                  <Nav.Item>
-                    <Nav.Link as={Link} href="/">
-                      Главная
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link as={Link} href="/diagnostics">
-                      Диагностика
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link as={Link} href="/treatment">
-                      Лечение
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link as={Link} href="/life-style">
-                      Образ жизни
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link as={Link} href="/news">
-                      Новости
-                    </Nav.Link>
-                  </Nav.Item>
-                  {data?.pages.map((page) => (
-                    <Nav.Item key={page.slug}>
-                      <Nav.Link as={Link} href={`/${page.slug}`}>
+                  <Link href="/">Главная</Link>
+
+                  <Link href="/diagnostics">Диагностика</Link>
+
+                  <Link href="/treatment">Лечение</Link>
+
+                  <Link href="/life-style">Образ жизни</Link>
+
+                  <Link href="/news">Новости</Link>
+
+                  {data?.pages.map(
+                    (page: { slug: string; slug_name: string }) => (
+                      <Link key={page.slug} href={`/${page.slug}`}>
                         {page.slug_name}
-                      </Nav.Link>
-                    </Nav.Item>
-                  ))}
+                      </Link>
+                    )
+                  )}
                 </Nav>
               </Col>
               <Col md={10}>
-                <ClientProvider>
+                <ApolloWrapper>
                   {children}
                   <SpeedInsights />
                   <Analytics />
-                </ClientProvider>
+                </ApolloWrapper>
               </Col>
             </Row>
           </Container>

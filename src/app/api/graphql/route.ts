@@ -153,7 +153,7 @@ const resolvers = {
           .select()
           .from(newsArticle)
           .where(eq(newsArticle.id, id))
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to fetch news article', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -222,7 +222,7 @@ const resolvers = {
     page: async (_parent: unknown, { slug }, { db }) => {
       try {
         const result = await db.select().from(pages).where(eq(pages.slug, slug))
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to fetch page', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -232,7 +232,7 @@ const resolvers = {
     pageById: async (_parent: unknown, { id }, { db }) => {
       try {
         const result = await db.select().from(pages).where(eq(pages.id, id))
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to fetch page', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },

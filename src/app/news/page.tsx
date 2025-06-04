@@ -1,9 +1,9 @@
-'use client'
-
 import Link from 'next/link'
 import { Container, Row, Col } from 'react-bootstrap'
 import Spinner from 'react-bootstrap/Spinner'
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
+
+import { getClient } from '@/components/Apollo/ApolloClient'
 
 const GET_NEWS_ARTICLES = gql`
   query GetNewsArticles {
@@ -19,13 +19,14 @@ const GET_NEWS_ARTICLES = gql`
   }
 `
 
-function NewsListPage() {
-  const { data, loading, error } = useQuery(GET_NEWS_ARTICLES)
+async function NewsListPage() {
+  const client = getClient()
+  const { data, loading, error } = await client.query({
+    query: GET_NEWS_ARTICLES,
+  })
 
   if (loading) return <Spinner animation="border" />
   if (error) return <p>Error: {error.message}</p>
-
-  console.log('data?.newsArticles: ', data?.newsArticles)
 
   return (
     <Container>

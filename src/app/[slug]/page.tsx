@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { notFound } from 'next/navigation'
 
-import { getClient } from '@/components/Apollo/ServerProvider'
+import { getClient } from '@/components/Apollo/ApolloClient'
 
 const GET_PAGES_SLUG = gql`
   query GetPages {
@@ -49,11 +49,17 @@ async function fetchPageBySlug(slug: string) {
       slug,
     },
   })
+
   return data.page
 }
 
-export default async function SlugPage({ params }) {
-  const { slug } = params
+export default async function SlugPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+
   const page = await fetchPageBySlug(slug)
 
   if (!page) {

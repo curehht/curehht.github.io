@@ -1,11 +1,10 @@
-'use client'
-
 import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
+import { getClient } from '@/components/Apollo/ApolloClient'
 
 const GET_NEWS_ARTICLE = gql`
   query GetNewsArticle($id: Int!) {
@@ -28,13 +27,13 @@ type NewsArticlePageProps = {
 
 const NewsArticlePage = async ({ params }: NewsArticlePageProps) => {
   const { id } = await params
-  return <NewsArticlePageContent id={id} />
-}
-
-const NewsArticlePageContent = ({ id }: { id: string }) => {
-  const { data, loading, error } = useQuery(GET_NEWS_ARTICLE, {
+  const client = getClient()
+  const { data, loading, error } = await client.query({
+    query: GET_NEWS_ARTICLE,
     variables: { id: parseInt(id, 10) },
   })
+
+  console.log('data :>> ', data)
 
   if (loading) return <Spinner animation="border" />
   if (error) return <p>Error: {error.message}</p>

@@ -5,7 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
-import { ClientProvider } from '@/components/Apollo'
+import { ApolloWrapper } from '@/components/Apollo'
 import { AuthPanel } from '@/components'
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -33,7 +33,7 @@ export default function AdminLayout({
           </Col>
         </Row>
       </Container>
-      <ClientProvider>{children}</ClientProvider>
+      <ApolloWrapper>{children}</ApolloWrapper>
     </SessionProvider>
   )
 }

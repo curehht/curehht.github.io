@@ -1,3 +1,1 @@
-import { ClientProvider } from './ClientProvider'
-
-export { ClientProvider }
+export { ApolloWrapper } from './ApolloWrapper'

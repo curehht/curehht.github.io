@@ -1,5 +1,6 @@
 'use client'
 
+import { use } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import gql from 'graphql-tag'
 
@@ -33,8 +34,12 @@ const UPDATE_PAGE_BY_ID = gql`
   }
 `
 
-export default function AdminPage({ params }) {
-  const { id } = params
+export default function AdminPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = use(params)
   const { data, loading, error } = useQuery(GET_PAGE_BY_ID, {
     variables: { id },
   })

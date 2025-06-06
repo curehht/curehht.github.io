@@ -8,7 +8,7 @@ import Table from 'react-bootstrap/Table'
 import { PermissionAction, Resources, Role } from '@/db/types'
 
 type RoleFormProps = {
-  onSubmit: (role: {
+  onSubmit?: (role: {
     id?: string
     name: string
     permissions: { resource: Resources; actions: PermissionAction[] }[]
@@ -41,7 +41,12 @@ const RoleForm: React.FC<RoleFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit({ ...role, id })
+
+    if (onSubmit) {
+      onSubmit({ ...role, id })
+    } else {
+      console.log(role)
+    }
   }
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

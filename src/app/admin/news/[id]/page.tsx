@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { use } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import { gql, useQuery, useMutation } from '@apollo/client'
 
@@ -42,7 +42,12 @@ type EditNewsArticlePageProps = {
   }>
 }
 
-const EditNewsArticlePageContent = ({ id }: { id: string }) => {
+const EditNewsArticlePageContent = ({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) => {
+  const { id } = use(params)
   const { data, loading, error } = useQuery(GET_NEWS_ARTICLE, {
     variables: { id: parseInt(id, 10) },
   })
@@ -77,9 +82,8 @@ const EditNewsArticlePageContent = ({ id }: { id: string }) => {
   )
 }
 
-const EditNewsArticlePage = async ({ params }: EditNewsArticlePageProps) => {
-  const { id } = await params
-  return <EditNewsArticlePageContent id={id} />
+const EditNewsArticlePage = ({ params }: EditNewsArticlePageProps) => {
+  return <EditNewsArticlePageContent params={params} />
 }
 
 export default EditNewsArticlePage

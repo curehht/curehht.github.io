@@ -1,39 +1,58 @@
-'use client'
-
 import React from 'react'
 import { SessionProvider } from 'next-auth/react'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-
-import { ApolloWrapper } from '@/components/Apollo'
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 import { AuthPanel } from '@/components'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Nav } from 'react-bootstrap'
+import Link from 'next/link'
+import { ApolloWrapper } from '@/components/Apollo'
 
 // Metadata is not supported in client components. Please define it in a server component.
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const { status } = useSession()
-  const router = useRouter()
+  const session = await auth()
 
-  if (status !== 'loading' && status !== 'authenticated') {
-    router.push('/api/auth/signin')
-    return null
+  if (!session) {
+    redirect('/api/auth/signin')
   }
 
   return (
     <SessionProvider>
-      <Container>
-        <Row>
-          <Col align="right">
-            <AuthPanel />
-          </Col>
-        </Row>
-      </Container>
-      <ApolloWrapper>{children}</ApolloWrapper>
+      <ApolloWrapper>
+        <Container>
+          <Row>
+            <Col>
+              <AuthPanel />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <ul>
+                <li>
+                  <Link href="/admin">Главная</Link>
+                </li>
+                <li>
+                  <Link href="/admin/pages">Страницы</Link>
+                </li>
+                <li>
+                  <Link href="/admin/news">Новости</Link>
+                </li>
+                <li>
+                  <Link href="/admin/roles">Роли</Link>
+                </li>
+                <li>
+                  <Link href="/admin/users">Пользователи</Link>
+                </li>
+              </ul>
+            </Col>
+            <Col md={10}>{children}</Col>
+          </Row>
+        </Container>
+      </ApolloWrapper>
     </SessionProvider>
   )
 }

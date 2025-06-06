@@ -262,7 +262,7 @@ const resolvers = {
           .insert(newsArticle)
           .values({ ...article, author: userData.id })
           .returning()
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to create news article', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -293,7 +293,7 @@ const resolvers = {
           .where(eq(newsArticle.id, id))
           .returning()
 
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to update news article', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -319,7 +319,7 @@ const resolvers = {
           .where(eq(newsArticle.id, id))
           .returning()
 
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to delete news article', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -344,7 +344,7 @@ const resolvers = {
           .insert(roles)
           .values({ ...role, owner_id: userData.id })
           .returning()
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to create role', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -370,7 +370,7 @@ const resolvers = {
           .where(eq(roles.id, id))
           .returning()
 
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to update role', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -401,7 +401,7 @@ const resolvers = {
           .where(eq(users.id, userId))
           .returning()
 
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to update user role', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -426,7 +426,7 @@ const resolvers = {
           .insert(pages)
           .values({ ...page, author_id: userData.id })
           .returning()
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to create page', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -452,7 +452,7 @@ const resolvers = {
           .where(eq(pages.id, id))
           .returning()
 
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to update page', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
@@ -477,7 +477,7 @@ const resolvers = {
           .where(eq(pages.id, id))
           .returning()
 
-        return result
+        return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to delete page', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },

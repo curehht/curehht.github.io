@@ -34,7 +34,7 @@ const NewsArticlePage = async ({ params }: NewsArticlePageProps) => {
     data?.newsArticle
 
   return (
-    <section>
+    <article>
       <header>
         <h1>{title}</h1>
         <p>
@@ -57,7 +57,7 @@ const NewsArticlePage = async ({ params }: NewsArticlePageProps) => {
           </p>
         )}
       </section>
-    </section>
+    </article>
   )
 }
 

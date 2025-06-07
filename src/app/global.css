@@ -31,7 +31,6 @@ textarea {
   border: 1px solid var(--border-color);
 }
 
-/* Override Bootstrap dark theme */
 .bg-light {
   background-color: var(--background-color) !important;
 }

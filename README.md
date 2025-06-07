@@ -9,7 +9,6 @@
 - [Apollo Client](https://www.apollographql.com/docs/react/) - GraphQL клиент для работы с API
 - [NextAuth.js](https://next-auth.js.org/) - Аутентификация и авторизация
 - [Drizzle ORM](https://orm.drizzle.team/) - ORM для работы с базой данных
-- [Bootstrap 5](https://getbootstrap.com/) - CSS фреймворк для создания адаптивного дизайна
 - [Vercel Postgres](https://vercel.com/storage/postgres) - База данных PostgreSQL
 - [Vercel Blob](https://vercel.com/storage/blob) - Хранилище файлов
 - [Vercel Analytics & Speed Insights](https://vercel.com/analytics) - Аналитика и мониторинг производительности

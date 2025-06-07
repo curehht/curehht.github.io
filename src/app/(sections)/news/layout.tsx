@@ -5,7 +5,7 @@ const NewsLayout: React.FC = ({
 }: Readonly<{
   children: React.ReactNode
 }>) => {
-  return <section>{children}</section>
+  return <main>{children}</main>
 }
 
 export default NewsLayout

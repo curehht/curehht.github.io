@@ -2,6 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "drizzle-studio",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run drizzle-studio"
+    },
+    {
       "name": "Next.js: dev",
       "type": "node-terminal",
       "request": "launch",

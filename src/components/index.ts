@@ -6,6 +6,7 @@ import { RoleForm } from './RoleForm'
 import { Editor } from './Editor'
 import { UsersList } from './UsersList/UsersList'
 import RolesList from './RolesList/RolesList'
+import MainNavigation from './MainNavigation/MainNavigation'
 
 export {
   Menu,
@@ -16,4 +17,5 @@ export {
   Editor,
   UsersList,
   RolesList,
+  MainNavigation,
 }

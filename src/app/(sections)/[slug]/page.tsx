@@ -1,37 +1,7 @@
-import gql from 'graphql-tag'
 import { notFound } from 'next/navigation'
 
 import { getClient } from '@/components/Apollo/ApolloClient'
-
-const GET_PAGES_SLUG = gql`
-  query GetPages {
-    pages {
-      slug
-    }
-  }
-`
-const GET_PAGE = gql`
-  query GetPage($slug: String!) {
-    page(slug: $slug) {
-      id
-      slug
-      title
-      summary
-      content
-      created_at
-      updated_at
-    }
-  }
-`
-
-async function fetchSlugsFromDB() {
-  const client = getClient()
-  const { data } = await client.query({
-    query: GET_PAGES_SLUG,
-  })
-
-  return data.pages.map((page: { slug: string }) => page.slug)
-}
+import { GET_PAGES_SLUG, GET_PAGE } from '@/db/queries-qraphql'
 
 export async function generateStaticParams() {
   const slugs = await fetchSlugsFromDB()
@@ -41,16 +11,18 @@ export async function generateStaticParams() {
   }))
 }
 
-async function fetchPageBySlug(slug: string) {
-  const client = getClient()
-  const { data } = await client.query({
-    query: GET_PAGE,
-    variables: {
-      slug,
-    },
-  })
-
-  return data.page
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) => {
+  const { slug } = await params
+  const page = await fetchPageBySlug(slug)
+  return {
+    title: page.title,
+    description: page.summary,
+    keywords: page.keywords,
+  }
 }
 
 export default async function SlugPage({
@@ -72,4 +44,25 @@ export default async function SlugPage({
       <div dangerouslySetInnerHTML={{ __html: page.content }} />
     </div>
   )
+}
+
+async function fetchSlugsFromDB() {
+  const client = getClient()
+  const { data } = await client.query({
+    query: GET_PAGES_SLUG,
+  })
+
+  return data.pages.map((page: { slug: string }) => page.slug)
+}
+
+async function fetchPageBySlug(slug: string) {
+  const client = getClient()
+  const { data } = await client.query({
+    query: GET_PAGE,
+    variables: {
+      slug,
+    },
+  })
+
+  return data.page
 }

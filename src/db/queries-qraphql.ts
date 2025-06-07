@@ -8,6 +8,21 @@ export const GET_PAGES_SLUG = gql`
     }
   }
 `
+
+export const GET_PAGE = gql`
+  query GetPage($slug: String!) {
+    page(slug: $slug) {
+      id
+      slug
+      title
+      summary
+      content
+      created_at
+      updated_at
+    }
+  }
+`
+
 export const CREATE_ROLE = gql`
   mutation CreateRole($role: RoleInput) {
     createRole(role: $role) {

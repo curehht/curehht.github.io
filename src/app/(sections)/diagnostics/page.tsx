@@ -1,3 +1,9 @@
+export const metadata = {
+  title: 'Диагностика',
+  description: 'Диагностика болезни Рандю-Ослера',
+  keywords: 'Диагностика, диагностика Рандю-Ослера, скрининг',
+}
+
 const DiagnosticsPage = () => {
   return (
     <article>

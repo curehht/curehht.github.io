@@ -1,3 +1,9 @@
+export const metadata = {
+  title: 'Лечение',
+  description: 'Лечение болезни Рандю-Ослера',
+  keywords: 'Лечение, лечение Рандю-Ослера, лечение носового кровотечения',
+}
+
 const TreatmentPage = () => {
   return (
     <article>

@@ -1,3 +1,9 @@
+export const metadata = {
+  title: 'Образ жизни',
+  description: 'Образ жизни при болезни Рандю-Ослера',
+  keywords: 'Образ жизни, болезнь Рандю-Ослера, носовое кровотечение',
+}
+
 const LifeStylePage = () => {
   return (
     <article>

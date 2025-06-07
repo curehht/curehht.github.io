@@ -3,6 +3,12 @@ import Link from 'next/link'
 import { getClient } from '@/components/Apollo/ApolloClient'
 import { GET_NEWS_ARTICLES } from '@/db/queries-qraphql'
 
+export const metadata = {
+  title: 'Новости',
+  description: 'Новости о болезни Рандю-Ослера',
+  keywords: 'Новости, болезнь Рандю-Ослера',
+}
+
 async function NewsListPage() {
   const client = getClient()
   const { data, loading, error } = await client.query({

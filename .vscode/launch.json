@@ -6,6 +6,9 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev",
+      "env": {
+        "EDITOR": "cursor"
+      },
       "serverReadyAction": {
         "pattern": "started server on .+, url: (https?://.+)",
         "uriFormat": "%s",

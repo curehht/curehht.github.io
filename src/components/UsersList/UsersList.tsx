@@ -1,42 +1,8 @@
 'use client'
 
 import React from 'react'
-import { useQuery, useMutation, gql } from '@apollo/client'
-
-const GET_ROLES = gql`
-  query GetRoles {
-    roles {
-      id
-      name
-      permissions {
-        resource
-        actions
-      }
-    }
-  }
-`
-
-const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      name
-      email
-      role_id
-    }
-  }
-`
-
-const UPDATE_USER_ROLE = gql`
-  mutation UpdateUserRole($userId: String!, $roleId: String!) {
-    updateUserRole(userId: $userId, roleId: $roleId) {
-      id
-      name
-      email
-      role_id
-    }
-  }
-`
+import { useQuery, useMutation } from '@apollo/client'
+import { GET_USERS, GET_ROLES, UPDATE_USER_ROLE } from '@/db/queries-qraphql'
 
 export const UsersList = () => {
   const [updateUserRole] = useMutation(UPDATE_USER_ROLE)

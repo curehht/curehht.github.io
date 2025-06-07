@@ -1,10 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Table from 'react-bootstrap/Table'
-
 import { PermissionAction, Resources, Role } from '@/db/types'
 
 type RoleFormProps = {
@@ -90,18 +86,20 @@ const RoleForm: React.FC<RoleFormProps> = ({
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3">
-        <Form.Label>Role name</Form.Label>
-        <Form.Control
+    <form onSubmit={handleSubmit} className="role-form">
+      <div className="form-group">
+        <label htmlFor="role-name">Role name</label>
+        <input
           type="text"
+          id="role-name"
           name="name"
           value={role.name}
           onChange={handleNameChange}
+          className="form-control"
         />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Table striped bordered hover>
+      </div>
+      <div className="form-group">
+        <table className="permissions-table">
           <thead>
             <tr>
               <th>Resource name</th>
@@ -115,65 +113,34 @@ const RoleForm: React.FC<RoleFormProps> = ({
             {Object.values(Resources).map((resource) => (
               <tr key={resource}>
                 <td>{resource}</td>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    label={resource}
-                    id={`${id}_${resource}-create`}
-                    name={resource}
-                    value={PermissionAction.create}
-                    onChange={handleRoleChange}
-                    checked={role.permissions
-                      ?.find((p) => p.resource === resource)
-                      ?.actions?.includes(PermissionAction.create)}
-                  />
-                </td>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    label={resource}
-                    id={`${id}_${resource}-read`}
-                    name={resource}
-                    value={PermissionAction.read}
-                    onChange={handleRoleChange}
-                    checked={role.permissions
-                      ?.find((p) => p.resource === resource)
-                      ?.actions?.includes(PermissionAction.read)}
-                  />
-                </td>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    label={resource}
-                    id={`${id}_${resource}-update`}
-                    name={resource}
-                    value={PermissionAction.update}
-                    onChange={handleRoleChange}
-                    checked={role.permissions
-                      ?.find((p) => p.resource === resource)
-                      ?.actions?.includes(PermissionAction.update)}
-                  />
-                </td>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    label={resource}
-                    id={`${id}_${resource}-delete`}
-                    name={resource}
-                    value={PermissionAction.delete}
-                    onChange={handleRoleChange}
-                    checked={role.permissions
-                      ?.find((p) => p.resource === resource)
-                      ?.actions?.includes(PermissionAction.delete)}
-                  />
-                </td>
+                {Object.values(PermissionAction).map((action) => (
+                  <td key={action}>
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        id={`${id}_${resource}-${action}`}
+                        name={resource}
+                        value={action}
+                        onChange={handleRoleChange}
+                        checked={
+                          role.permissions
+                            ?.find((p) => p.resource === resource)
+                            ?.actions?.includes(action) ?? false
+                        }
+                      />
+                      <span className="checkbox-text">{resource}</span>
+                    </label>
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
-        </Table>
-        <Button type="submit">Submit</Button>
-      </Form.Group>
-    </Form>
+        </table>
+        <button type="submit" className="submit-button">
+          Submit
+        </button>
+      </div>
+    </form>
   )
 }
 

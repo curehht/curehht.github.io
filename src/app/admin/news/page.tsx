@@ -2,41 +2,10 @@
 
 import React from 'react'
 import Link from 'next/link'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 
 import { NewsArticleForm } from '@/components'
-import { ListGroup } from 'react-bootstrap'
-
-const CREATE_NEWS_ARTICLE = gql`
-  mutation CreateNewsArticle($article: NewsArticleInput) {
-    createNewsArticle(article: $article) {
-      id
-      title
-      author
-      text
-      origin_url
-      created_at
-      updated_at
-    }
-  }
-`
-
-const GET_NEWS_ARTICLES = gql`
-  query GetNewsArticles {
-    newsArticles {
-      id
-      title
-      author
-      text
-      origin_url
-      created_at
-      updated_at
-    }
-  }
-`
+import { GET_NEWS_ARTICLES, CREATE_NEWS_ARTICLE } from '@/db/queries-qraphql'
 
 const AdminNewsPage: React.FC = () => {
   const { data } = useQuery(GET_NEWS_ARTICLES)
@@ -49,29 +18,23 @@ const AdminNewsPage: React.FC = () => {
   }
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
-          <section>
-            <h3>Добавить</h3>
-            <NewsArticleForm onSubmit={handleSubmitCreate} />
-          </section>
+    <>
+      <section>
+        <h3>Добавить</h3>
+        <NewsArticleForm onSubmit={handleSubmitCreate} />
+      </section>
 
-          <section>
-            <h3>Редактировать</h3>
-            <ListGroup>
-              {data?.newsArticles?.map((article) => (
-                <ListGroup.Item key={article.id}>
-                  <Link href={`/admin/news/${article.id}`}>
-                    {article.title}
-                  </Link>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </section>
-        </Col>
-      </Row>
-    </Container>
+      <section>
+        <h3>Редактировать</h3>
+        <ul>
+          {data?.newsArticles?.map((article) => (
+            <li key={article.id}>
+              <Link href={`/admin/news/${article.id}`}>{article.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
   )
 }
 

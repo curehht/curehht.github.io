@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
-
 import { TiptapEditor } from '../TiptapEditor/TiptapEditor'
 
 export type PageProps = {
@@ -36,52 +34,56 @@ export const PageForm = ({
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Title</Form.Label>
-        <Form.Control
+    <form onSubmit={handleSubmit} className="form">
+      <fieldset>
+        <label htmlFor="title">Title</label>
+        <input
           type="text"
+          id="title"
           name="title"
           value={formPage.title}
           onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Slug</Form.Label>
-        <Form.Control
+      </fieldset>
+      <fieldset>
+        <label htmlFor="slug">Slug</label>
+        <input
           type="text"
+          id="slug"
           name="slug"
           value={formPage.slug}
           onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Slug Name</Form.Label>
-        <Form.Control
+      </fieldset>
+      <fieldset>
+        <label htmlFor="slug_name">Slug Name</label>
+        <input
           type="text"
+          id="slug_name"
           name="slug_name"
           value={formPage.slug_name}
           onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Summary</Form.Label>
-        <Form.Control
+      </fieldset>
+      <fieldset>
+        <label htmlFor="summary">Summary</label>
+        <input
           type="text"
+          id="summary"
           name="summary"
           value={formPage.summary}
           onChange={handleChange}
         />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Content</Form.Label>
+      </fieldset>
+      <fieldset>
+        <label>Content</label>
         <TiptapEditor
           content={formPage.content}
           onChange={handleContentChange}
         />
-      </Form.Group>
+      </fieldset>
 
-      <Button type="submit">Save</Button>
-    </Form>
+      <button type="submit">Save</button>
+    </form>
   )
 }

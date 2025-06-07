@@ -1,8 +1,5 @@
-import { Button } from 'react-bootstrap'
-
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { ButtonGroup } from 'react-bootstrap'
 import * as icons from 'react-bootstrap-icons'
 
 import classes from './TiptapEditor.module.css'
@@ -27,49 +24,47 @@ export const TiptapEditor = ({
     },
   })
 
-  console.log('_______', classes)
-
   return (
     <div className={classes.component}>
-      <ButtonGroup className={classes.toolbar}>
-        <Button
+      <section className={classes.toolbar}>
+        <button
           onClick={() =>
             editor?.chain().focus().toggleHeading({ level: 1 }).run()
           }
         >
           <icons.TypeH1 />
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={() =>
             editor?.chain().focus().toggleHeading({ level: 2 }).run()
           }
         >
           <icons.TypeH2 />
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={() =>
             editor?.chain().focus().toggleHeading({ level: 3 }).run()
           }
         >
           <icons.TypeH3 />
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
         >
           <icons.ListUl />
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={() => editor?.chain().focus().toggleOrderedList().run()}
         >
           <icons.ListOl />
-        </Button>
-        <Button onClick={() => editor?.chain().focus().toggleBold().run()}>
+        </button>
+        <button onClick={() => editor?.chain().focus().toggleBold().run()}>
           <icons.TypeBold />
-        </Button>
-        <Button onClick={() => editor?.chain().focus().toggleItalic().run()}>
+        </button>
+        <button onClick={() => editor?.chain().focus().toggleItalic().run()}>
           <icons.TypeItalic />
-        </Button>
-      </ButtonGroup>
+        </button>
+      </section>
       <EditorContent editor={editor} />
     </div>
   )

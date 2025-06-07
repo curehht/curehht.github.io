@@ -1,29 +1,16 @@
 'use client'
 
 import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
 import Link from 'next/link'
 
-const GET_PAGES = gql`
-  query GetPages {
-    pages {
-      id
-      slug
-      title
-      summary
-      content
-      created_at
-      updated_at
-    }
-  }
-`
+import { GET_PAGES } from '@/db/queries-qraphql'
 
 export default function AdminPages() {
   const { data, loading, error } = useQuery(GET_PAGES)
   return (
-    <div>
+    <section>
       <h2>Pages</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <div>Loading...</div>}
       {error && <p>Error: {error.message}</p>}
       <Link href="/admin/pages/new">Create Page</Link>
       {data && (
@@ -35,6 +22,6 @@ export default function AdminPages() {
           ))}
         </ul>
       )}
-    </div>
+    </section>
   )
 }

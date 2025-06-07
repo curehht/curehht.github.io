@@ -4,7 +4,6 @@ import React from 'react'
 import Image from 'next/image'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
-import Button from 'react-bootstrap/Button'
 
 import classes from './AuthPanel.module.css'
 
@@ -14,7 +13,7 @@ export const AuthPanel = () => {
   return (
     <div className={classes.component}>
       {status === 'unauthenticated' && (
-        <Button onClick={() => signIn()}>Войти</Button>
+        <button onClick={() => signIn()}>Войти</button>
       )}
       {status === 'loading' && <div className={classes.loader}></div>}
       {status === 'authenticated' && (
@@ -34,14 +33,14 @@ export const AuthPanel = () => {
               <Link href="/profile" className={classes.linkToProfile}>
                 Профиль
               </Link>
-              <Button
+              <button
                 className={classes.logout}
                 onClick={() => {
                   if (confirm('Вы уверены, что хотите выйти?')) signOut()
                 }}
               >
                 Выйти
-              </Button>
+              </button>
             </div>
           </div>
         </>

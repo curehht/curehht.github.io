@@ -1,17 +1,9 @@
 'use client'
 
 import { useMutation } from '@apollo/client'
-import gql from 'graphql-tag'
 
 import { PageForm, PageProps } from '@/components/PageForm'
-
-const CREATE_PAGE = gql`
-  mutation CreatePage($page: PageInput!) {
-    createPage(page: $page) {
-      id
-    }
-  }
-`
+import { CREATE_PAGE } from '@/db/queries-qraphql'
 
 const initPage: PageProps = {
   title: '',
@@ -25,7 +17,8 @@ export default function AdminPagesNew() {
   const [createPage, { loading, error }] = useMutation(CREATE_PAGE)
 
   const handleSubmit = (page: PageProps) => {
-    createPage({ variables: { page } })
+    const result = createPage({ variables: { page } })
+    console.log('result :>> ', result)
   }
 
   if (error) {
@@ -36,5 +29,10 @@ export default function AdminPagesNew() {
     return <div>Loading...</div>
   }
 
-  return <PageForm page={initPage} onSubmit={handleSubmit} />
+  return (
+    <section>
+      <h2>Create Page</h2>
+      <PageForm page={initPage} onSubmit={handleSubmit} />
+    </section>
+  )
 }

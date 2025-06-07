@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Accordion from 'react-bootstrap/Accordion'
 import { useQuery, useMutation } from '@apollo/client'
 
 import { RoleForm } from '@/components'
@@ -23,16 +22,14 @@ const RolesList: React.FC = () => {
   }
 
   return (
-    <Accordion>
+    <div>
       {rolesData?.roles?.map((role) => (
-        <Accordion.Item eventKey={role.id} key={role.id}>
-          <Accordion.Header>{role.name}</Accordion.Header>
-          <Accordion.Body>
-            <RoleForm onSubmit={handleRoleUpdate} {...role} />
-          </Accordion.Body>
-        </Accordion.Item>
+        <div key={role.id}>
+          <h3>{role.name}</h3>
+          <RoleForm onSubmit={handleRoleUpdate} {...role} />
+        </div>
       ))}
-    </Accordion>
+    </div>
   )
 }
 

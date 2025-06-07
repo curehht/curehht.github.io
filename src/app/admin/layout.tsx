@@ -3,7 +3,6 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import { AuthPanel } from '@/components'
-import { Container, Row, Col, Nav } from 'react-bootstrap'
 import Link from 'next/link'
 import { ApolloWrapper } from '@/components/Apollo'
 
@@ -23,35 +22,25 @@ export default async function AdminLayout({
   return (
     <SessionProvider>
       <ApolloWrapper>
-        <Container>
-          <Row>
-            <Col>
-              <AuthPanel />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <ul>
-                <li>
-                  <Link href="/admin">Главная</Link>
-                </li>
-                <li>
-                  <Link href="/admin/pages">Страницы</Link>
-                </li>
-                <li>
-                  <Link href="/admin/news">Новости</Link>
-                </li>
-                <li>
-                  <Link href="/admin/roles">Роли</Link>
-                </li>
-                <li>
-                  <Link href="/admin/users">Пользователи</Link>
-                </li>
-              </ul>
-            </Col>
-            <Col md={10}>{children}</Col>
-          </Row>
-        </Container>
+        <AuthPanel />
+        <ul>
+          <li>
+            <Link href="/admin">Главная</Link>
+          </li>
+          <li>
+            <Link href="/admin/pages">Страницы</Link>
+          </li>
+          <li>
+            <Link href="/admin/news">Новости</Link>
+          </li>
+          <li>
+            <Link href="/admin/roles">Роли</Link>
+          </li>
+          <li>
+            <Link href="/admin/users">Пользователи</Link>
+          </li>
+        </ul>
+        {children}
       </ApolloWrapper>
     </SessionProvider>
   )

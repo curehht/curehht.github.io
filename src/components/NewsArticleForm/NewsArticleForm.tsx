@@ -1,10 +1,6 @@
 'use client'
 
 import React from 'react'
-import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
 
 interface NewsArticleFormProps {
   id?: number
@@ -36,7 +32,9 @@ const NewsArticleForm: React.FC<NewsArticleFormProps> = ({
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     setArticle((prev) => ({
       ...prev,
@@ -46,57 +44,40 @@ const NewsArticleForm: React.FC<NewsArticleFormProps> = ({
 
   return (
     <article>
-      <Form.Group as={Row} className="mb-3" controlId="title">
-        <Form.Label column sm={2}>
-          Название
-        </Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            type="text"
-            name="title"
-            value={article.title || ''}
-            onChange={handleChange}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3" controlId="summary">
-        <Form.Label column sm={2}>
-          Текст
-        </Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            as="textarea"
-            name="summary"
-            rows={10}
-            value={article.summary || ''}
-            onChange={handleChange}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3" controlId="origin_url">
-        <Form.Label column sm={2}>
-          Ссылка на новость
-        </Form.Label>
-        <Col sm={10}>
-          <Form.Control
-            type="text"
-            name="origin_url"
-            value={article.origin_url || ''}
-            onChange={handleChange}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3">
-        <Col sm={{ span: 10, offset: 2 }}>
-          <Button
-            variant="primary"
-            style={{ margin: '1em 0 0 0' }}
-            onClick={handleSubmit}
-          >
-            {id ? 'Сохранить' : 'Создать'}
-          </Button>
-        </Col>
-      </Form.Group>
+      <fieldset>
+        <label htmlFor="title">Название</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={article.title || ''}
+          onChange={handleChange}
+        />
+      </fieldset>
+
+      <fieldset>
+        <label htmlFor="summary">Текст</label>
+        <textarea
+          id="summary"
+          name="summary"
+          rows={10}
+          value={article.summary || ''}
+          onChange={handleChange}
+        />
+      </fieldset>
+
+      <fieldset>
+        <label htmlFor="origin_url">Ссылка на новость</label>
+        <input
+          type="text"
+          id="origin_url"
+          name="origin_url"
+          value={article.origin_url || ''}
+          onChange={handleChange}
+        />
+      </fieldset>
+
+      <button onClick={handleSubmit}>{id ? 'Сохранить' : 'Создать'}</button>
     </article>
   )
 }

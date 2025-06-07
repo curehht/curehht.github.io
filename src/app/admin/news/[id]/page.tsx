@@ -1,48 +1,12 @@
 'use client'
 
 import React, { use } from 'react'
-import Spinner from 'react-bootstrap/Spinner'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 
 import { NewsArticleForm } from '@/components'
+import { GET_NEWS_ARTICLE, UPDATE_NEWS_ARTICLE } from '@/db/queries-qraphql'
 
-const GET_NEWS_ARTICLE = gql`
-  query GetNewsArticle($id: Int!) {
-    newsArticle(id: $id) {
-      id
-      title
-      author
-      text
-      summary
-      origin_url
-      created_at
-      updated_at
-    }
-  }
-`
-
-const UPDATE_NEWS_ARTICLE = gql`
-  mutation UpdateNewsArticle($id: Int!, $article: NewsArticleInput) {
-    updateNewsArticle(id: $id, article: $article) {
-      id
-      title
-      author
-      summary
-      text
-      origin_url
-      created_at
-      updated_at
-    }
-  }
-`
-
-type EditNewsArticlePageProps = {
-  params: Promise<{
-    id: string
-  }>
-}
-
-const EditNewsArticlePageContent = ({
+const EditNewsArticlePage = ({
   params,
 }: {
   params: Promise<{ id: string }>
@@ -70,7 +34,7 @@ const EditNewsArticlePageContent = ({
     })
   }
 
-  if (loading) return <Spinner animation="border" />
+  if (loading) return <div>Loading...</div>
   if (error) return <p>Error: {error.message}</p>
 
   return (
@@ -80,10 +44,6 @@ const EditNewsArticlePageContent = ({
       )}
     </section>
   )
-}
-
-const EditNewsArticlePage = ({ params }: EditNewsArticlePageProps) => {
-  return <EditNewsArticlePageContent params={params} />
 }
 
 export default EditNewsArticlePage

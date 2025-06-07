@@ -11,8 +11,6 @@ import {
   Element as SlateElement,
 } from 'slate'
 import { withHistory } from 'slate-history'
-import Button from 'react-bootstrap/Button'
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import * as icons from 'react-bootstrap-icons'
 
 import classes from './Editor.module.css'
@@ -218,7 +216,7 @@ const BlockButton = ({ format, icon }) => {
   }
 
   return (
-    <Button
+    <button
       active={isBlockActive(
         editor,
         format,
@@ -230,7 +228,7 @@ const BlockButton = ({ format, icon }) => {
       }}
     >
       <IconComponent />
-    </Button>
+    </button>
   )
 }
 
@@ -256,7 +254,7 @@ const MarkButton = ({ format, icon }) => {
   }
 
   return (
-    <Button
+    <button
       active={isMarkActive(editor, format)}
       onMouseDown={(event) => {
         event.preventDefault()
@@ -264,7 +262,7 @@ const MarkButton = ({ format, icon }) => {
       }}
     >
       <IconComponent />
-    </Button>
+    </button>
   )
 }
 
@@ -295,7 +293,7 @@ const RichText = ({
     <div className={classes.component}>
       <Slate editor={editor} initialValue={value} onValueChange={onChange}>
         {!readOnly && (
-          <ButtonGroup className={classes.controls}>
+          <div className={classes.controls}>
             <MarkButton format="bold" icon={Icon.format_bold} />
             <MarkButton format="italic" icon={Icon.format_italic} />
             <MarkButton format="underline" icon={Icon.format_underlined} />
@@ -315,7 +313,7 @@ const RichText = ({
             <BlockButton format="center" icon={Icon.format_align_center} />
             <BlockButton format="right" icon={Icon.format_align_right} />
             <BlockButton format="justify" icon={Icon.format_align_justify} />
-          </ButtonGroup>
+          </div>
         )}
         <Editable
           className={classes.editor}

@@ -12,6 +12,7 @@ export const pages = pgTable('pages', {
   author_id: text('author_id').references(() => users.id, {
     onDelete: 'set null',
   }),
+  description: text('description'),
   summary: text('summary'),
   content: text('content'),
   created_at: timestamp('created_at').defaultNow().notNull(),

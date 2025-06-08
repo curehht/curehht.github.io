@@ -13,3 +13,8 @@
 - [Vercel Blob](https://vercel.com/storage/blob) - Хранилище файлов
 - [Vercel Analytics & Speed Insights](https://vercel.com/analytics) - Аналитика и мониторинг производительности
 - [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) - Линтинг и форматирование кода
+
+## Добавить поле в базу данных
+1. Добавить поле в схему
+2. Запустить `drizzle-kit generate`
+3. Запустить `drizzle-kit migrate`

@@ -1,8 +1,10 @@
 import React from 'react'
 
+import classes from './Footer.module.css'
+
 function Footer() {
   return (
-    <footer className="footer">
+    <footer className={classes.footer}>
       <section>
         <h3>официальные источники</h3>
         <ul>

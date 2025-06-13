@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import classes from './NewsArticleForm.module.css'
 interface NewsArticleFormProps {
   id?: number
   title?: string
@@ -43,7 +44,7 @@ const NewsArticleForm: React.FC<NewsArticleFormProps> = ({
   }
 
   return (
-    <article>
+    <form className={classes.form}>
       <fieldset>
         <label htmlFor="title">Название</label>
         <input
@@ -78,7 +79,7 @@ const NewsArticleForm: React.FC<NewsArticleFormProps> = ({
       </fieldset>
 
       <button onClick={handleSubmit}>{id ? 'Сохранить' : 'Создать'}</button>
-    </article>
+    </form>
   )
 }
 

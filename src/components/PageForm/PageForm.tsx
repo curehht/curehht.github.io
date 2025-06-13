@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { TiptapEditor } from '../TiptapEditor/TiptapEditor'
 
+import classes from './PageForm.module.css'
+
 export type PageProps = {
   id?: string
   title: string
@@ -19,7 +21,9 @@ export const PageForm = ({
 }) => {
   const [formPage, setFormPage] = useState(page)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     setFormPage({ ...formPage, [name]: value })
   }
@@ -34,7 +38,7 @@ export const PageForm = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form onSubmit={handleSubmit} className={classes.form}>
       <fieldset>
         <label htmlFor="title">Title</label>
         <input
@@ -67,12 +71,12 @@ export const PageForm = ({
       </fieldset>
       <fieldset>
         <label htmlFor="summary">Summary</label>
-        <input
-          type="text"
+        <textarea
           id="summary"
           name="summary"
           value={formPage.summary}
           onChange={handleChange}
+          rows={3}
         />
       </fieldset>
       <fieldset>

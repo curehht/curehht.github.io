@@ -18,7 +18,7 @@ const AdminNewsPage: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="AdminNewsPage">
       <section>
         <h3>Добавить</h3>
         <NewsArticleForm onSubmit={handleSubmitCreate} />
@@ -34,7 +34,7 @@ const AdminNewsPage: React.FC = () => {
           ))}
         </ul>
       </section>
-    </>
+    </div>
   )
 }
 

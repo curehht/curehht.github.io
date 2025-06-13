@@ -3,7 +3,7 @@ import { RoleForm, RolesList } from '@/components'
 
 const AdminRolePage: React.FC = async () => {
   return (
-    <>
+    <article>
       <section>
         <h3>Добавить роль</h3>
         <RoleForm />
@@ -12,7 +12,7 @@ const AdminRolePage: React.FC = async () => {
         <h3>Редактировать роли</h3>
         <RolesList />
       </section>
-    </>
+    </article>
   )
 }
 

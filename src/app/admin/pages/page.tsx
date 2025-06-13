@@ -1,12 +1,13 @@
-'use client'
-
-import { useQuery } from '@apollo/client'
+import { getClient } from '@/components/Apollo/ApolloClient'
 import Link from 'next/link'
 
 import { GET_PAGES } from '@/db/queries-qraphql'
 
-export default function AdminPages() {
-  const { data, loading, error } = useQuery(GET_PAGES)
+export default async function AdminPages() {
+  const client = getClient()
+  const { data, loading, error } = await client.query({
+    query: GET_PAGES,
+  })
   return (
     <section>
       <h2>Pages</h2>

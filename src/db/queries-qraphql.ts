@@ -189,3 +189,11 @@ export const UPDATE_PAGE_BY_ID = gql`
     }
   }
 `
+
+export const DELETE_PAGE_BY_ID = gql`
+  mutation DeletePageById($id: String!) {
+    deletePage(id: $id) {
+      id
+    }
+  }
+`

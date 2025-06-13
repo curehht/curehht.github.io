@@ -15,9 +15,11 @@ export type PageProps = {
 export const PageForm = ({
   page,
   onSubmit,
+  onDelete,
 }: {
   page: PageProps
   onSubmit: (page: PageProps) => void
+  onDelete?: () => void
 }) => {
   const [formPage, setFormPage] = useState(page)
 
@@ -35,6 +37,12 @@ export const PageForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(formPage)
+  }
+
+  const handleDelete = () => {
+    if (onDelete && confirm('Are you sure you want to delete this page?')) {
+      onDelete()
+    }
   }
 
   return (
@@ -57,6 +65,7 @@ export const PageForm = ({
           name="slug"
           value={formPage.slug}
           onChange={handleChange}
+          required
         />
       </fieldset>
       <fieldset>
@@ -67,6 +76,7 @@ export const PageForm = ({
           name="slug_name"
           value={formPage.slug_name}
           onChange={handleChange}
+          required
         />
       </fieldset>
       <fieldset>
@@ -77,6 +87,7 @@ export const PageForm = ({
           value={formPage.summary}
           onChange={handleChange}
           rows={3}
+          required
         />
       </fieldset>
       <fieldset>
@@ -88,6 +99,11 @@ export const PageForm = ({
       </fieldset>
 
       <button type="submit">Save</button>
+      {onDelete && (
+        <button type="button" onClick={handleDelete}>
+          Delete
+        </button>
+      )}
     </form>
   )
 }

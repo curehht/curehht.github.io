@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client'
 
 import { PageForm, PageProps } from '@/components/PageForm'
 import { CREATE_PAGE } from '@/db/queries-qraphql'
+import { useRouter } from 'next/navigation'
 
 const initPage: PageProps = {
   title: '',
@@ -15,10 +16,15 @@ const initPage: PageProps = {
 
 export default function AdminPagesNew() {
   const [createPage, { loading, error }] = useMutation(CREATE_PAGE)
-
-  const handleSubmit = (page: PageProps) => {
-    const result = createPage({ variables: { page } })
-    console.log('result :>> ', result)
+  const router = useRouter()
+  const handleSubmit = async (page: PageProps) => {
+    const result = await createPage({ variables: { page } })
+    // if created - redirect to /admin/pages
+    if (result) {
+      router.push('/admin/pages')
+    } else {
+      router.push(`/admin/pages/${result.data.createPage.id}`)
+    }
   }
 
   if (error) {

@@ -11,9 +11,6 @@
     "@as-integrations/next": "^3.2.0",
     "@auth/drizzle-adapter": "^1.9.1",
     "@sentry/nextjs": "^9.24.0",
-    "@tiptap/pm": "^2.12.0",
-    "@tiptap/react": "^2.12.0",
-    "@tiptap/starter-kit": "^2.12.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/blob": "^1.1.1",
     "@vercel/postgres": "^0.10.0",
@@ -21,16 +18,10 @@
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.44.1",
     "graphql-tag": "^2.12.6",
-    "is-hotkey": "^0.2.0",
     "next": "^15.3.3",
     "next-auth": "^5.0.0-beta.28",
-    "pino": "^9.7.0",
     "react": "^19.1.0",
-    "react-bootstrap-icons": "^1.11.6",
-    "react-dom": "^19.1.0",
-    "slate": "^0.114.0",
-    "slate-history": "^0.113.1",
-    "slate-react": "^0.114.2"
+    "react-dom": "^19.1.0"
   },
   "license": "MIT",
   "scripts": {
@@ -61,7 +52,6 @@
     "url": "https://github.com/curehht/curehht.github.io/issues"
   },
   "devDependencies": {
-    "@types/is-hotkey": "^0.1.10",
     "@types/node": "^20.8.2",
     "@types/react": "^18.3.12",
     "drizzle-kit": "^0.31.1",

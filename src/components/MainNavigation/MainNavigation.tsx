@@ -1,12 +1,18 @@
 import Link from 'next/link'
 
+import classes from './MainNavigation.module.css'
+
 interface MainNavigationProps {
   pages: { slug: string; slug_name: string }[]
 }
 
 const MainNavigation = ({ pages }: MainNavigationProps) => {
   return (
-    <nav role="navigation" aria-label="Главная навигация">
+    <nav
+      role="navigation"
+      aria-label="Главная навигация"
+      className={classes.component}
+    >
       <ul>
         <li>
           <Link href="/">Главная</Link>

@@ -42,3 +42,22 @@ textarea {
 .border {
   border-color: var(--border-color) !important;
 }
+
+.Layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'header header'
+    'main main';
+}
+
+@media (max-width: 768px) {
+  .Layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'header'
+      'main';
+  }
+}

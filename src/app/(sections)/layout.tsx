@@ -12,7 +12,7 @@ export default async function RootLayout({
   const { data } = await getClient().query({ query: GET_PAGES_SLUG })
 
   return (
-    <>
+    <div className="Layout">
       <header>
         <MainNavigation pages={data?.pages || []} />
       </header>
@@ -22,6 +22,6 @@ export default async function RootLayout({
         <SpeedInsights />
         <Analytics />
       </ApolloWrapper>
-    </>
+    </div>
   )
 }

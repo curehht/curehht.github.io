@@ -1,6 +1,5 @@
 .component {
-  background-color: rgb(251, 242, 229);
-  padding: 1rem 0;
+  display: block;
 }
 
 .component li {

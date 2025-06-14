@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { TiptapEditor } from '../TiptapEditor/TiptapEditor'
 
 import classes from './PageForm.module.css'
 
@@ -28,10 +27,6 @@ export const PageForm = ({
   ) => {
     const { name, value } = e.target
     setFormPage({ ...formPage, [name]: value })
-  }
-
-  const handleContentChange = (content: string) => {
-    setFormPage({ ...formPage, content })
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,18 +87,23 @@ export const PageForm = ({
       </fieldset>
       <fieldset>
         <label>Content</label>
-        <TiptapEditor
-          content={formPage.content}
-          onChange={handleContentChange}
+        <textarea
+          id="content"
+          name="content"
+          value={formPage.content}
+          onChange={handleChange}
+          rows={10}
         />
       </fieldset>
 
-      <button type="submit">Save</button>
-      {onDelete && (
-        <button type="button" onClick={handleDelete}>
-          Delete
-        </button>
-      )}
+      <div className={classes.buttons}>
+        <button type="submit">Save</button>
+        {onDelete && (
+          <button data-delete type="button" onClick={handleDelete}>
+            Delete
+          </button>
+        )}
+      </div>
     </form>
   )
 }

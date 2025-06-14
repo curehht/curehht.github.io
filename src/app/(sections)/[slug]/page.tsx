@@ -42,7 +42,10 @@ export default async function SlugPage({
     <main>
       <article>
         <h1>{page.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: page.content }} />
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{ __html: page.content }}
+        />
       </article>
     </main>
   )

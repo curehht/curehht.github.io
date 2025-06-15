@@ -11,6 +11,7 @@ import {
   DELETE_PAGE_BY_ID,
 } from '@/db/queries-qraphql'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function AdminPage({
   params,
@@ -49,9 +50,12 @@ export default function AdminPage({
 
   return (
     <section>
-      <h2>Page {data?.pageById?.slug}</h2>
+      <h2>Страница: {data?.pageById?.slug}</h2>
       {loading && <div>Loading...</div>}
       {error && <p>Error: {error.message}</p>}
+      <div>
+        <Link href={`/admin/pages`}>Назад</Link>
+      </div>
       {data?.pageById && (
         <PageForm
           page={data.pageById}

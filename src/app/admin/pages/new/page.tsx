@@ -37,7 +37,7 @@ export default function AdminPagesNew() {
 
   return (
     <section>
-      <h2>Create Page</h2>
+      <h2>Создать страницу</h2>
       <PageForm page={initPage} onSubmit={handleSubmit} />
     </section>
   )

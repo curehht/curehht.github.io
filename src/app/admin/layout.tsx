@@ -36,15 +36,6 @@ export default async function AdminLayout({
               <li>
                 <Link href="/admin/pages">Страницы</Link>
               </li>
-              <li>
-                <Link href="/admin/news">Новости</Link>
-              </li>
-              <li>
-                <Link href="/admin/roles">Роли</Link>
-              </li>
-              <li>
-                <Link href="/admin/users">Пользователи</Link>
-              </li>
             </ul>
           </aside>
           {children}

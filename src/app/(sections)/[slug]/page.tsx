@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 
 import { getClient } from '@/components/Apollo/ApolloClient'
 import { GET_PAGES_SLUG, GET_PAGE } from '@/db/queries-qraphql'
+import classes from './page.module.css'
 
 export async function generateStaticParams() {
   const slugs = await fetchSlugsFromDB()
@@ -17,7 +18,7 @@ export const generateMetadata = async ({
   params: Promise<{ slug: string }>
 }) => {
   const { slug } = await params
-  const page = await fetchPageBySlug(slug)
+  const page = (await fetchPageBySlug(slug)) ?? {}
   return {
     title: page.title,
     description: page.summary,
@@ -39,11 +40,11 @@ export default async function SlugPage({
   }
 
   return (
-    <main>
-      <article>
-        <h1>{page.title}</h1>
+    <main className={classes.main}>
+      <article className={classes.article}>
+        <h1 className={classes.title}>{page.title}</h1>
         <div
-          className="content"
+          className={classes.content}
           dangerouslySetInnerHTML={{ __html: page.content }}
         />
       </article>

@@ -10,10 +10,10 @@ export default async function AdminPages() {
   })
   return (
     <section>
-      <h2>Pages</h2>
+      <h2>Админка страниц</h2>
       {loading && <div>Loading...</div>}
       {error && <p>Error: {error.message}</p>}
-      <Link href="/admin/pages/new">Create Page</Link>
+      <Link href="/admin/pages/new">Создать страницу</Link>
       {data && (
         <ul>
           {data.pages.map((page) => (

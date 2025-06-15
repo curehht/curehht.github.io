@@ -10,6 +10,7 @@ import { newsArticle, pages, roles, users } from '@/db/schema'
 import { Resources, PermissionAction } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
+import { getPages } from '@/db/api/pages'
 
 const typeDefs = gql`
   scalar Date
@@ -196,7 +197,7 @@ const resolvers = {
 
     pages: async (_parent: unknown, _args: unknown, { db }) => {
       try {
-        const result = await db.select().from(pages)
+        const result = await getPages()
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch pages', {

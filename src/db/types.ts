@@ -36,3 +36,14 @@ export interface UserData {
   role: Role
   sessionExpires: Date
 }
+
+export interface Page {
+  id: string
+  slug: string
+  title: string
+  content: string
+  description: string
+  summary: string
+  created_at: Date
+  updated_at: Date
+}

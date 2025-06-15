@@ -1,15 +1,13 @@
 import { notFound } from 'next/navigation'
 
-import { getClient } from '@/components/Apollo/ApolloClient'
-import { GET_PAGES_SLUG, GET_PAGE } from '@/db/queries-qraphql'
+import { getPageBySlug, getPagesSlugs } from '@/db/api/pages'
+
 import classes from './page.module.css'
 
 export async function generateStaticParams() {
-  const slugs = await fetchSlugsFromDB()
+  const slugs = await getPagesSlugs()
 
-  return slugs.map((slug: string) => ({
-    slug,
-  }))
+  return slugs
 }
 
 export const generateMetadata = async ({
@@ -18,11 +16,11 @@ export const generateMetadata = async ({
   params: Promise<{ slug: string }>
 }) => {
   const { slug } = await params
-  const page = (await fetchPageBySlug(slug)) ?? {}
+  const page = await getPageBySlug(slug)
   return {
     title: page.title,
     description: page.summary,
-    keywords: page.keywords,
+    keywords: '',
   }
 }
 
@@ -33,7 +31,7 @@ export default async function SlugPage({
 }) {
   const { slug } = await params
 
-  const page = await fetchPageBySlug(slug)
+  const page = await getPageBySlug(slug)
 
   if (!page) {
     notFound()
@@ -50,25 +48,4 @@ export default async function SlugPage({
       </article>
     </main>
   )
-}
-
-async function fetchSlugsFromDB() {
-  const client = getClient()
-  const { data } = await client.query({
-    query: GET_PAGES_SLUG,
-  })
-
-  return data.pages.map((page: { slug: string }) => page.slug)
-}
-
-async function fetchPageBySlug(slug: string) {
-  const client = getClient()
-  const { data } = await client.query({
-    query: GET_PAGE,
-    variables: {
-      slug,
-    },
-  })
-
-  return data.page
 }

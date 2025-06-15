@@ -5,20 +5,11 @@ import { eq } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/vercel-postgres'
 import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
-import * as Sentry from '@sentry/nextjs'
 
 import { newsArticle, pages, roles, users } from '@/db/schema'
 import { Resources, PermissionAction } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
-
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  // Enable logs to be sent to Sentry
-  _experiments: { enableLogs: true },
-})
-
-Sentry.logger.info('Sentry.logger initialized')
 
 const typeDefs = gql`
   scalar Date
@@ -190,11 +181,6 @@ const resolvers = {
           action: PermissionAction.read,
         })
         if (!canDo) {
-          Sentry.logger.error('Unauthorized', {
-            userData,
-            resourceName: Resources.users,
-            action: PermissionAction.read,
-          })
           throw new GraphQLError('Unauthorized', {
             extensions: { code: 'UNAUTHORIZED', status: 403 },
           })

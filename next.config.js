@@ -22,19 +22,17 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  //silent: !process.env.CI,
+  //disableLogger: true,
 
-// module.exports = withSentryConfig(nextConfig, {
-//   org: process.env.SENTRY_ORG,
-//   project: process.env.SENTRY_PROJECT,
-//   //silent: !process.env.CI,
-//   //disableLogger: true,
-
-//   // Pass the auth token
-//   authToken: process.env.SENTRY_AUTH_TOKEN,
-//   // Upload a larger set of source maps for prettier stack traces (increases build time)
-//   widenClientFileUpload: true,
-//   reactComponentAnnotation: {
-//     enabled: true,
-//   },
-// })
+  // Pass the auth token
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  // Upload a larger set of source maps for prettier stack traces (increases build time)
+  widenClientFileUpload: true,
+  reactComponentAnnotation: {
+    enabled: true,
+  },
+})

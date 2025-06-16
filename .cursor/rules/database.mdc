@@ -1,0 +1,18 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Tech stack
+- PostgreSQL
+- Drizzle ORM
+
+Follow a codebase-first approach for database schema management:
+
+Define the entire database schema in TypeScript using Drizzle ORM. The schema in code is the single source of truth.
+Use drizzle-kit generate to generate SQL migration files automatically from changes in the TypeScript schema.
+Apply SQL migrations to the database at runtime (e.g., during app startup or deployment) using Drizzle’s migration API.
+
+Use apollo for data request: 
+- on the client-side use useQuery, useMutation hooks from '@apollo/client'
+- on the server-side use getClient from '@/components/Apollo/ApolloClient'

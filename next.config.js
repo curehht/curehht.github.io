@@ -4,6 +4,8 @@ const { withSentryConfig } = require('@sentry/nextjs')
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  output: 'export',
+
   images: {
     remotePatterns: [
       {
@@ -19,6 +21,7 @@ const nextConfig = {
         hostname: 'zlgokxtwk5h4usda.public.blob.vercel-storage.com',
       },
     ],
+    unoptimized: true,
   },
 }
 

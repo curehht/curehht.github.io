@@ -28,7 +28,6 @@
     "dev": "next dev",
     "dev-debug": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-    "export": "next export",
     "start": "next start",
     "lint": "next lint --fix",
     "drizzle-studio": "drizzle-kit studio",

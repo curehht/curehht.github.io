@@ -21,6 +21,8 @@ jobs:
 
       - name: Build and Static HTML Export
         run: npm run build
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
 
       - name: Disable Jekyl # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
         run: touch ./out/.nojekyll

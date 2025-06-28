@@ -15,4 +15,4 @@ Apply SQL migrations to the database at runtime (e.g., during app startup or dep
 
 Use apollo for data request: 
 - on the client-side use useQuery, useMutation hooks from '@apollo/client'
-- on the server-side use getClient from '@/components/Apollo/ApolloClient'
+- on the server-side create api in src/db/api with drizzle and use it

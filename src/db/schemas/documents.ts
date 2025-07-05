@@ -14,29 +14,17 @@ export const documents = pgTable('documents', {
   ...timestamps,
 })
 
-// Text blocks
-export const documentTextBlocks = pgTable('document_text_blocks', {
+export const documentBlocks = pgTable('document_blocks', {
   ...randomId,
   document_id: text('document_id')
     .notNull()
     .references(() => documents.id, { onDelete: 'cascade' }),
   position: integer('position').notNull(),
   // 'paragraph', 'heading1', 'heading2', 'heading3', 'quote', 'list-item'
-  text_type: text('text_type').notNull(),
-  content: text('content').notNull(),
-  ...timestamps,
-})
-
-// Media blocks
-export const documentMediaBlocks = pgTable('document_media_blocks', {
-  ...randomId,
-  document_id: text('document_id')
-    .notNull()
-    .references(() => documents.id, { onDelete: 'cascade' }),
-  position: integer('position').notNull(),
-  provider: text('provider').notNull(), // 'youtube', 'vimeo', 'dailymotion', 'image', 'audio', 'video'
-  url: text('url').notNull(),
-  id: text('id').notNull(),
+  // 'youtube', 'vimeo', 'dailymotion', 'image', 'audio', 'video'
+  type: text('type').notNull(),
+  content: text('content'),
+  url: text('url'),
   title: text('title'),
   ...timestamps,
 })

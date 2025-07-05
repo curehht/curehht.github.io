@@ -47,3 +47,25 @@ export interface Page {
   created_at: Date
   updated_at: Date
 }
+
+export interface Document {
+  id: string
+  title: string
+  description: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface DocumentBlock {
+  id: string
+  document_id: string
+  position: number
+  type: string
+  content: string
+  url: string
+  title: string
+}
+
+export interface DocumentWithContent extends Document {
+  content: Array<DocumentBlock>
+}

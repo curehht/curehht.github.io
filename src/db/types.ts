@@ -10,6 +10,7 @@ export enum Resources {
   page = 'page',
   roles = 'roles',
   users = 'users',
+  document = 'document',
 }
 
 export interface Permission {
@@ -64,6 +65,8 @@ export interface DocumentBlock {
   content: string
   url: string
   title: string
+  created_at: Date
+  updated_at: Date
 }
 
 export interface DocumentWithContent extends Document {

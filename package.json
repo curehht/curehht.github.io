@@ -16,9 +16,9 @@
     "@vercel/postgres": "^0.10.0",
     "@vercel/speed-insights": "^1.2.0",
     "dotenv": "^16.5.0",
-    "drizzle-orm": "^0.44.1",
+    "drizzle-orm": "^0.44.2",
     "graphql-tag": "^2.12.6",
-    "next": "^15.3.3",
+    "next": "^15.3.5",
     "next-auth": "^5.0.0-beta.28",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
@@ -51,6 +51,7 @@
     "url": "https://github.com/curehht/curehht.github.io/issues"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@types/node": "^20.8.2",
     "@types/react": "^18.3.12",
     "drizzle-kit": "^0.31.1",
@@ -61,6 +62,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
     "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
 }

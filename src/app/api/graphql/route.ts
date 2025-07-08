@@ -7,10 +7,11 @@ import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
 
 import { newsArticle, pages, roles, users } from '@/db/schema'
-import { Resources, PermissionAction } from '@/db/types'
+import { Resources, PermissionAction, Document } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 import { getPages } from '@/db/api/pages'
+import { createDocumentWithBlocks } from '@/db/api/documents'
 
 const typeDefs = gql`
   scalar Date
@@ -97,6 +98,38 @@ const typeDefs = gql`
     content: String
   }
 
+  type Document {
+    id: String!
+    title: String!
+    description: String
+    is_published: Boolean
+    blocks: [DocumentBlock]
+  }
+
+  input DocumentBlockInput {
+    block_position: Int!
+    block_type: String!
+    block_title: String!
+    block_content: String!
+    block_url: String!
+  }
+
+  input DocumentInput {
+    title: String!
+    description: String
+    is_published: Boolean
+    blocks: [DocumentBlockInput]
+  }
+
+  type DocumentBlock {
+    id: String!
+    block_position: Int!
+    block_type: String!
+    block_title: String!
+    block_content: String!
+    block_url: String!
+  }
+
   type Query {
     newsArticles: [NewsArticle]
     newsArticle(id: Int!): NewsArticle
@@ -124,6 +157,8 @@ const typeDefs = gql`
     createPage(page: PageInput): Page
     updatePage(id: String!, page: PageInput): Page
     deletePage(id: String!): Page
+
+    saveDocument(document: DocumentInput): Document
   }
 `
 
@@ -467,6 +502,32 @@ const resolvers = {
         return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to delete page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    saveDocument: async (
+      _parent: unknown,
+      { document }: { document: Document },
+      { db, userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.create,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await createDocumentWithBlocks(document)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to save document', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }

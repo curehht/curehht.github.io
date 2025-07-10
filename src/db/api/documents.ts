@@ -3,11 +3,11 @@ import { unionAll } from 'drizzle-orm/pg-core'
 import { eq, sql } from 'drizzle-orm'
 
 import { documents, documentBlocks } from '@/db/schema'
-import type { Document, DocumentBlock, DocumentWithContent } from '@/db/types'
+import type { DocumentInput, UserData } from '@/db/types'
 
 const db = drizzle()
 
-export const getDocumentWithContent = async (documentId: string) => {
+export const getDocumentWithBlocks = async (documentId: string) => {
   const result = await db
     .select()
     .from(documents)
@@ -16,20 +16,17 @@ export const getDocumentWithContent = async (documentId: string) => {
 }
 
 export const createDocumentWithBlocks = async (
-  documentWithBlocks: Omit<Document, 'id' | 'created_at' | 'updated_at'> & {
-    blocks: Omit<DocumentBlock, 'id' | 'created_at' | 'updated_at'>[]
-  }
+  documentWithBlocks: DocumentInput,
+  userData: UserData
 ) => {
   const result = await db.transaction(async (tx) => {
     const { blocks, ...document } = documentWithBlocks
 
-    console.log('{ blocks, ...document } :>> ', { blocks, ...document })
+    document.author_id = userData.id
 
-    return
-
-    const documentSaved = await tx
-      .insert(document)
-      .values(documentWithBlocks)
+    const [documentSaved] = await tx
+      .insert(documents)
+      .values(document)
       .returning()
 
     const blocksSaved = await tx
@@ -43,5 +40,11 @@ export const createDocumentWithBlocks = async (
       .returning()
     return { documentSaved, blocksSaved }
   })
-  return result
+
+  const savedDocument = {
+    ...result.documentSaved,
+    blocks: result.blocksSaved,
+  }
+
+  return savedDocument
 }

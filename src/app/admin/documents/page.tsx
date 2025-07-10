@@ -11,27 +11,17 @@ type Document = {
 }
 
 type BlockData = {
-  block_position: number
-  block_type: string
-  block_title: string
-  block_content: string
-  block_url: string
+  position: number
+  type: string
+  title: string
+  content: string
+  url: string
 }
 
-const SAVE_DOCUMENT = gql`
-  mutation SaveDocument($document: DocumentInput!) {
-    saveDocument(document: $document) {
+const CREATE_DOCUMENT = gql`
+  mutation CreateDocument($document: DocumentInput!) {
+    createDocument(document: $document) {
       id
-      title
-      description
-      is_published
-      blocks {
-        block_position
-        block_type
-        block_title
-        block_content
-        block_url
-      }
     }
   }
 `
@@ -46,7 +36,7 @@ const DocumentBlock = ({
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange({
       ...blockData,
-      block_type: e.target.value,
+      type: e.target.value,
     })
   }
 
@@ -68,14 +58,10 @@ const DocumentBlock = ({
         marginBottom: '20px',
       }}
     >
-      <p>Block {blockData.block_position}</p>
+      <p>Block {blockData.position}</p>
       <fieldset>
         <label htmlFor="block_type">Type</label>
-        <select
-          name="block_type"
-          onChange={handleTypeChange}
-          value={blockData.block_type}
-        >
+        <select name="type" onChange={handleTypeChange} value={blockData.type}>
           <option value="paragraph">Paragraph</option>
           <option value="heading1">Heading 1</option>
           <option value="heading2">Heading 2</option>
@@ -94,27 +80,27 @@ const DocumentBlock = ({
         <label htmlFor="block_title">Title</label>
         <input
           type="text"
-          name="block_title"
+          name="title"
           onChange={handleChange}
-          value={blockData.block_title}
+          value={blockData.title}
         />
       </fieldset>
       <fieldset>
-        <label htmlFor="block_content">Content</label>
+        <label htmlFor="content">Content</label>
         <input
           type="text"
-          name="block_content"
+          name="content"
           onChange={handleChange}
-          value={blockData.block_content}
+          value={blockData.content}
         />
       </fieldset>
       <fieldset>
-        <label htmlFor="block_url">URL</label>
+        <label htmlFor="url">URL</label>
         <input
           type="text"
-          name="block_url"
+          name="url"
           onChange={handleChange}
-          value={blockData.block_url}
+          value={blockData.url}
         />
       </fieldset>
     </form>
@@ -123,9 +109,7 @@ const DocumentBlock = ({
 
 function DocumentsPage() {
   const [blocksData, setBlocksData] = useState<BlockData[]>([])
-  const [saveDocument] = useMutation(SAVE_DOCUMENT, {
-    refetchQueries: ['GetDocument'],
-  })
+  const [createDocument] = useMutation(CREATE_DOCUMENT)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -137,17 +121,17 @@ function DocumentsPage() {
       is_published: data.is_published === 'on',
       blocks: blocksData,
     }
-    saveDocument({ variables: { document } })
+    createDocument({ variables: { document } })
   }
 
   const handleBlockChange = (blockData: BlockData) => {
     setBlocksData((prevBlocks) => {
       const blockExists = prevBlocks.find(
-        (block) => block.block_position === blockData.block_position
+        (block) => block.position === blockData.position
       )
       if (blockExists) {
         return prevBlocks.map((block) =>
-          block.block_position === blockData.block_position
+          block.position === blockData.position
             ? { ...block, ...blockData }
             : block
         )
@@ -191,11 +175,11 @@ function DocumentsPage() {
           setBlocksData((prevBlocks) => [
             ...prevBlocks,
             {
-              block_position: prevBlocks.length + 1,
-              block_type: 'paragraph',
-              block_title: '',
-              block_content: '',
-              block_url: '',
+              position: prevBlocks.length + 1,
+              type: 'paragraph',
+              title: '',
+              content: '',
+              url: '',
             },
           ])
         }}

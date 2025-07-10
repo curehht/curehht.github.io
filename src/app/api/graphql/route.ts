@@ -7,7 +7,7 @@ import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
 
 import { newsArticle, pages, roles, users } from '@/db/schema'
-import { Resources, PermissionAction, Document } from '@/db/types'
+import { Resources, PermissionAction, DocumentInput } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 import { getPages } from '@/db/api/pages'
@@ -106,14 +106,6 @@ const typeDefs = gql`
     blocks: [DocumentBlock]
   }
 
-  input DocumentBlockInput {
-    block_position: Int!
-    block_type: String!
-    block_title: String!
-    block_content: String!
-    block_url: String!
-  }
-
   input DocumentInput {
     title: String!
     description: String
@@ -121,13 +113,21 @@ const typeDefs = gql`
     blocks: [DocumentBlockInput]
   }
 
+  input DocumentBlockInput {
+    position: Int!
+    type: String!
+    title: String
+    content: String!
+    url: String
+  }
+
   type DocumentBlock {
     id: String!
-    block_position: Int!
-    block_type: String!
-    block_title: String!
-    block_content: String!
-    block_url: String!
+    position: Int!
+    type: String!
+    title: String
+    content: String!
+    url: String
   }
 
   type Query {
@@ -158,7 +158,7 @@ const typeDefs = gql`
     updatePage(id: String!, page: PageInput): Page
     deletePage(id: String!): Page
 
-    saveDocument(document: DocumentInput): Document
+    createDocument(document: DocumentInput): Document
   }
 `
 
@@ -507,24 +507,26 @@ const resolvers = {
       }
     },
 
-    saveDocument: async (
+    createDocument: async (
       _parent: unknown,
-      { document }: { document: Document },
-      { db, userData }
+      { document }: { document: DocumentInput },
+      { userData }
     ) => {
-      try {
-        const canDo = isAuthorized({
-          userData,
-          resourceName: Resources.document,
-          action: PermissionAction.create,
-        })
-        if (!canDo) {
-          throw new GraphQLError('Unauthorized', {
-            extensions: { code: 'UNAUTHORIZED', status: 403 },
-          })
-        }
+      console.log('document :>> ', document)
 
-        const result = await createDocumentWithBlocks(document)
+      try {
+        // const canDo = isAuthorized({
+        //   userData,
+        //   resourceName: Resources.document,
+        //   action: PermissionAction.create,
+        // })
+        // if (!canDo) {
+        //   throw new GraphQLError('Unauthorized', {
+        //     extensions: { code: 'UNAUTHORIZED', status: 403 },
+        //   })
+        // }
+
+        const result = await createDocumentWithBlocks(document, userData)
         return result
       } catch (error) {
         throw new GraphQLError('Failed to save document', {

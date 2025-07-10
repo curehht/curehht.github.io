@@ -1,4 +1,4 @@
-import { getDocumentWithContent } from '@/db/api/documents'
+import { getDocumentWithBlocks } from '@/db/api/documents'
 
 export const metadata = {
   title: 'О болезни Рандю-Ослера',
@@ -8,8 +8,10 @@ export const metadata = {
 }
 
 export default async function IndexPage() {
-  const document = await getDocumentWithContent('doc-001')
-  console.log(document)
+  const document = await getDocumentWithBlocks(
+    'fc03b912-6516-4508-a00e-0e1114731cd4'
+  )
+  console.log('document :>> ', document)
   return (
     <div className="IndexPage">
       <article>

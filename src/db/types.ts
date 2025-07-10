@@ -49,12 +49,20 @@ export interface Page {
   updated_at: Date
 }
 
-export interface Document {
-  id: string
+export interface DocumentInput {
   title: string
   description: string
-  created_at: Date
-  updated_at: Date
+  is_published: boolean
+  blocks: DocumentBlockInput[]
+  author_id: string
+}
+
+export interface DocumentBlockInput {
+  position: number
+  type: string
+  title: string
+  content: string
+  url: string
 }
 
 export interface DocumentBlock {

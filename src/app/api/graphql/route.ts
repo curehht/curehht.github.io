@@ -11,7 +11,12 @@ import { Resources, PermissionAction, DocumentInput } from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 import { getPages } from '@/db/api/pages'
-import { createDocumentWithBlocks } from '@/db/api/documents'
+import {
+  createDocumentWithBlocks,
+  readDocumentWithBlocks,
+  updateDocumentWithBlocks,
+  deleteDocumentWithBlocks,
+} from '@/db/api/documents'
 
 const typeDefs = gql`
   scalar Date
@@ -530,6 +535,52 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to save document', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+    updateDocument: async (
+      _parent: unknown,
+      { id, document }: { id: string; document: DocumentInput },
+      { userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.update,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await updateDocumentWithBlocks(id, document)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update document', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+    deleteDocument: async (_parent: unknown, { id }, { userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.delete,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await deleteDocumentWithBlocks(id)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to delete document', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }

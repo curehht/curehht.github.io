@@ -146,6 +146,9 @@ const typeDefs = gql`
     pages: [Page]
     page(slug: String!): Page
     pageById(id: String!): Page
+
+    documents: [Document]
+    document(id: String!): Document
   }
 
   type Mutation {
@@ -164,6 +167,8 @@ const typeDefs = gql`
     deletePage(id: String!): Page
 
     createDocument(document: DocumentInput): Document
+    updateDocument(id: String!, document: DocumentInput): Document
+    deleteDocument(id: String!): Document
   }
 `
 
@@ -262,6 +267,28 @@ const resolvers = {
         return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to fetch page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    documents: async (_parent: unknown, { id }, { db, userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.read,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await readDocumentWithBlocks(id)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch documents', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
@@ -520,16 +547,16 @@ const resolvers = {
       console.log('document :>> ', document)
 
       try {
-        // const canDo = isAuthorized({
-        //   userData,
-        //   resourceName: Resources.document,
-        //   action: PermissionAction.create,
-        // })
-        // if (!canDo) {
-        //   throw new GraphQLError('Unauthorized', {
-        //     extensions: { code: 'UNAUTHORIZED', status: 403 },
-        //   })
-        // }
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.create,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
 
         const result = await createDocumentWithBlocks(document, userData)
         return result

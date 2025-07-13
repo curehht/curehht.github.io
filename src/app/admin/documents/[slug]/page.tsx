@@ -1,4 +1,5 @@
 import { readDocumentWithBlocks } from '@/db/api/documents'
+import { Document } from '@/components'
 
 const DocumentPage = async ({
   params,
@@ -10,7 +11,7 @@ const DocumentPage = async ({
 
   return (
     <div>
-      DocumentPage {slug} <pre>{JSON.stringify(document, null, 2)}</pre>
+      <Document document={document} />
     </div>
   )
 }

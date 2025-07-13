@@ -6,11 +6,14 @@ type BlockData = {
   url?: string
 }
 
-type DocumentBlockProps = {
+type DocumentBlockFormProps = {
   blockData: BlockData
   onChange: (blockData: BlockData) => void
 }
-export const DocumentBlock = ({ blockData, onChange }: DocumentBlockProps) => {
+export const DocumentBlockForm = ({
+  blockData,
+  onChange,
+}: DocumentBlockFormProps) => {
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange({
       ...blockData,

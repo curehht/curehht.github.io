@@ -1,48 +1,31 @@
-const Document = ({ document }: { document: Document }) => {
+type DocumentWithBlocks = {
+  title: string
+  description: string
+  is_published: boolean
+  blocks: BlockData[]
+}
+
+type BlockData = {
+  type: string
+  position: number
+  title?: string
+  content: string
+  url?: string
+}
+
+const Document = ({ document }: { document: DocumentWithBlocks }) => {
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <label htmlFor="title">Title</label>
-          <input type="text" name="title" />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="description">Description</label>
-          <input type="text" name="description" />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="is_published">Is published</label>
-          <input type="checkbox" name="is_published" />
-        </fieldset>
-        <button type="submit">save</button>
-      </form>
-      <div>
-        Blocks:
-        <ol>
-          {blocksData.map((block, index) => (
-            <li key={index}>
-              <DocumentBlock blockData={block} onChange={handleBlockChange} />
-            </li>
-          ))}
-        </ol>
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          setBlocksData((prevBlocks) => [
-            ...prevBlocks,
-            {
-              position: prevBlocks.length + 1,
-              type: 'paragraph',
-              title: '',
-              content: '',
-              url: '',
-            },
-          ])
-        }}
-      >
-        Add block
-      </button>
+      <h1>{document.title}</h1>
+      <p>{document.description}</p>
+      <ul>
+        {document.blocks.map((block) => (
+          <li key={block.position}>
+            <h2>{block.title}</h2>
+            <p>{block.content}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

@@ -40,6 +40,11 @@ export const createDocumentWithBlocks = async (
   return savedDocument
 }
 
+export const readDocuments = async () => {
+  const documentsResponse = await db.select().from(documents)
+  return documentsResponse
+}
+
 export const readDocumentWithBlocks = async (id: string) => {
   // First get the document
   const [document] = await db
@@ -111,5 +116,5 @@ export const deleteDocumentWithBlocks = async (id: string) => {
     return { documentDeleted, blocksDeleted }
   })
 
-  return result
+  return result.documentDeleted
 }

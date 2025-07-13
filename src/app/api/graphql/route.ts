@@ -605,7 +605,10 @@ const resolvers = {
         }
 
         const result = await deleteDocumentWithBlocks(id)
-        return result
+        console.log('deleteDocument result :>> ', result)
+        return {
+          id: result.id,
+        }
       } catch (error) {
         throw new GraphQLError('Failed to delete document', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },

@@ -6,16 +6,25 @@ import { drizzle } from 'drizzle-orm/vercel-postgres'
 import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
 
-import { newsArticle, pages, roles, users } from '@/db/schema'
-import { Resources, PermissionAction, DocumentInput } from '@/db/types'
+import { documentBlocks, newsArticle, pages, roles, users } from '@/db/schema'
+import {
+  Resources,
+  PermissionAction,
+  DocumentInput,
+  DocumentBlockInput,
+} from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 import { getPages } from '@/db/api/pages'
 import {
   createDocumentWithBlocks,
   readDocumentWithBlocks,
-  updateDocumentWithBlocks,
-  deleteDocumentWithBlocks,
+  updateDocument,
+  deleteDocument,
+  createDocumentBlock,
+  readDocumentBlockById,
+  updateDocumentBlock,
+  deleteDocumentBlock,
 } from '@/db/api/documents'
 
 const typeDefs = gql`
@@ -115,7 +124,6 @@ const typeDefs = gql`
     title: String!
     description: String
     is_published: Boolean
-    blocks: [DocumentBlockInput]
   }
 
   input DocumentBlockInput {
@@ -133,6 +141,9 @@ const typeDefs = gql`
     title: String
     content: String!
     url: String
+    document_id: String!
+    created_at: Date!
+    updated_at: Date!
   }
 
   type Query {
@@ -149,6 +160,8 @@ const typeDefs = gql`
 
     documents: [Document]
     document(id: String!): Document
+
+    documentBlockById(id: String!): DocumentBlock
   }
 
   type Mutation {
@@ -169,6 +182,13 @@ const typeDefs = gql`
     createDocument(document: DocumentInput): Document
     updateDocument(id: String!, document: DocumentInput): Document
     deleteDocument(id: String!): Document
+
+    createDocumentBlock(
+      document_id: String!
+      block: DocumentBlockInput
+    ): DocumentBlock
+    updateDocumentBlock(id: String!, block: DocumentBlockInput): DocumentBlock
+    deleteDocumentBlock(id: String!): DocumentBlock
   }
 `
 
@@ -289,6 +309,18 @@ const resolvers = {
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch documents', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    documentBlockById: async (_parent: unknown, { id }, { db }) => {
+      try {
+        const result = await readDocumentBlockById(id)
+        console.log('documentBlockById result :>> ', result)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch document block', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
@@ -583,7 +615,9 @@ const resolvers = {
           })
         }
 
-        const result = await updateDocumentWithBlocks(id, document)
+        console.log('updateDocument document :>> ', { id, document })
+
+        const result = await updateDocument(id, document)
         return result
       } catch (error) {
         throw new GraphQLError('Failed to update document', {
@@ -604,13 +638,93 @@ const resolvers = {
           })
         }
 
-        const result = await deleteDocumentWithBlocks(id)
+        const result = await deleteDocument(id)
         console.log('deleteDocument result :>> ', result)
         return {
           id: result.id,
         }
       } catch (error) {
         throw new GraphQLError('Failed to delete document', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    createDocumentBlock: async (
+      _parent: unknown,
+      {
+        block,
+        document_id,
+      }: {
+        block: DocumentBlockInput
+        document_id: string
+      },
+      { userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.create,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await createDocumentBlock({ document_id, block })
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to create document block', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    updateDocumentBlock: async (
+      _parent: unknown,
+      { id, block }: { id: string; block: DocumentBlockInput },
+      { userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.update,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await updateDocumentBlock({ id, block })
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update document block', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    deleteDocumentBlock: async (_parent: unknown, { id }, { userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.delete,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await deleteDocumentBlock(id)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to delete document block', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }

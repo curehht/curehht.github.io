@@ -60,9 +60,9 @@ export interface DocumentInput {
 export interface DocumentBlockInput {
   position: number
   type: string
-  title: string
+  title?: string
   content: string
-  url: string
+  url?: string
 }
 
 export interface DocumentBlock {

@@ -1,5 +1,5 @@
 import { readDocumentWithBlocks } from '@/db/api/documents'
-import { Document } from '@/components'
+import { DocumentForm } from '@/components'
 
 const DocumentPage = async ({
   params,
@@ -11,7 +11,7 @@ const DocumentPage = async ({
 
   return (
     <div>
-      <Document document={document} />
+      <DocumentForm document={document} />
     </div>
   )
 }

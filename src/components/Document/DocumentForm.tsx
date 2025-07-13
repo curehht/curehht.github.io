@@ -1,7 +1,12 @@
+'use client'
+
 import { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { CREATE_DOCUMENT, UPDATE_DOCUMENT_BY_ID } from '@/db/queries-qraphql'
 import { DocumentBlockForm } from './DocumentBlockForm'
 
 type BlockData = {
+  id?: string
   type: string
   position: number
   title?: string
@@ -10,35 +15,67 @@ type BlockData = {
 }
 
 type DocumentWithBlocks = {
+  id?: string
   title: string
   description: string
   is_published: boolean
   blocks: BlockData[]
 }
 
-const DocumentForm = ({ document }: { document: DocumentWithBlocks }) => {
-  const [blocksData, setBlocksData] = useState<BlockData[]>([])
+const initialDocument: DocumentWithBlocks = {
+  id: '',
+  title: '',
+  description: '',
+  is_published: false,
+  blocks: [],
+}
+
+const DocumentForm = ({
+  document = initialDocument,
+}: {
+  document: DocumentWithBlocks
+}) => {
+  const [currentDocument, setCurrentDocument] =
+    useState<DocumentWithBlocks>(document)
+  const [blocksData, setBlocksData] = useState<BlockData[]>(
+    document.blocks || []
+  )
+  const [createDocument] = useMutation(CREATE_DOCUMENT)
+  const [updateDocument] = useMutation(UPDATE_DOCUMENT_BY_ID)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('blocksData :>> ', blocksData)
+    if (currentDocument.id) {
+      updateDocument({
+        variables: {
+          id: currentDocument.id,
+          document: {
+            title: currentDocument.title,
+            description: currentDocument.description,
+            is_published: currentDocument.is_published,
+          },
+        },
+      })
+    } else {
+      createDocument({
+        variables: {
+          document: {
+            title: currentDocument.title,
+            description: currentDocument.description,
+            is_published: currentDocument.is_published,
+            blocks: blocksData,
+          },
+        },
+      })
+    }
   }
 
-  const handleBlockChange = (blockData: BlockData) => {
-    setBlocksData((prevBlocks) => {
-      const blockExists = prevBlocks.find(
-        (block) => block.position === blockData.position
-      )
-      if (blockExists) {
-        return prevBlocks.map((block) =>
-          block.position === blockData.position
-            ? { ...block, ...blockData }
-            : block
-        )
-      } else {
-        return [...prevBlocks, blockData]
-      }
-    })
+  const handleBlockDelete = (id: string) => {
+    setBlocksData((prevBlocks) => prevBlocks.filter((block) => block.id !== id))
+  }
+
+  const handleUnsavedBlockDelete = (index: number) => () => {
+    setBlocksData((prevBlocks) => prevBlocks.filter((_, i) => i !== index))
   }
 
   return (
@@ -46,18 +83,44 @@ const DocumentForm = ({ document }: { document: DocumentWithBlocks }) => {
       <form onSubmit={handleSubmit}>
         <fieldset>
           <label htmlFor="title">Title</label>
-          <input type="text" name="title" value={document.title} />
+          <input
+            type="text"
+            name="title"
+            value={currentDocument.title}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                title: e.target.value,
+              })
+            }}
+          />
         </fieldset>
         <fieldset>
           <label htmlFor="description">Description</label>
-          <input type="text" name="description" value={document.description} />
+          <textarea
+            rows={5}
+            name="description"
+            value={currentDocument.description}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                description: e.target.value,
+              })
+            }}
+          />
         </fieldset>
         <fieldset>
           <label htmlFor="is_published">Is published</label>
           <input
             type="checkbox"
             name="is_published"
-            checked={document.is_published}
+            checked={currentDocument.is_published}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                is_published: e.target.checked,
+              })
+            }}
           />
         </fieldset>
         <button type="submit">save</button>
@@ -65,14 +128,20 @@ const DocumentForm = ({ document }: { document: DocumentWithBlocks }) => {
       <div>
         Blocks:
         <ol>
-          {blocksData.map((block, index) => (
-            <li key={index}>
-              <DocumentBlockForm
-                blockData={block}
-                onChange={handleBlockChange}
-              />
-            </li>
-          ))}
+          {currentDocument.id &&
+            blocksData.map((block, index) => (
+              <li key={block.id || index}>
+                <DocumentBlockForm
+                  documentId={currentDocument.id}
+                  blockData={block}
+                  onDelete={
+                    block.id
+                      ? handleBlockDelete
+                      : handleUnsavedBlockDelete(index)
+                  }
+                />
+              </li>
+            ))}
         </ol>
       </div>
       <button

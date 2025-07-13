@@ -189,9 +189,70 @@ export const DELETE_PAGE_BY_ID = gql`
   }
 `
 
+export const CREATE_DOCUMENT = gql`
+  mutation CreateDocument($document: DocumentInput!) {
+    createDocument(document: $document) {
+      id
+    }
+  }
+`
+export const UPDATE_DOCUMENT_BY_ID = gql`
+  mutation UpdateDocumentById($id: String!, $document: DocumentInput!) {
+    updateDocument(id: $id, document: $document) {
+      id
+    }
+  }
+`
 export const DELETE_DOCUMENT_BY_ID = gql`
   mutation DeleteDocumentById($id: String!) {
     deleteDocument(id: $id) {
+      id
+    }
+  }
+`
+
+export const CREATE_DOCUMENT_BLOCK = gql`
+  mutation CreateDocumentBlock(
+    $block: DocumentBlockInput!
+    $document_id: String!
+  ) {
+    createDocumentBlock(block: $block, document_id: $document_id) {
+      id
+      position
+      type
+      title
+      content
+      url
+      created_at
+      updated_at
+    }
+  }
+`
+export const GET_DOCUMENT_BLOCK_BY_ID = gql`
+  query GetDocumentBlockById($id: String!) {
+    documentBlockById(id: $id) {
+      id
+      position
+      type
+      title
+      content
+      url
+      created_at
+      updated_at
+    }
+  }
+`
+
+export const UPDATE_DOCUMENT_BLOCK_BY_ID = gql`
+  mutation UpdateDocumentBlockById($id: String!, $block: DocumentBlockInput!) {
+    updateDocumentBlock(id: $id, block: $block) {
+      id
+    }
+  }
+`
+export const DELETE_DOCUMENT_BLOCK_BY_ID = gql`
+  mutation DeleteDocumentBlock($id: String!) {
+    deleteDocumentBlock(id: $id) {
       id
     }
   }

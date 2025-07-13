@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/vercel-postgres'
 import { eq, asc } from 'drizzle-orm'
 
 import { documents, documentBlocks } from '@/db/schema'
-import type { DocumentInput, UserData } from '@/db/types'
+import type { DocumentBlockInput, DocumentInput, UserData } from '@/db/types'
 
 const db = drizzle()
 
@@ -29,7 +29,7 @@ export const createDocumentWithBlocks = async (
         }))
       )
       .returning()
-    return { documentSaved, blocksSaved }
+    return { ...documentSaved, blocks: blocksSaved }
   })
 
   const savedDocument = {
@@ -67,54 +67,75 @@ export const readDocumentWithBlocks = async (id: string) => {
   }
 }
 
-export const updateDocumentWithBlocks = async (
-  id: string,
-  documentWithBlocks: DocumentInput
-) => {
-  const result = await db.transaction(async (tx) => {
-    const { blocks, ...document } = documentWithBlocks
+export const updateDocument = async (id: string, document: DocumentInput) => {
+  const [documentSaved] = await db
+    .update(documents)
+    .set(document)
+    .where(eq(documents.id, id))
+    .returning()
 
-    const [documentSaved] = await tx
-      .update(documents)
-      .set(document)
-      .where(eq(documents.id, id))
-      .returning()
-
-    const blocksSaved = await tx
-      .insert(documentBlocks)
-      .values(
-        blocks.map((block) => ({
-          ...block,
-          document_id: documentSaved.id,
-        }))
-      )
-      .returning()
-
-    return { documentSaved, blocksSaved }
-  })
-
-  const savedDocument = {
-    ...result.documentSaved,
-    blocks: result.blocksSaved,
-  }
-
-  return savedDocument
+  return documentSaved
 }
 
-export const deleteDocumentWithBlocks = async (id: string) => {
-  const result = await db.transaction(async (tx) => {
-    const [documentDeleted] = await tx
-      .delete(documents)
-      .where(eq(documents.id, id))
-      .returning()
+export const deleteDocument = async (id: string) => {
+  const [documentDeleted] = await db
+    .delete(documents)
+    .where(eq(documents.id, id))
+    .returning()
 
-    const blocksDeleted = await tx
-      .delete(documentBlocks)
-      .where(eq(documentBlocks.document_id, id))
-      .returning()
+  return documentDeleted
+}
 
-    return { documentDeleted, blocksDeleted }
-  })
+export const createDocumentBlock = async ({
+  document_id,
+  block,
+}: {
+  document_id: string
+  block: DocumentBlockInput
+}) => {
+  console.log('createDocumentBlock document_id :>> ', document_id)
+  console.log('createDocumentBlock block :>> ', block)
 
-  return result.documentDeleted
+  const [blockCreated] = await db
+    .insert(documentBlocks)
+    .values({
+      ...block,
+      document_id,
+    })
+    .returning()
+  console.log('createDocumentBlock blockCreated :>> ', blockCreated)
+
+  return blockCreated
+}
+
+export const readDocumentBlockById = async (id: string) => {
+  const [block] = await db
+    .select()
+    .from(documentBlocks)
+    .where(eq(documentBlocks.id, id))
+  return block
+}
+
+export const updateDocumentBlock = async ({
+  id,
+  block,
+}: {
+  id: string
+  block: DocumentBlockInput
+}) => {
+  const [blockUpdated] = await db
+    .update(documentBlocks)
+    .set(block)
+    .where(eq(documentBlocks.id, id))
+    .returning()
+  return blockUpdated
+}
+
+export const deleteDocumentBlock = async (id: string) => {
+  const [blockDeleted] = await db
+    .delete(documentBlocks)
+    .where(eq(documentBlocks.id, id))
+    .returning()
+
+  return blockDeleted
 }

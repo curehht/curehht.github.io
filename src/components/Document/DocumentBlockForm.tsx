@@ -6,6 +6,7 @@ import {
   GET_DOCUMENT_BLOCK_BY_ID,
 } from '@/db/queries-qraphql'
 import { useState } from 'react'
+import classes from './document.module.css'
 
 type BlockData = {
   id?: string
@@ -103,14 +104,7 @@ export const DocumentBlockForm = ({
 
   return (
     <form
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '10px',
-        border: '1px solid #ccc',
-        padding: '10px',
-        marginBottom: '20px',
-      }}
+      className={classes.documentBlockForm}
       onSubmit={(e) => {
         e.preventDefault()
         handleSubmit()

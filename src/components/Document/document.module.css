@@ -1,3 +1,41 @@
+.documentFormContainer {
+  display: block;
+}
+
+.documentForm {
+  display: block;
+  width: 100%;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.5rem 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
+.documentBlockForm {
+  display: block;
+  width: 100%;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.5rem 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
 .deleteButton {
   color: #ff4d4f;
   background: #fff;

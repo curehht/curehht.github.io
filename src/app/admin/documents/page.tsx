@@ -9,6 +9,7 @@ async function DocumentsPage() {
   return (
     <article>
       <h1>Documents</h1>
+      <Link href="/admin/documents/new">New document</Link>
       <ul>
         {documents.map((document) => (
           <li key={document.id}>

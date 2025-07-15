@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { CREATE_DOCUMENT, UPDATE_DOCUMENT_BY_ID } from '@/db/queries-qraphql'
 import { DocumentBlockForm } from './DocumentBlockForm'
+import classes from './document.module.css'
+import { useRouter } from 'next/navigation'
 
 type BlockData = {
   id?: string
@@ -42,8 +44,8 @@ const DocumentForm = ({
   )
   const [createDocument] = useMutation(CREATE_DOCUMENT)
   const [updateDocument] = useMutation(UPDATE_DOCUMENT_BY_ID)
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter()
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentDocument.id) {
       updateDocument({
@@ -57,16 +59,17 @@ const DocumentForm = ({
         },
       })
     } else {
-      createDocument({
+      const result = await createDocument({
         variables: {
           document: {
             title: currentDocument.title,
             description: currentDocument.description,
             is_published: currentDocument.is_published,
-            blocks: blocksData,
           },
         },
       })
+
+      router.push(`/admin/documents/${result.data.createDocument.id}`)
     }
   }
 
@@ -79,11 +82,12 @@ const DocumentForm = ({
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className={classes.documentFormContainer}>
+      <form className={classes.documentForm} onSubmit={handleSubmit}>
         <fieldset>
           <label htmlFor="title">Title</label>
           <input
+            id="title"
             type="text"
             name="title"
             value={currentDocument.title}
@@ -98,6 +102,7 @@ const DocumentForm = ({
         <fieldset>
           <label htmlFor="description">Description</label>
           <textarea
+            id="description"
             rows={5}
             name="description"
             value={currentDocument.description}
@@ -112,6 +117,7 @@ const DocumentForm = ({
         <fieldset>
           <label htmlFor="is_published">Is published</label>
           <input
+            id="is_published"
             type="checkbox"
             name="is_published"
             checked={currentDocument.is_published}
@@ -123,9 +129,11 @@ const DocumentForm = ({
             }}
           />
         </fieldset>
-        <button type="submit">save</button>
+        <div style={{ marginTop: '1rem' }}>
+          <button type="submit">Save document</button>
+        </div>
       </form>
-      <div>
+      <div style={{ marginTop: '1rem' }}>
         Blocks:
         <ol>
           {currentDocument.id &&
@@ -144,23 +152,27 @@ const DocumentForm = ({
             ))}
         </ol>
       </div>
-      <button
-        type="button"
-        onClick={() => {
-          setBlocksData((prevBlocks) => [
-            ...prevBlocks,
-            {
-              position: prevBlocks.length + 1,
-              type: 'paragraph',
-              title: '',
-              content: '',
-              url: '',
-            },
-          ])
-        }}
-      >
-        Add block
-      </button>
+      <div>
+        {!currentDocument.id && <p>Save a new document before adding blocks</p>}
+        <button
+          type="button"
+          disabled={!currentDocument.id}
+          onClick={() => {
+            setBlocksData((prevBlocks) => [
+              ...prevBlocks,
+              {
+                position: prevBlocks.length + 1,
+                type: 'paragraph',
+                title: '',
+                content: '',
+                url: '',
+              },
+            ])
+          }}
+        >
+          Add block
+        </button>
+      </div>
     </div>
   )
 }

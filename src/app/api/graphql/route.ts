@@ -17,7 +17,7 @@ import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 import { getPages } from '@/db/api/pages'
 import {
-  createDocumentWithBlocks,
+  createDocument,
   readDocumentWithBlocks,
   updateDocument,
   deleteDocument,
@@ -590,7 +590,7 @@ const resolvers = {
           })
         }
 
-        const result = await createDocumentWithBlocks(document, userData)
+        const result = await createDocument(document, userData)
         return result
       } catch (error) {
         throw new GraphQLError('Failed to save document', {

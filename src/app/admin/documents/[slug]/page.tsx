@@ -10,9 +10,9 @@ const DocumentPage = async ({
   const document = await readDocumentWithBlocks(slug)
 
   return (
-    <div>
+    <article style={{ flexGrow: 1 }}>
       <DocumentForm document={document} />
-    </div>
+    </article>
   )
 }
 

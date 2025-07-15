@@ -6,13 +6,11 @@ import type { DocumentBlockInput, DocumentInput, UserData } from '@/db/types'
 
 const db = drizzle()
 
-export const createDocumentWithBlocks = async (
-  documentWithBlocks: DocumentInput,
+export const createDocument = async (
+  document: DocumentInput,
   userData: UserData
 ) => {
   const result = await db.transaction(async (tx) => {
-    const { blocks, ...document } = documentWithBlocks
-
     document.author_id = userData.id
 
     const [documentSaved] = await tx
@@ -20,24 +18,10 @@ export const createDocumentWithBlocks = async (
       .values(document)
       .returning()
 
-    const blocksSaved = await tx
-      .insert(documentBlocks)
-      .values(
-        blocks.map((block) => ({
-          ...block,
-          document_id: documentSaved.id,
-        }))
-      )
-      .returning()
-    return { ...documentSaved, blocks: blocksSaved }
+    return documentSaved
   })
 
-  const savedDocument = {
-    ...result.documentSaved,
-    blocks: result.blocksSaved,
-  }
-
-  return savedDocument
+  return result
 }
 
 export const readDocuments = async () => {

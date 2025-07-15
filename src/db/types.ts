@@ -59,7 +59,14 @@ export interface DocumentInput {
 
 export interface DocumentBlockInput {
   position: number
-  type: string
+  type:
+    | 'paragraph'
+    | 'heading2'
+    | 'heading3'
+    | 'list'
+    | 'youtube'
+    | 'image'
+    | 'quote'
   title?: string
   content: string
   url?: string
@@ -69,7 +76,14 @@ export interface DocumentBlock {
   id: string
   document_id: string
   position: number
-  type: string
+  type:
+    | 'paragraph'
+    | 'heading2'
+    | 'heading3'
+    | 'list'
+    | 'youtube'
+    | 'image'
+    | 'quote'
   content: string
   url: string
   title: string

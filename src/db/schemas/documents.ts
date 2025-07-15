@@ -20,8 +20,7 @@ export const documentBlocks = pgTable('document_blocks', {
     .notNull()
     .references(() => documents.id, { onDelete: 'cascade' }),
   position: integer('position').notNull(),
-  // 'paragraph', 'heading1', 'heading2', 'heading3', 'quote', 'list-item'
-  // 'youtube', 'vimeo', 'dailymotion', 'image', 'audio', 'video'
+  // 'paragraph', 'heading2', 'heading3', 'list', 'youtube', 'image', 'quote'
   type: text('type').notNull(),
   content: text('content'),
   url: text('url'),

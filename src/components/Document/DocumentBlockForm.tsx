@@ -122,7 +122,7 @@ export const DocumentBlockForm = ({
           <option value="paragraph">Paragraph</option>
           <option value="heading2">Heading 2</option>
           <option value="heading3">Heading 3</option>
-          <option value="list-item">List item</option>
+          <option value="list">List</option>
           <option value="youtube">Youtube</option>
           <option value="image">Image</option>
           <option value="quote">Quote</option>
@@ -139,7 +139,7 @@ export const DocumentBlockForm = ({
           />
         </fieldset>
       )}
-      {['paragraph', 'list-item', 'quote'].includes(currentBlockData.type) && (
+      {['paragraph', 'list', 'quote'].includes(currentBlockData.type) && (
         <fieldset>
           <label htmlFor="content">Content</label>
           <textarea
@@ -155,9 +155,7 @@ export const DocumentBlockForm = ({
           />
         </fieldset>
       )}
-      {['youtube', 'vimeo', 'dailymotion', 'image', 'audio', 'video'].includes(
-        currentBlockData.type
-      ) && (
+      {['youtube', 'image', 'quote'].includes(currentBlockData.type) && (
         <fieldset>
           <label htmlFor="url">URL</label>
           <input

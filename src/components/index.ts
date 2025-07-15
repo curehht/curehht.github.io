@@ -6,6 +6,7 @@ import { RoleForm } from './RoleForm'
 import { UsersList } from './UsersList/UsersList'
 import RolesList from './RolesList/RolesList'
 import MainNavigation from './MainNavigation/MainNavigation'
+import Document from './Document/Document'
 import DocumentForm from './Document/DocumentForm'
 import DocumentDelete from './Document/DocumentDelete'
 
@@ -18,6 +19,7 @@ export {
   UsersList,
   RolesList,
   MainNavigation,
+  Document,
   DocumentForm,
   DocumentDelete,
 }

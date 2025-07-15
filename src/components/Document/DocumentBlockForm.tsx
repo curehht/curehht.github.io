@@ -3,7 +3,6 @@ import {
   CREATE_DOCUMENT_BLOCK,
   DELETE_DOCUMENT_BLOCK_BY_ID,
   UPDATE_DOCUMENT_BLOCK_BY_ID,
-  GET_DOCUMENT_BLOCK_BY_ID,
 } from '@/db/queries-qraphql'
 import { useState } from 'react'
 import classes from './document.module.css'

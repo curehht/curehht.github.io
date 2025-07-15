@@ -6,7 +6,7 @@ import { drizzle } from 'drizzle-orm/vercel-postgres'
 import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
 
-import { documentBlocks, newsArticle, pages, roles, users } from '@/db/schema'
+import { newsArticle, pages, roles, users } from '@/db/schema'
 import {
   Resources,
   PermissionAction,
@@ -260,7 +260,7 @@ const resolvers = {
       }
     },
 
-    pages: async (_parent: unknown, _args: unknown, { db }) => {
+    pages: async () => {
       try {
         const result = await getPages()
         return result
@@ -292,7 +292,7 @@ const resolvers = {
       }
     },
 
-    documents: async (_parent: unknown, { id }, { db, userData }) => {
+    documents: async (_parent: unknown, { id }, { userData }) => {
       try {
         const canDo = isAuthorized({
           userData,
@@ -314,7 +314,7 @@ const resolvers = {
       }
     },
 
-    documentBlockById: async (_parent: unknown, { id }, { db }) => {
+    documentBlockById: async (_parent: unknown, { id }) => {
       try {
         const result = await readDocumentBlockById(id)
         console.log('documentBlockById result :>> ', result)

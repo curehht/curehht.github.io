@@ -1,7 +1,7 @@
 import { readDocumentWithBlocks } from '@/db/api/documents'
 import { Document } from '@/components'
 
-const NewsPage = async ({ params }: { params: { slug: string } }) => {
+const NewsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params
   const document = await readDocumentWithBlocks(slug)
 

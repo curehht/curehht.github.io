@@ -10,6 +10,7 @@ export enum Resources {
   page = 'page',
   roles = 'roles',
   users = 'users',
+  document = 'document',
 }
 
 export interface Permission {
@@ -46,4 +47,50 @@ export interface Page {
   summary: string
   created_at: Date
   updated_at: Date
+}
+
+export interface DocumentInput {
+  title: string
+  description: string
+  is_published: boolean
+  blocks: DocumentBlockInput[]
+  author_id: string
+}
+
+export interface DocumentBlockInput {
+  position: number
+  type:
+    | 'paragraph'
+    | 'heading2'
+    | 'heading3'
+    | 'list'
+    | 'youtube'
+    | 'image'
+    | 'quote'
+  title?: string
+  content: string
+  url?: string
+}
+
+export interface DocumentBlock {
+  id: string
+  document_id: string
+  position: number
+  type:
+    | 'paragraph'
+    | 'heading2'
+    | 'heading3'
+    | 'list'
+    | 'youtube'
+    | 'image'
+    | 'quote'
+  content: string
+  url: string
+  title: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface DocumentWithContent extends Document {
+  content: Array<DocumentBlock>
 }

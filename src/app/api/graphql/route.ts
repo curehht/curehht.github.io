@@ -7,10 +7,25 @@ import { gql } from 'graphql-tag'
 import { NextRequest } from 'next/server'
 
 import { newsArticle, pages, roles, users } from '@/db/schema'
-import { Resources, PermissionAction } from '@/db/types'
+import {
+  Resources,
+  PermissionAction,
+  DocumentInput,
+  DocumentBlockInput,
+} from '@/db/types'
 import { getUserDataFromRequest } from '@/utils/getUserFromRequest'
 import { isAuthorized } from '@/utils/isAuthorized'
 import { getPages } from '@/db/api/pages'
+import {
+  createDocument,
+  readDocumentWithBlocks,
+  updateDocument,
+  deleteDocument,
+  createDocumentBlock,
+  readDocumentBlockById,
+  updateDocumentBlock,
+  deleteDocumentBlock,
+} from '@/db/api/documents'
 
 const typeDefs = gql`
   scalar Date
@@ -97,6 +112,40 @@ const typeDefs = gql`
     content: String
   }
 
+  type Document {
+    id: String!
+    title: String!
+    description: String
+    is_published: Boolean
+    blocks: [DocumentBlock]
+  }
+
+  input DocumentInput {
+    title: String!
+    description: String
+    is_published: Boolean
+  }
+
+  input DocumentBlockInput {
+    position: Int!
+    type: String!
+    title: String
+    content: String!
+    url: String
+  }
+
+  type DocumentBlock {
+    id: String!
+    position: Int!
+    type: String!
+    title: String
+    content: String!
+    url: String
+    document_id: String!
+    created_at: Date!
+    updated_at: Date!
+  }
+
   type Query {
     newsArticles: [NewsArticle]
     newsArticle(id: Int!): NewsArticle
@@ -108,6 +157,11 @@ const typeDefs = gql`
     pages: [Page]
     page(slug: String!): Page
     pageById(id: String!): Page
+
+    documents: [Document]
+    document(id: String!): Document
+
+    documentBlockById(id: String!): DocumentBlock
   }
 
   type Mutation {
@@ -124,6 +178,17 @@ const typeDefs = gql`
     createPage(page: PageInput): Page
     updatePage(id: String!, page: PageInput): Page
     deletePage(id: String!): Page
+
+    createDocument(document: DocumentInput): Document
+    updateDocument(id: String!, document: DocumentInput): Document
+    deleteDocument(id: String!): Document
+
+    createDocumentBlock(
+      document_id: String!
+      block: DocumentBlockInput
+    ): DocumentBlock
+    updateDocumentBlock(id: String!, block: DocumentBlockInput): DocumentBlock
+    deleteDocumentBlock(id: String!): DocumentBlock
   }
 `
 
@@ -195,7 +260,7 @@ const resolvers = {
       }
     },
 
-    pages: async (_parent: unknown, _args: unknown, { db }) => {
+    pages: async () => {
       try {
         const result = await getPages()
         return result
@@ -222,6 +287,40 @@ const resolvers = {
         return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to fetch page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    documents: async (_parent: unknown, { id }, { userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.read,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await readDocumentWithBlocks(id)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch documents', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    documentBlockById: async (_parent: unknown, { id }) => {
+      try {
+        const result = await readDocumentBlockById(id)
+        console.log('documentBlockById result :>> ', result)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch document block', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
@@ -467,6 +566,165 @@ const resolvers = {
         return result[0]
       } catch (error) {
         throw new GraphQLError('Failed to delete page', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    createDocument: async (
+      _parent: unknown,
+      { document }: { document: DocumentInput },
+      { userData }
+    ) => {
+      console.log('document :>> ', document)
+
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.create,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await createDocument(document, userData)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to save document', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+    updateDocument: async (
+      _parent: unknown,
+      { id, document }: { id: string; document: DocumentInput },
+      { userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.update,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        console.log('updateDocument document :>> ', { id, document })
+
+        const result = await updateDocument(id, document)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update document', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+    deleteDocument: async (_parent: unknown, { id }, { userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.delete,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await deleteDocument(id)
+        console.log('deleteDocument result :>> ', result)
+        return {
+          id: result.id,
+        }
+      } catch (error) {
+        throw new GraphQLError('Failed to delete document', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    createDocumentBlock: async (
+      _parent: unknown,
+      {
+        block,
+        document_id,
+      }: {
+        block: DocumentBlockInput
+        document_id: string
+      },
+      { userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.create,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await createDocumentBlock({ document_id, block })
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to create document block', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    updateDocumentBlock: async (
+      _parent: unknown,
+      { id, block }: { id: string; block: DocumentBlockInput },
+      { userData }
+    ) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.update,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await updateDocumentBlock({ id, block })
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to update document block', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
+    deleteDocumentBlock: async (_parent: unknown, { id }, { userData }) => {
+      try {
+        const canDo = isAuthorized({
+          userData,
+          resourceName: Resources.document,
+          action: PermissionAction.delete,
+        })
+        if (!canDo) {
+          throw new GraphQLError('Unauthorized', {
+            extensions: { code: 'UNAUTHORIZED', status: 403 },
+          })
+        }
+
+        const result = await deleteDocumentBlock(id)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to delete document block', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }

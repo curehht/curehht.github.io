@@ -1,3 +1,5 @@
+import { readDocumentWithBlocks } from '@/db/api/documents'
+
 export const metadata = {
   title: 'О болезни Рандю-Ослера',
   description: 'Общая информация о болезни Рандю-Ослера',
@@ -6,6 +8,10 @@ export const metadata = {
 }
 
 export default async function IndexPage() {
+  const document = await readDocumentWithBlocks(
+    'fc03b912-6516-4508-a00e-0e1114731cd4'
+  )
+  console.log('document :>> ', document)
   return (
     <div className="IndexPage">
       <article>

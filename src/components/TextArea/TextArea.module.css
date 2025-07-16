@@ -1,0 +1,81 @@
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.label {
+  font-size: 16px;
+  font-family: sans-serif;
+  color: #333;
+  font-weight: 500;
+}
+
+.required {
+  color: #ff4d4f;
+  margin-left: 4px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: sans-serif;
+  color: #333;
+  background-color: #f5f5f5;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.textarea:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.textarea.error {
+  border-color: #ff4d4f;
+  background-color: #fff2f0;
+}
+
+.textarea.error:focus {
+  border-color: #ff4d4f;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.25);
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: sans-serif;
+  margin-top: 4px;
+}
+
+.helperText {
+  color: #6c757d;
+  font-size: 14px;
+  font-family: sans-serif;
+  margin-top: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}

@@ -6,6 +6,10 @@ import { CREATE_DOCUMENT, UPDATE_DOCUMENT_BY_ID } from '@/db/queries-qraphql'
 import { DocumentBlockForm } from './DocumentBlockForm'
 import classes from './document.module.css'
 import { useRouter } from 'next/navigation'
+import { Input } from '../Input'
+import { TextArea } from '../TextArea'
+import { Checkbox } from '../Checkbox'
+import { Button } from '../Button'
 
 type BlockData = {
   id?: string
@@ -84,53 +88,47 @@ const DocumentForm = ({
   return (
     <div className={classes.documentFormContainer}>
       <form className={classes.documentForm} onSubmit={handleSubmit}>
-        <fieldset>
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            type="text"
-            name="title"
-            value={currentDocument.title}
-            onChange={(e) => {
-              setCurrentDocument({
-                ...currentDocument,
-                title: e.target.value,
-              })
-            }}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            rows={5}
-            name="description"
-            value={currentDocument.description}
-            onChange={(e) => {
-              setCurrentDocument({
-                ...currentDocument,
-                description: e.target.value,
-              })
-            }}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="is_published">Is published</label>
-          <input
-            id="is_published"
-            type="checkbox"
-            name="is_published"
-            checked={currentDocument.is_published}
-            onChange={(e) => {
-              setCurrentDocument({
-                ...currentDocument,
-                is_published: e.target.checked,
-              })
-            }}
-          />
-        </fieldset>
+        <Input
+          label="Title"
+          name="title"
+          type="text"
+          required
+          value={currentDocument.title}
+          onChange={(e) => {
+            setCurrentDocument({
+              ...currentDocument,
+              title: e.target.value,
+            })
+          }}
+        />
+        <TextArea
+          label="Description"
+          name="description"
+          rows={5}
+          value={currentDocument.description}
+          onChange={(e) => {
+            setCurrentDocument({
+              ...currentDocument,
+              description: e.target.value,
+            })
+          }}
+        />
+        <Checkbox
+          label="Is published"
+          name="is_published"
+          checked={currentDocument.is_published}
+          onChange={(e) => {
+            setCurrentDocument({
+              ...currentDocument,
+              is_published: e.target.checked,
+            })
+          }}
+        />
         <div style={{ marginTop: '1rem' }}>
-          <button type="submit">Save document</button>
+          <Button type="submit">Save document</Button>
+          <Button type="button" variant="secondary">
+            Cancel
+          </Button>
         </div>
       </form>
       <div style={{ marginTop: '1rem' }}>
@@ -154,7 +152,7 @@ const DocumentForm = ({
       </div>
       <div>
         {!currentDocument.id && <p>Save a new document before adding blocks</p>}
-        <button
+        <Button
           type="button"
           disabled={!currentDocument.id}
           onClick={() => {
@@ -171,7 +169,7 @@ const DocumentForm = ({
           }}
         >
           Add block
-        </button>
+        </Button>
       </div>
     </div>
   )

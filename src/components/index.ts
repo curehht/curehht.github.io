@@ -9,6 +9,10 @@ import MainNavigation from './MainNavigation/MainNavigation'
 import Document from './Document/Document'
 import DocumentForm from './Document/DocumentForm'
 import DocumentDelete from './Document/DocumentDelete'
+import { Input } from './Input'
+import { TextArea } from './TextArea'
+import { Checkbox } from './Checkbox'
+import { Button } from './Button'
 
 export {
   Menu,
@@ -22,4 +26,8 @@ export {
   Document,
   DocumentForm,
   DocumentDelete,
+  Input,
+  TextArea,
+  Checkbox,
+  Button,
 }

@@ -5,6 +5,7 @@ import {
   UPDATE_DOCUMENT_BLOCK_BY_ID,
 } from '@/db/queries-qraphql'
 import { useState } from 'react'
+import { Button, Input, TextArea } from '@/components'
 import classes from './document.module.css'
 
 type BlockData = {
@@ -64,8 +65,6 @@ export const DocumentBlockForm = ({
   }
 
   const handleSubmit = async () => {
-    console.log('handleSubmit currentBlockData :>> ', currentBlockData)
-
     if (currentBlockData.id) {
       await updateDocumentBlock({
         variables: {
@@ -94,8 +93,6 @@ export const DocumentBlockForm = ({
       })
 
       const createdBlock = result.data.createDocumentBlock
-
-      console.log('createdBlock :>> ', createdBlock)
 
       setCurrentBlockData(createdBlock)
     }
@@ -128,49 +125,45 @@ export const DocumentBlockForm = ({
         </select>
       </fieldset>
       {['heading2', 'heading3'].includes(currentBlockData.type) && (
-        <fieldset>
-          <label htmlFor="block_title">Title</label>
-          <input
-            type="text"
-            name="title"
-            onChange={handleChange}
-            value={currentBlockData.title}
-          />
-        </fieldset>
+        <Input
+          label="Title"
+          name="title"
+          type="text"
+          value={currentBlockData.title || ''}
+          onChange={handleChange}
+          required
+        />
       )}
       {['paragraph', 'list', 'quote'].includes(currentBlockData.type) && (
-        <fieldset>
-          <label htmlFor="content">Content</label>
-          <textarea
-            rows={10}
-            name="content"
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setCurrentBlockData({
-                ...currentBlockData,
-                [e.target.name]: e.target.value,
-              })
-            }
-            value={currentBlockData.content}
-          />
-        </fieldset>
+        <TextArea
+          label="Content"
+          name="content"
+          rows={10}
+          value={currentBlockData.content}
+          onChange={(e) => {
+            setCurrentBlockData({
+              ...currentBlockData,
+              [e.target.name]: e.target.value,
+            })
+          }}
+        />
       )}
       {['youtube', 'image', 'quote'].includes(currentBlockData.type) && (
-        <fieldset>
-          <label htmlFor="url">URL</label>
-          <input
-            type="text"
-            name="url"
-            onChange={handleChange}
-            value={currentBlockData.url}
-          />
-        </fieldset>
+        <Input
+          label="URL"
+          name="url"
+          type="url"
+          value={currentBlockData.url || ''}
+          onChange={handleChange}
+          placeholder="https://example.com"
+        />
       )}
-      <button type="submit">
+      <Button type="submit">
         {currentBlockData.id ? 'Update block' : 'Create block'}
-      </button>
-      <button type="button" onClick={handleDelete}>
+      </Button>
+      <Button type="button" variant="danger" onClick={handleDelete}>
         Delete block
-      </button>
+      </Button>
     </form>
   )
 }

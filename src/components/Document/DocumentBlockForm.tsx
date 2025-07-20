@@ -4,7 +4,7 @@ import {
   DELETE_DOCUMENT_BLOCK_BY_ID,
   UPDATE_DOCUMENT_BLOCK_BY_ID,
 } from '@/db/queries-qraphql'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, Input, TextArea } from '@/components'
 import classes from './document.module.css'
 
@@ -21,13 +21,29 @@ type DocumentBlockFormProps = {
   documentId: string
   blockData: BlockData
   onDelete?: (id: string) => void
+  onDragStart?: (e: React.DragEvent, blockId: string) => void
+  onDragOver?: (e: React.DragEvent) => void
+  onDragEnd?: () => void
+  isCollapsed?: boolean
 }
 export const DocumentBlockForm = ({
   documentId,
   blockData,
   onDelete,
+  onDragStart,
+  onDragOver,
+  onDragEnd,
+  isCollapsed,
 }: DocumentBlockFormProps) => {
+  if (blockData.id === '0fed5846-04f5-43ad-bd56-6d64d37a4f6e') {
+    console.log('DocumentBlockForm blockData', blockData)
+  }
   const [currentBlockData, setCurrentBlockData] = useState<BlockData>(blockData)
+
+  // Update local state when blockData prop changes
+  useEffect(() => {
+    setCurrentBlockData(blockData)
+  }, [blockData])
 
   const [deleteDocumentBlock] = useMutation(DELETE_DOCUMENT_BLOCK_BY_ID)
   const [updateDocumentBlock] = useMutation(UPDATE_DOCUMENT_BLOCK_BY_ID)
@@ -98,72 +114,125 @@ export const DocumentBlockForm = ({
     }
   }
 
+  const handleDragStart = (e: React.DragEvent) => {
+    if (onDragStart) {
+      onDragStart(e, currentBlockData.id || `temp-${currentBlockData.position}`)
+    }
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    if (onDragOver) {
+      onDragOver(e)
+    }
+  }
+
+  const handleDragEnd = () => {
+    onDragEnd?.()
+  }
+
   return (
-    <form
-      className={classes.documentBlockForm}
-      onSubmit={(e) => {
-        e.preventDefault()
-        handleSubmit()
-      }}
+    <div
+      className={`${classes.container} ${isCollapsed ? classes.dragging : ''}`}
+      draggable
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
     >
-      <p>Block {currentBlockData.position}</p>
-      <fieldset>
-        <label htmlFor="block_type">Type</label>
-        <select
-          name="type"
-          onChange={handleTypeChange}
-          value={currentBlockData.type}
-          disabled={!!currentBlockData.id}
-        >
-          <option value="paragraph">Paragraph</option>
-          <option value="heading2">Heading 2</option>
-          <option value="heading3">Heading 3</option>
-          <option value="list">List</option>
-          <option value="youtube">Youtube</option>
-          <option value="image">Image</option>
-          <option value="quote">Quote</option>
-        </select>
-      </fieldset>
-      {['heading2', 'heading3'].includes(currentBlockData.type) && (
-        <Input
-          label="Title"
-          name="title"
-          type="text"
-          value={currentBlockData.title || ''}
-          onChange={handleChange}
-          required
-        />
-      )}
-      {['paragraph', 'list', 'quote'].includes(currentBlockData.type) && (
-        <TextArea
-          label="Content"
-          name="content"
-          rows={10}
-          value={currentBlockData.content}
-          onChange={(e) => {
-            setCurrentBlockData({
-              ...currentBlockData,
-              [e.target.name]: e.target.value,
-            })
-          }}
-        />
-      )}
-      {['youtube', 'image', 'quote'].includes(currentBlockData.type) && (
-        <Input
-          label="URL"
-          name="url"
-          type="url"
-          value={currentBlockData.url || ''}
-          onChange={handleChange}
-          placeholder="https://example.com"
-        />
-      )}
-      <Button type="submit">
-        {currentBlockData.id ? 'Update block' : 'Create block'}
-      </Button>
-      <Button type="button" variant="danger" onClick={handleDelete}>
-        Delete block
-      </Button>
-    </form>
+      <div className={classes.blockHeader}>
+        <div>{currentBlockData.position}</div>
+        {!!currentBlockData.id && <div>Type: {currentBlockData.type}</div>}
+      </div>
+
+      <form
+        className={classes.form}
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}
+      >
+        {!isCollapsed && (
+          <>
+            {!currentBlockData.id && (
+              <fieldset>
+                <label htmlFor="block_type">Type</label>
+                <select
+                  name="type"
+                  onChange={handleTypeChange}
+                  value={currentBlockData.type}
+                >
+                  <option value="paragraph">Paragraph</option>
+                  <option value="heading2">Heading 2</option>
+                  <option value="heading3">Heading 3</option>
+                  <option value="list">List</option>
+                  <option value="youtube">Youtube</option>
+                  <option value="image">Image</option>
+                  <option value="quote">Quote</option>
+                </select>
+              </fieldset>
+            )}
+            {['heading2', 'heading3'].includes(currentBlockData.type) && (
+              <Input
+                id={`title_${currentBlockData.id}`}
+                label="Title"
+                name="title"
+                type="text"
+                value={currentBlockData.title || ''}
+                onChange={handleChange}
+                required
+              />
+            )}
+            {['paragraph', 'list', 'quote'].includes(currentBlockData.type) && (
+              <TextArea
+                id={`content_${currentBlockData.id}`}
+                label="Content"
+                name="content"
+                rows={10}
+                value={currentBlockData.content}
+                onChange={(e) => {
+                  setCurrentBlockData({
+                    ...currentBlockData,
+                    [e.target.name]: e.target.value,
+                  })
+                }}
+              />
+            )}
+            {['youtube', 'image', 'quote'].includes(currentBlockData.type) && (
+              <Input
+                id={`url_${currentBlockData.id}`}
+                label="URL"
+                name="url"
+                type="url"
+                value={currentBlockData.url || ''}
+                onChange={handleChange}
+                placeholder="https://example.com"
+              />
+            )}
+            <div className={classes.blockActions}>
+              <Button type="submit">
+                {currentBlockData.id ? 'Update block' : 'Create block'}
+              </Button>
+              <Button type="button" variant="danger" onClick={handleDelete}>
+                Delete block
+              </Button>
+            </div>
+          </>
+        )}
+
+        {isCollapsed && (
+          <div className={classes.collapsedContent}>
+            <div className={classes.blockType}>{currentBlockData.type}</div>
+            {currentBlockData.title && (
+              <div className={classes.blockTitle}>{currentBlockData.title}</div>
+            )}
+            {currentBlockData.content && (
+              <div className={classes.blockPreview}>
+                {currentBlockData.content}
+              </div>
+            )}
+          </div>
+        )}
+      </form>
+    </div>
   )
 }

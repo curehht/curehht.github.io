@@ -5,7 +5,13 @@ import { DELETE_DOCUMENT_BY_ID } from '@/db/queries-qraphql'
 
 import classes from './document.module.css'
 
-const DocumentDelete = ({ documentId }: { documentId: string }) => {
+const DocumentDelete = ({
+  documentId,
+  className,
+}: {
+  documentId: string
+  className?: string
+}) => {
   const [deleteDocument] = useMutation(DELETE_DOCUMENT_BY_ID)
 
   const handleDelete = async () => {
@@ -23,7 +29,10 @@ const DocumentDelete = ({ documentId }: { documentId: string }) => {
   }
 
   return (
-    <button onClick={handleDelete} className={classes.deleteButton}>
+    <button
+      onClick={handleDelete}
+      className={`${classes.deleteButton} ${className}`}
+    >
       Delete
     </button>
   )

@@ -83,6 +83,8 @@ const typeDefs = gql`
     newsArticle
     roles
     page
+    document
+    users
   }
 
   type User {

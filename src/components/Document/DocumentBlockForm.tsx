@@ -154,7 +154,7 @@ export const DocumentBlockForm = ({
         {!isCollapsed && (
           <>
             {!currentBlockData.id && (
-              <fieldset>
+              <fieldset className={classes.fieldset}>
                 <label htmlFor="block_type">Type</label>
                 <select
                   name="type"
@@ -172,41 +172,47 @@ export const DocumentBlockForm = ({
               </fieldset>
             )}
             {['heading2', 'heading3'].includes(currentBlockData.type) && (
-              <Input
-                id={`title_${currentBlockData.id}`}
-                label="Title"
-                name="title"
-                type="text"
-                value={currentBlockData.title || ''}
-                onChange={handleChange}
-                required
-              />
+              <fieldset className={classes.fieldset}>
+                <Input
+                  id={`title_${currentBlockData.id}`}
+                  label="Title"
+                  name="title"
+                  type="text"
+                  value={currentBlockData.title || ''}
+                  onChange={handleChange}
+                  required
+                />
+              </fieldset>
             )}
             {['paragraph', 'list', 'quote'].includes(currentBlockData.type) && (
-              <TextArea
-                id={`content_${currentBlockData.id}`}
-                label="Content"
-                name="content"
-                rows={10}
-                value={currentBlockData.content}
-                onChange={(e) => {
-                  setCurrentBlockData({
-                    ...currentBlockData,
-                    [e.target.name]: e.target.value,
-                  })
-                }}
-              />
+              <fieldset className={classes.fieldset}>
+                <TextArea
+                  id={`content_${currentBlockData.id}`}
+                  label="Content"
+                  name="content"
+                  rows={10}
+                  value={currentBlockData.content}
+                  onChange={(e) => {
+                    setCurrentBlockData({
+                      ...currentBlockData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }}
+                />
+              </fieldset>
             )}
             {['youtube', 'image', 'quote'].includes(currentBlockData.type) && (
-              <Input
-                id={`url_${currentBlockData.id}`}
-                label="URL"
-                name="url"
-                type="url"
-                value={currentBlockData.url || ''}
-                onChange={handleChange}
-                placeholder="https://example.com"
-              />
+              <fieldset className={classes.fieldset}>
+                <Input
+                  id={`url_${currentBlockData.id}`}
+                  label="URL"
+                  name="url"
+                  type="url"
+                  value={currentBlockData.url || ''}
+                  onChange={handleChange}
+                  placeholder="https://example.com"
+                />
+              </fieldset>
             )}
             <div className={classes.blockActions}>
               <Button type="submit">

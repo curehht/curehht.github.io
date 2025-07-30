@@ -22,7 +22,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const helperId = `${checkboxId}-helper`
 
     return (
-      <fieldset className={classes.fieldset}>
+      <div className={classes.component}>
         <div className={classes.checkboxContainer}>
           <input
             ref={ref}
@@ -51,7 +51,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             {helperText}
           </span>
         )}
-      </fieldset>
+      </div>
     )
   }
 )

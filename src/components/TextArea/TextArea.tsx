@@ -32,7 +32,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const helperId = `${textareaId}-helper`
 
     return (
-      <fieldset className={classes.fieldset}>
+      <div className={classes.component}>
         <label htmlFor={textareaId} className={classes.label}>
           {label}
           {required && <span className={classes.required}>*</span>}
@@ -57,7 +57,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {helperText}
           </div>
         )}
-      </fieldset>
+      </div>
     )
   }
 )

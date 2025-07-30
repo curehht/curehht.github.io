@@ -221,33 +221,37 @@ const DocumentForm = ({
   return (
     <div className={classes.documentFormContainer}>
       <form className={classes.documentForm} onSubmit={handleSubmit}>
-        <Input
-          id="title"
-          label="Title"
-          name="title"
-          type="text"
-          required
-          value={currentDocument.title}
-          onChange={(e) => {
-            setCurrentDocument({
-              ...currentDocument,
-              title: e.target.value,
-            })
-          }}
-        />
-        <TextArea
-          id="description"
-          label="Description"
-          name="description"
-          rows={5}
-          value={currentDocument.description}
-          onChange={(e) => {
-            setCurrentDocument({
-              ...currentDocument,
-              description: e.target.value,
-            })
-          }}
-        />
+        <fieldset className={classes.fieldset}>
+          <Input
+            id="title"
+            label="Title"
+            name="title"
+            type="text"
+            required
+            value={currentDocument.title}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                title: e.target.value,
+              })
+            }}
+          />
+        </fieldset>
+        <fieldset className={classes.fieldset}>
+          <TextArea
+            id="description"
+            label="Description"
+            name="description"
+            rows={5}
+            value={currentDocument.description}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                description: e.target.value,
+              })
+            }}
+          />
+        </fieldset>
         <Checkbox
           id="is_published"
           label="Is published"
@@ -260,34 +264,36 @@ const DocumentForm = ({
             })
           }}
         />
-        <div style={{ marginTop: '1rem' }}>
+        <div className={classes.actions}>
           <Button type="submit">Save document</Button>
           <Button type="button" variant="secondary">
             Cancel
           </Button>
         </div>
       </form>
-      <div style={{ marginTop: '1rem' }}>
-        <h3>Blocks:</h3>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => {
-              setIsCollapsed(true)
-            }}
-          >
-            Collapse all
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => setIsCollapsed(false)}
-          >
-            Expand all
-          </Button>
-        </div>
-        <div className={classes.blocksContainer}>
+      <div className={classes.blocksContainer}>
+        {blocksData.length > 0 && <h3>Document blocks:</h3>}
+        {blocksData.length > 0 && (
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                setIsCollapsed(true)
+              }}
+            >
+              Collapse all
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setIsCollapsed(false)}
+            >
+              Expand all
+            </Button>
+          </div>
+        )}
+        <div className={classes.blocks}>
           {currentDocument.id && (
             <>
               {/* Drop zone at the beginning */}

@@ -21,7 +21,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const helperId = `${inputId}-helper`
 
     return (
-      <fieldset className={classes.fieldset}>
+      <div className={classes.component}>
         <label htmlFor={inputId} className={classes.label}>
           {label}
           {required && <span className={classes.required}>*</span>}
@@ -45,7 +45,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {helperText}
           </div>
         )}
-      </fieldset>
+      </div>
     )
   }
 )

@@ -206,9 +206,9 @@
   width: 100%;
 }
 
-.document {
-  max-width: 800px;
+.component {
   margin: 0 auto;
+  font-family: sans-serif;
 
   /** Paragraphs */
   p {

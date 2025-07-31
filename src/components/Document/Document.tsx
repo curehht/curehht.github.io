@@ -20,39 +20,34 @@ type BlockData = {
 
 const Document = ({ document }: { document: DocumentWithBlocks }) => {
   return (
-    <div className={classes.document}>
+    <div className={classes.component}>
       <h1>{document.title}</h1>
-      <p>{document.description}</p>
-      <ul>
-        {document.blocks.map((block) => {
-          switch (block.type) {
-            case 'paragraph':
-              return (
-                <DocumentParagraph key={block.id} content={block.content} />
-              )
-            case 'heading2':
-              return <DocumentHeading2 key={block.id} content={block.content} />
-            case 'heading3':
-              return <DocumentHeading3 key={block.id} content={block.content} />
-            case 'list':
-              return <DocumentList key={block.id} content={block.content} />
-            case 'youtube':
-              return <DocumentYoutube key={block.id} url={block.url} />
-            case 'image':
-              return <DocumentImage key={block.id} url={block.url} />
-            case 'quote':
-              return (
-                <DocumentQuote
-                  key={block.id}
-                  content={block.content}
-                  url={block.url}
-                />
-              )
-            default:
-              return <p>Unknown block type: {block.type}</p>
-          }
-        })}
-      </ul>
+      {document.blocks.map((block) => {
+        switch (block.type) {
+          case 'paragraph':
+            return <DocumentParagraph key={block.id} content={block.content} />
+          case 'heading2':
+            return <DocumentHeading2 key={block.id} content={block.content} />
+          case 'heading3':
+            return <DocumentHeading3 key={block.id} content={block.content} />
+          case 'list':
+            return <DocumentList key={block.id} content={block.content} />
+          case 'youtube':
+            return <DocumentYoutube key={block.id} url={block.url} />
+          case 'image':
+            return <DocumentImage key={block.id} url={block.url} />
+          case 'quote':
+            return (
+              <DocumentQuote
+                key={block.id}
+                content={block.content}
+                url={block.url}
+              />
+            )
+          default:
+            return <p>Unknown block type: {block.type}</p>
+        }
+      })}
     </div>
   )
 }

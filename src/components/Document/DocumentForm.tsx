@@ -25,7 +25,8 @@ type BlockData = {
 }
 
 type DocumentWithBlocks = {
-  id?: string
+  id: string
+  slug: string
   title: string
   description: string
   is_published: boolean
@@ -34,6 +35,7 @@ type DocumentWithBlocks = {
 
 const initialDocument: DocumentWithBlocks = {
   id: '',
+  slug: '',
   title: '',
   description: '',
   is_published: false,
@@ -83,7 +85,7 @@ const DropZone = ({
 const DocumentForm = ({
   document = initialDocument,
 }: {
-  document: DocumentWithBlocks
+  document?: DocumentWithBlocks
 }) => {
   const [currentDocument, setCurrentDocument] =
     useState<DocumentWithBlocks>(document)
@@ -105,6 +107,7 @@ const DocumentForm = ({
           id: currentDocument.id,
           document: {
             title: currentDocument.title,
+            slug: currentDocument.slug,
             description: currentDocument.description,
             is_published: currentDocument.is_published,
           },
@@ -115,6 +118,7 @@ const DocumentForm = ({
         variables: {
           document: {
             title: currentDocument.title,
+            slug: currentDocument.slug,
             description: currentDocument.description,
             is_published: currentDocument.is_published,
           },
@@ -144,16 +148,11 @@ const DocumentForm = ({
   }
 
   const handleDragEnd = () => {
-    console.log('handleDragEnd')
     setDraggedBlockId(null)
   }
 
   const handleDrop = async (e: React.DragEvent, targetPosition: number) => {
     e.preventDefault()
-    console.log(':>> handleDrop', {
-      draggedBlockId,
-      targetPosition,
-    })
 
     if (!draggedBlockId) {
       setDraggedBlockId(null)
@@ -177,14 +176,10 @@ const DocumentForm = ({
       targetIndex -= 1
     }
 
-    console.log('draggedIndex', { draggedIndex, targetIndex, targetPosition })
-
     // Reorder blocks
     const newBlocks = [...blocksData]
     const [draggedBlock] = newBlocks.splice(draggedIndex, 1)
     newBlocks.splice(targetIndex, 0, draggedBlock)
-
-    console.log('newBlocks', newBlocks)
 
     // Update positions
     const updatedBlocks = newBlocks.map((block, index) => ({
@@ -233,6 +228,22 @@ const DocumentForm = ({
               setCurrentDocument({
                 ...currentDocument,
                 title: e.target.value,
+              })
+            }}
+          />
+        </fieldset>
+        <fieldset className={classes.fieldset}>
+          <Input
+            id="slug"
+            label="Slug"
+            name="slug"
+            type="text"
+            required
+            value={currentDocument.slug}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                slug: e.target.value,
               })
             }}
           />

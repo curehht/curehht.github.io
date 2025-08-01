@@ -32,7 +32,9 @@
     "lint": "next lint --fix",
     "drizzle-studio": "drizzle-kit studio",
     "prepare": "husky",
-    "lint-staged": "lint-staged --verbose"
+    "lint-staged": "lint-staged --verbose",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

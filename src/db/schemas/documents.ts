@@ -1,11 +1,16 @@
 import { pgTable, text, integer, boolean } from 'drizzle-orm/pg-core'
 import { users } from './auth'
 import { timestamps, randomId } from './common-fileds'
+import { sql } from 'drizzle-orm'
 
 // Main documents table
 export const documents = pgTable('documents', {
   ...randomId,
   title: text('title').notNull(),
+  slug: text('slug')
+    .notNull()
+    .unique()
+    .default(sql`gen_random_uuid()`),
   description: text('description'),
   author_id: text('author_id').references(() => users.id, {
     onDelete: 'set null',

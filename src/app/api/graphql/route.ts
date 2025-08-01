@@ -25,6 +25,7 @@ import {
   readDocumentBlockById,
   updateDocumentBlock,
   deleteDocumentBlock,
+  readDocumentBySlug,
 } from '@/db/api/documents'
 
 const typeDefs = gql`
@@ -117,6 +118,7 @@ const typeDefs = gql`
   type Document {
     id: String!
     title: String!
+    slug: String!
     description: String
     is_published: Boolean
     blocks: [DocumentBlock]
@@ -124,6 +126,7 @@ const typeDefs = gql`
 
   input DocumentInput {
     title: String!
+    slug: String!
     description: String
     is_published: Boolean
   }
@@ -164,6 +167,7 @@ const typeDefs = gql`
     document(id: String!): Document
 
     documentBlockById(id: String!): DocumentBlock
+    documentBySlug(slug: String!): Document
   }
 
   type Mutation {
@@ -319,10 +323,19 @@ const resolvers = {
     documentBlockById: async (_parent: unknown, { id }) => {
       try {
         const result = await readDocumentBlockById(id)
-        console.log('documentBlockById result :>> ', result)
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch document block', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+    documentBySlug: async (_parent: unknown, { slug }) => {
+      try {
+        const result = await readDocumentBySlug(slug)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch document by slug', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
@@ -578,8 +591,6 @@ const resolvers = {
       { document }: { document: DocumentInput },
       { userData }
     ) => {
-      console.log('document :>> ', document)
-
       try {
         const canDo = isAuthorized({
           userData,
@@ -617,8 +628,6 @@ const resolvers = {
           })
         }
 
-        console.log('updateDocument document :>> ', { id, document })
-
         const result = await updateDocument(id, document)
         return result
       } catch (error) {
@@ -641,7 +650,6 @@ const resolvers = {
         }
 
         const result = await deleteDocument(id)
-        console.log('deleteDocument result :>> ', result)
         return {
           id: result.id,
         }

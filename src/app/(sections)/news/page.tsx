@@ -27,7 +27,7 @@ const NewsPage = async () => {
                 year: 'numeric',
               })}
             </time>
-            <Link className={classes.link} href={`/news/${document.id}`}>
+            <Link className={classes.link} href={`/news/${document.slug}`}>
               {document.title}
             </Link>
           </li>

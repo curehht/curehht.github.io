@@ -25,7 +25,10 @@ export const createDocument = async (
 }
 
 export const readDocuments = async () => {
-  const documentsResponse = await db.select().from(documents)
+  const documentsResponse = await db
+    .select()
+    .from(documents)
+    .orderBy(asc(documents.created_at))
   return documentsResponse
 }
 
@@ -43,6 +46,26 @@ export const readDocumentWithBlocks = async (id: string) => {
     .select()
     .from(documentBlocks)
     .where(eq(documentBlocks.document_id, id))
+    .orderBy(asc(documentBlocks.position))
+
+  return {
+    ...document,
+    blocks,
+  }
+}
+
+export const readDocumentBySlug = async (slug: string) => {
+  const [document] = await db
+    .select()
+    .from(documents)
+    .where(eq(documents.slug, slug))
+
+  if (!document) return null
+
+  const blocks = await db
+    .select()
+    .from(documentBlocks)
+    .where(eq(documentBlocks.document_id, document.id))
     .orderBy(asc(documentBlocks.position))
 
   return {
@@ -77,9 +100,6 @@ export const createDocumentBlock = async ({
   document_id: string
   block: DocumentBlockInput
 }) => {
-  console.log('createDocumentBlock document_id :>> ', document_id)
-  console.log('createDocumentBlock block :>> ', block)
-
   const [blockCreated] = await db
     .insert(documentBlocks)
     .values({
@@ -87,7 +107,6 @@ export const createDocumentBlock = async ({
       document_id,
     })
     .returning()
-  console.log('createDocumentBlock blockCreated :>> ', blockCreated)
 
   return blockCreated
 }

@@ -35,9 +35,6 @@ export const DocumentBlockForm = ({
   onDragEnd,
   isCollapsed,
 }: DocumentBlockFormProps) => {
-  if (blockData.id === '0fed5846-04f5-43ad-bd56-6d64d37a4f6e') {
-    console.log('DocumentBlockForm blockData', blockData)
-  }
   const [currentBlockData, setCurrentBlockData] = useState<BlockData>(blockData)
 
   // Update local state when blockData prop changes

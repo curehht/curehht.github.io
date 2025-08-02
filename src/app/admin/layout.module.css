@@ -1,9 +1,28 @@
+.header {
+  margin-bottom: 20px;
+  background: linear-gradient(
+    to right bottom,
+    oklch(0.97 0.014 254.604) 0%,
+    oklch(0.93 0.034 272.788) 100%
+  );
+  padding: 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .main {
   display: flex;
   flex-direction: row;
   gap: 20px;
+  margin-bottom: 40px;
 }
 
 .aside {
   width: 200px;
+}
+
+.content {
+  flex: 1;
 }

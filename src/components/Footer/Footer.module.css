@@ -1,15 +1,17 @@
-.footer {
+.component {
   display: flex;
   flex-direction: row;
   gap: 20px;
+  padding: 20px;
+  background-color: #f0f0f0;
 }
 
-.footer section {
+.component section {
   width: 33.33%;
 }
 
 @media (max-width: 768px) {
-  .footer {
+  .component {
     flex-direction: column;
   }
 }

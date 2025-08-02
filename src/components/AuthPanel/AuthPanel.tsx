@@ -27,6 +27,13 @@ export const AuthPanel = () => {
                 alt={session?.user?.name as string}
                 width={50}
                 height={50}
+                onError={(e) => {
+                  // fallback to default avatar if image fails to load
+                  const target = e.target as HTMLImageElement
+                  if (target.src !== '/logo.png') {
+                    target.src = '/logo.png'
+                  }
+                }}
               />
             </Link>
             <div className={classes.menu}>

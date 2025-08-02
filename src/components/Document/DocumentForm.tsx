@@ -343,7 +343,7 @@ const DocumentForm = ({
           )}
         </div>
       </div>
-      <div>
+      <div className={classes.addBlock}>
         {!currentDocument.id && <p>Save a new document before adding blocks</p>}
         <Button
           type="button"

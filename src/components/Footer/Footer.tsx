@@ -4,7 +4,7 @@ import classes from './Footer.module.css'
 
 function Footer() {
   return (
-    <footer className={classes.footer}>
+    <footer className={classes.component}>
       <section>
         <h3>официальные источники</h3>
         <ul>

@@ -12,6 +12,7 @@ export const documents = pgTable('documents', {
     .unique()
     .default(sql`gen_random_uuid()`),
   description: text('description'),
+  type: text('type', { enum: ['newsItem', 'article', 'research'] }),
   author_id: text('author_id').references(() => users.id, {
     onDelete: 'set null',
   }),

@@ -10,8 +10,6 @@ export const createDocument = async (
   document: DocumentInput,
   userData: UserData
 ) => {
-  console.log('createDocument :>>', { document, userData })
-
   document.author_id = userData.id
 
   const [documentSaved] = await db

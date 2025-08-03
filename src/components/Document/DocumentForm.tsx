@@ -238,6 +238,8 @@ const DocumentForm = ({
             label="Slug"
             name="slug"
             type="text"
+            prefix="/"
+            placeholder="enter a slug"
             required
             value={currentDocument.slug}
             onChange={(e) => {

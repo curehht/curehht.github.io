@@ -9,11 +9,23 @@ export interface InputProps
   error?: string
   helperText?: string
   required?: boolean
+  prefix?: string
+  placeholder?: string
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, error, helperText, required = false, id, className, ...props },
+    {
+      label,
+      error,
+      helperText,
+      required = false,
+      id,
+      className,
+      prefix,
+      placeholder,
+      ...props
+    },
     ref
   ) => {
     const inputId = id || ''
@@ -26,15 +38,22 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {label}
           {required && <span className={classes.required}>*</span>}
         </label>
-        <input
-          ref={ref}
-          id={inputId}
-          className={`${classes.input} ${error ? classes.error : ''} ${className || ''}`}
-          aria-invalid={error ? 'true' : 'false'}
-          aria-describedby={error ? errorId : helperText ? helperId : undefined}
-          required={required}
-          {...props}
-        />
+        <div className={classes.inputContainer}>
+          {prefix && <span className={classes.prefix}>{prefix}</span>}
+          <input
+            ref={ref}
+            id={inputId}
+            className={`${classes.input} ${error ? classes.error : ''} ${className || ''}`}
+            aria-invalid={error ? 'true' : 'false'}
+            aria-describedby={
+              error ? errorId : helperText ? helperId : undefined
+            }
+            required={required}
+            placeholder={placeholder}
+            {...props}
+          />
+        </div>
+
         {error && (
           <div id={errorId} className={classes.errorMessage} role="alert">
             {error}

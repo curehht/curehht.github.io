@@ -175,6 +175,7 @@ const typeDefs = gql`
     updateNewsArticle(id: Int!, article: NewsArticleInput): NewsArticle
     deleteNewsArticle(id: Int!): NewsArticle
 
+    initRole: Role
     createRole(role: RoleInput): Role
     updateRole(id: String!, role: RoleInput): Role
     deleteRole(id: String!): Role
@@ -428,6 +429,44 @@ const resolvers = {
       }
     },
 
+    initRole: async (_parent: unknown, _args: unknown, { db }) => {
+      try {
+        const usersData = await db.select().from(users)
+
+        if (usersData.length > 1) {
+          throw new GraphQLError('Only one user is allowed to init role', {
+            extensions: { code: 'BAD_USER_INPUT', status: 400 },
+          })
+        } else {
+          const userData = usersData[0]
+          const [result] = await db
+            .insert(roles)
+            .values({
+              name: 'Roles Admin',
+              owner_id: userData.id,
+              permissions: [
+                {
+                  resource: Resources.roles,
+                  actions: [
+                    PermissionAction.create,
+                    PermissionAction.read,
+                    PermissionAction.update,
+                    PermissionAction.delete,
+                  ],
+                },
+              ],
+            })
+            .returning()
+
+          return result
+        }
+      } catch (error) {
+        throw new GraphQLError('Failed to init role', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
     createRole: async (_parent: unknown, { role }, { db, userData }) => {
       try {
         const canDo = isAuthorized({
@@ -440,6 +479,8 @@ const resolvers = {
             extensions: { code: 'UNAUTHORIZED', status: 403 },
           })
         }
+
+        console.log('createRole :>>', { role, userData })
 
         const result = await db
           .insert(roles)
@@ -602,6 +643,8 @@ const resolvers = {
             extensions: { code: 'UNAUTHORIZED', status: 403 },
           })
         }
+
+        console.log('document :>>', { document, userData })
 
         const result = await createDocument(document, userData)
         return result

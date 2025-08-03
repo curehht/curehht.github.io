@@ -1,5 +1,13 @@
 import { gql } from '@apollo/client'
 
+export const INIT_ROLE = gql`
+  mutation InitRole {
+    initRole {
+      id
+    }
+  }
+`
+
 export const CREATE_ROLE = gql`
   mutation CreateRole($role: RoleInput) {
     createRole(role: $role) {

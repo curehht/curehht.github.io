@@ -10,18 +10,16 @@ export const createDocument = async (
   document: DocumentInput,
   userData: UserData
 ) => {
-  const result = await db.transaction(async (tx) => {
-    document.author_id = userData.id
+  console.log('createDocument :>>', { document, userData })
 
-    const [documentSaved] = await tx
-      .insert(documents)
-      .values(document)
-      .returning()
+  document.author_id = userData.id
 
-    return documentSaved
-  })
+  const [documentSaved] = await db
+    .insert(documents)
+    .values(document)
+    .returning()
 
-  return result
+  return documentSaved
 }
 
 export const readDocuments = async () => {

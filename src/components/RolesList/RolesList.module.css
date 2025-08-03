@@ -1,0 +1,9 @@
+.component {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.noRoles {
+  color: #ff0000;
+}

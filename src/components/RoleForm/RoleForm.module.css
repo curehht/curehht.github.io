@@ -1,0 +1,44 @@
+.component {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.resourceRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.resourceRow:hover,
+.resourceRow:nth-child(even):hover {
+  background-color: #b4daff;
+}
+
+.resourceRow:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.resourceName {
+  width: 10em;
+}
+
+.actionCell {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.permissionsTable {
+  width: 100%;
+}

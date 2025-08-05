@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/vercel-postgres'
-import { eq, asc } from 'drizzle-orm'
+import { eq, asc, and } from 'drizzle-orm'
 
 import { documents, documentBlocks } from '@/db/schema'
 import type { DocumentBlockInput, DocumentInput, UserData } from '@/db/types'
@@ -10,22 +10,24 @@ export const createDocument = async (
   document: DocumentInput,
   userData: UserData
 ) => {
-  const result = await db.transaction(async (tx) => {
-    document.author_id = userData.id
+  document.author_id = userData.id
 
-    const [documentSaved] = await tx
-      .insert(documents)
-      .values(document)
-      .returning()
+  const [documentSaved] = await db
+    .insert(documents)
+    .values(document)
+    .returning()
 
-    return documentSaved
-  })
-
-  return result
+  return documentSaved
 }
 
-export const readDocuments = async () => {
-  const documentsResponse = await db.select().from(documents)
+export const readDocuments = async (searchParams: {
+  type?: 'newsItem' | 'article' | 'research'
+}) => {
+  const documentsResponse = await db
+    .select()
+    .from(documents)
+    .where(eq(documents.type, searchParams.type))
+    .orderBy(asc(documents.created_at))
   return documentsResponse
 }
 
@@ -49,6 +51,37 @@ export const readDocumentWithBlocks = async (id: string) => {
     ...document,
     blocks,
   }
+}
+
+export const readDocumentBySlug = async (slug: string) => {
+  const [document] = await db
+    .select()
+    .from(documents)
+    .where(eq(documents.slug, slug))
+
+  if (!document) return null
+
+  const blocks = await db
+    .select()
+    .from(documentBlocks)
+    .where(eq(documentBlocks.document_id, document.id))
+    .orderBy(asc(documentBlocks.position))
+
+  return {
+    ...document,
+    blocks,
+  }
+}
+
+export const readDocumentBySlugAndType = async (
+  slug: string,
+  type: 'newsItem' | 'article' | 'research'
+) => {
+  const [document] = await db
+    .select()
+    .from(documents)
+    .where(and(eq(documents.slug, slug), eq(documents.type, type)))
+  return document
 }
 
 export const updateDocument = async (id: string, document: DocumentInput) => {
@@ -77,9 +110,6 @@ export const createDocumentBlock = async ({
   document_id: string
   block: DocumentBlockInput
 }) => {
-  console.log('createDocumentBlock document_id :>> ', document_id)
-  console.log('createDocumentBlock block :>> ', block)
-
   const [blockCreated] = await db
     .insert(documentBlocks)
     .values({
@@ -87,7 +117,6 @@ export const createDocumentBlock = async ({
       document_id,
     })
     .returning()
-  console.log('createDocumentBlock blockCreated :>> ', blockCreated)
 
   return blockCreated
 }

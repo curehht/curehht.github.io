@@ -19,6 +19,21 @@
   margin-left: 4px;
 }
 
+.prefix {
+  font-size: 2rem;
+  background-color: #f8f9fa;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.inputContainer {
+  display: flex;
+}
+
 .input {
   width: 100%;
   padding: 10px;

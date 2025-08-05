@@ -7,6 +7,7 @@ import {
 import { useState, useEffect } from 'react'
 import { Button, Input, TextArea } from '@/components'
 import classes from './document.module.css'
+import { Select } from '../Select'
 
 type BlockData = {
   id?: string
@@ -35,9 +36,6 @@ export const DocumentBlockForm = ({
   onDragEnd,
   isCollapsed,
 }: DocumentBlockFormProps) => {
-  if (blockData.id === '0fed5846-04f5-43ad-bd56-6d64d37a4f6e') {
-    console.log('DocumentBlockForm blockData', blockData)
-  }
   const [currentBlockData, setCurrentBlockData] = useState<BlockData>(blockData)
 
   // Update local state when blockData prop changes
@@ -155,20 +153,23 @@ export const DocumentBlockForm = ({
           <>
             {!currentBlockData.id && (
               <fieldset className={classes.fieldset}>
-                <label htmlFor="block_type">Type</label>
-                <select
+                <Select
+                  id="type"
+                  label="Type"
                   name="type"
+                  options={[
+                    'paragraph',
+                    'heading2',
+                    'heading3',
+                    'list',
+                    'youtube',
+                    'image',
+                    'quote',
+                  ]}
+                  required
                   onChange={handleTypeChange}
                   value={currentBlockData.type}
-                >
-                  <option value="paragraph">Paragraph</option>
-                  <option value="heading2">Heading 2</option>
-                  <option value="heading3">Heading 3</option>
-                  <option value="list">List</option>
-                  <option value="youtube">Youtube</option>
-                  <option value="image">Image</option>
-                  <option value="quote">Quote</option>
-                </select>
+                />
               </fieldset>
             )}
             {['heading2', 'heading3'].includes(currentBlockData.type) && (

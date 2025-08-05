@@ -2,6 +2,10 @@
 
 import React, { useState } from 'react'
 import { PermissionAction, Resources, Role } from '@/db/types'
+import { Input } from '@/components/Input'
+import { Checkbox } from '@/components/Checkbox'
+import { Button } from '@/components/Button'
+import classes from './RoleForm.module.css'
 
 type RoleFormProps = {
   onSubmit?: (role: {
@@ -86,60 +90,42 @@ const RoleForm: React.FC<RoleFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="role-form">
-      <div className="form-group">
-        <label htmlFor="role-name">Role name</label>
-        <input
-          type="text"
+    <form onSubmit={handleSubmit} className={classes.component}>
+      <fieldset className={classes.formGroup}>
+        <Input
           id="role-name"
           name="name"
-          value={role.name}
+          value={role.name || ''}
           onChange={handleNameChange}
-          className="form-control"
+          label="Role name"
         />
-      </div>
-      <div className="form-group">
-        <table className="permissions-table">
-          <thead>
-            <tr>
-              <th>Resource name</th>
-              <th>Create</th>
-              <th>Read</th>
-              <th>Update</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.values(Resources).map((resource) => (
-              <tr key={resource}>
-                <td>{resource}</td>
-                {Object.values(PermissionAction).map((action) => (
-                  <td key={action}>
-                    <label className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        id={`${id}_${resource}-${action}`}
-                        name={resource}
-                        value={action}
-                        onChange={handleRoleChange}
-                        checked={
-                          role.permissions
-                            ?.find((p) => p.resource === resource)
-                            ?.actions?.includes(action) ?? false
-                        }
-                      />
-                      <span className="checkbox-text">{resource}</span>
-                    </label>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
-      </div>
+      </fieldset>
+      <fieldset className={classes.formGroup}>
+        <div className={classes.permissionsTable}>
+          {Object.values(Resources).map((resource) => (
+            <div key={resource} className={classes.resourceRow}>
+              <span className={classes.resourceName}>{resource}</span>
+              {Object.values(PermissionAction).map((action) => (
+                <span key={action} className={classes.actionCell}>
+                  <Checkbox
+                    id={`${id}_${resource}-${action}`}
+                    name={resource}
+                    value={action}
+                    onChange={handleRoleChange}
+                    checked={
+                      role.permissions
+                        ?.find((p) => p.resource === resource)
+                        ?.actions?.includes(action) ?? false
+                    }
+                    label={action}
+                  />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+        <Button type="submit">Submit</Button>
+      </fieldset>
     </form>
   )
 }

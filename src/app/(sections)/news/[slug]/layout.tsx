@@ -3,7 +3,7 @@ import { readDocuments } from '@/db/api/documents'
 import classes from './page.module.css'
 
 const NewsLayout = async ({ children }: { children: React.ReactNode }) => {
-  const documents = await readDocuments()
+  const documents = await readDocuments({ type: 'newsItem' })
 
   return (
     <div className={classes.layout}>
@@ -15,7 +15,7 @@ const NewsLayout = async ({ children }: { children: React.ReactNode }) => {
               <Link
                 title={document.title}
                 className={classes.link}
-                href={`/news/${document.id}`}
+                href={`/news/${document.slug}`}
               >
                 {`${document.title.slice(0, 80)}...`}
               </Link>

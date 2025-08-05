@@ -20,8 +20,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         pathname
         /* clientPayload */
       ) => {
-        console.log('pathname', pathname)
-
         // Generate a client token for the browser to upload the file
         // ⚠️ Authenticate and authorize users before generating the token.
         // Otherwise, you're allowing anonymous uploads.
@@ -38,8 +36,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         // Get notified of client upload completion
         // ⚠️ This will not work on `localhost` websites,
         // Use ngrok or similar to get the full upload flow
-
-        console.log('blob upload completed', blob, tokenPayload)
 
         try {
           // Run any logic after the file upload completed

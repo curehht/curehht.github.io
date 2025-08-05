@@ -10,10 +10,11 @@ import {
 import { DocumentBlockForm } from './DocumentBlockForm'
 import classes from './document.module.css'
 import { useRouter } from 'next/navigation'
-import { Input } from '../Input'
-import { TextArea } from '../TextArea'
-import { Checkbox } from '../Checkbox'
-import { Button } from '../Button'
+import { Input } from '@/components/Input'
+import { TextArea } from '@/components/TextArea'
+import { Checkbox } from '@/components/Checkbox'
+import { Button } from '@/components/Button'
+import { Select } from '@/components/Select'
 
 type BlockData = {
   id?: string
@@ -25,7 +26,9 @@ type BlockData = {
 }
 
 type DocumentWithBlocks = {
-  id?: string
+  id: string
+  type: string
+  slug: string
   title: string
   description: string
   is_published: boolean
@@ -34,6 +37,8 @@ type DocumentWithBlocks = {
 
 const initialDocument: DocumentWithBlocks = {
   id: '',
+  type: 'newsItem',
+  slug: '',
   title: '',
   description: '',
   is_published: false,
@@ -83,7 +88,7 @@ const DropZone = ({
 const DocumentForm = ({
   document = initialDocument,
 }: {
-  document: DocumentWithBlocks
+  document?: DocumentWithBlocks
 }) => {
   const [currentDocument, setCurrentDocument] =
     useState<DocumentWithBlocks>(document)
@@ -105,6 +110,8 @@ const DocumentForm = ({
           id: currentDocument.id,
           document: {
             title: currentDocument.title,
+            type: currentDocument.type,
+            slug: currentDocument.slug,
             description: currentDocument.description,
             is_published: currentDocument.is_published,
           },
@@ -115,6 +122,8 @@ const DocumentForm = ({
         variables: {
           document: {
             title: currentDocument.title,
+            type: currentDocument.type,
+            slug: currentDocument.slug,
             description: currentDocument.description,
             is_published: currentDocument.is_published,
           },
@@ -144,16 +153,11 @@ const DocumentForm = ({
   }
 
   const handleDragEnd = () => {
-    console.log('handleDragEnd')
     setDraggedBlockId(null)
   }
 
   const handleDrop = async (e: React.DragEvent, targetPosition: number) => {
     e.preventDefault()
-    console.log(':>> handleDrop', {
-      draggedBlockId,
-      targetPosition,
-    })
 
     if (!draggedBlockId) {
       setDraggedBlockId(null)
@@ -177,14 +181,10 @@ const DocumentForm = ({
       targetIndex -= 1
     }
 
-    console.log('draggedIndex', { draggedIndex, targetIndex, targetPosition })
-
     // Reorder blocks
     const newBlocks = [...blocksData]
     const [draggedBlock] = newBlocks.splice(draggedIndex, 1)
     newBlocks.splice(targetIndex, 0, draggedBlock)
-
-    console.log('newBlocks', newBlocks)
 
     // Update positions
     const updatedBlocks = newBlocks.map((block, index) => ({
@@ -222,6 +222,22 @@ const DocumentForm = ({
     <div className={classes.documentFormContainer}>
       <form className={classes.documentForm} onSubmit={handleSubmit}>
         <fieldset className={classes.fieldset}>
+          <Select
+            id="type"
+            label="Type"
+            name="type"
+            options={['no-value', 'newsItem', 'article', 'research']}
+            required
+            value={currentDocument.type || 'no-value'}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                type: e.target.value,
+              })
+            }}
+          />
+        </fieldset>
+        <fieldset className={classes.fieldset}>
           <Input
             id="title"
             label="Title"
@@ -233,6 +249,24 @@ const DocumentForm = ({
               setCurrentDocument({
                 ...currentDocument,
                 title: e.target.value,
+              })
+            }}
+          />
+        </fieldset>
+        <fieldset className={classes.fieldset}>
+          <Input
+            id="slug"
+            label="Slug"
+            name="slug"
+            type="text"
+            prefix="/"
+            placeholder="enter a slug"
+            required
+            value={currentDocument.slug}
+            onChange={(e) => {
+              setCurrentDocument({
+                ...currentDocument,
+                slug: e.target.value,
               })
             }}
           />
@@ -332,7 +366,7 @@ const DocumentForm = ({
           )}
         </div>
       </div>
-      <div>
+      <div className={classes.addBlock}>
         {!currentDocument.id && <p>Save a new document before adding blocks</p>}
         <Button
           type="button"

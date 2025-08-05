@@ -1,5 +1,13 @@
 import { gql } from '@apollo/client'
 
+export const INIT_ROLE = gql`
+  mutation InitRole {
+    initRole {
+      id
+    }
+  }
+`
+
 export const CREATE_ROLE = gql`
   mutation CreateRole($role: RoleInput) {
     createRole(role: $role) {
@@ -173,6 +181,7 @@ export const UPDATE_PAGE_BY_ID = gql`
     updatePage(id: $id, page: $page) {
       id
       slug
+      type
       slug_name
       title
       summary

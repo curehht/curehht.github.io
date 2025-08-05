@@ -25,6 +25,7 @@ import {
   readDocumentBlockById,
   updateDocumentBlock,
   deleteDocumentBlock,
+  readDocumentBySlug,
 } from '@/db/api/documents'
 
 const typeDefs = gql`
@@ -116,14 +117,18 @@ const typeDefs = gql`
 
   type Document {
     id: String!
+    type: String!
     title: String!
+    slug: String!
     description: String
     is_published: Boolean
     blocks: [DocumentBlock]
   }
 
   input DocumentInput {
+    type: String!
     title: String!
+    slug: String!
     description: String
     is_published: Boolean
   }
@@ -164,6 +169,7 @@ const typeDefs = gql`
     document(id: String!): Document
 
     documentBlockById(id: String!): DocumentBlock
+    documentBySlug(slug: String!): Document
   }
 
   type Mutation {
@@ -171,6 +177,7 @@ const typeDefs = gql`
     updateNewsArticle(id: Int!, article: NewsArticleInput): NewsArticle
     deleteNewsArticle(id: Int!): NewsArticle
 
+    initRole: Role
     createRole(role: RoleInput): Role
     updateRole(id: String!, role: RoleInput): Role
     deleteRole(id: String!): Role
@@ -319,10 +326,19 @@ const resolvers = {
     documentBlockById: async (_parent: unknown, { id }) => {
       try {
         const result = await readDocumentBlockById(id)
-        console.log('documentBlockById result :>> ', result)
         return result
       } catch (error) {
         throw new GraphQLError('Failed to fetch document block', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+    documentBySlug: async (_parent: unknown, { slug }) => {
+      try {
+        const result = await readDocumentBySlug(slug)
+        return result
+      } catch (error) {
+        throw new GraphQLError('Failed to fetch document by slug', {
           extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
         })
       }
@@ -415,6 +431,44 @@ const resolvers = {
       }
     },
 
+    initRole: async (_parent: unknown, _args: unknown, { db }) => {
+      try {
+        const usersData = await db.select().from(users)
+
+        if (usersData.length > 1) {
+          throw new GraphQLError('Only one user is allowed to init role', {
+            extensions: { code: 'BAD_USER_INPUT', status: 400 },
+          })
+        } else {
+          const userData = usersData[0]
+          const [result] = await db
+            .insert(roles)
+            .values({
+              name: 'Roles Admin',
+              owner_id: userData.id,
+              permissions: [
+                {
+                  resource: Resources.roles,
+                  actions: [
+                    PermissionAction.create,
+                    PermissionAction.read,
+                    PermissionAction.update,
+                    PermissionAction.delete,
+                  ],
+                },
+              ],
+            })
+            .returning()
+
+          return result
+        }
+      } catch (error) {
+        throw new GraphQLError('Failed to init role', {
+          extensions: { code: 'INTERNAL_SERVER_ERROR', status: 500, error },
+        })
+      }
+    },
+
     createRole: async (_parent: unknown, { role }, { db, userData }) => {
       try {
         const canDo = isAuthorized({
@@ -427,6 +481,8 @@ const resolvers = {
             extensions: { code: 'UNAUTHORIZED', status: 403 },
           })
         }
+
+        console.log('createRole :>>', { role, userData })
 
         const result = await db
           .insert(roles)
@@ -578,8 +634,6 @@ const resolvers = {
       { document }: { document: DocumentInput },
       { userData }
     ) => {
-      console.log('document :>> ', document)
-
       try {
         const canDo = isAuthorized({
           userData,
@@ -591,6 +645,8 @@ const resolvers = {
             extensions: { code: 'UNAUTHORIZED', status: 403 },
           })
         }
+
+        console.log('document :>>', { document, userData })
 
         const result = await createDocument(document, userData)
         return result
@@ -617,8 +673,6 @@ const resolvers = {
           })
         }
 
-        console.log('updateDocument document :>> ', { id, document })
-
         const result = await updateDocument(id, document)
         return result
       } catch (error) {
@@ -641,7 +695,6 @@ const resolvers = {
         }
 
         const result = await deleteDocument(id)
-        console.log('deleteDocument result :>> ', result)
         return {
           id: result.id,
         }

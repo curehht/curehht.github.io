@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 const NewsPage = async () => {
-  const documents = await readDocuments()
+  const documents = await readDocuments({ type: 'newsItem' })
 
   return (
     <div className={classes.component}>
@@ -27,7 +27,7 @@ const NewsPage = async () => {
                 year: 'numeric',
               })}
             </time>
-            <Link className={classes.link} href={`/news/${document.id}`}>
+            <Link className={classes.link} href={`/news/${document.slug}`}>
               {document.title}
             </Link>
           </li>

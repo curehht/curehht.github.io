@@ -1,0 +1,14 @@
+.component {
+  background-color: #f8f9fa;
+  padding: 1rem;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  padding: 0 0 1rem 0;
+}

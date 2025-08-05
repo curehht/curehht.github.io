@@ -51,6 +51,7 @@ export interface Page {
 
 export interface DocumentInput {
   title: string
+  slug: string
   description: string
   is_published: boolean
   blocks: DocumentBlockInput[]

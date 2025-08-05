@@ -14,6 +14,9 @@ const MainNavigation = ({ pages }: MainNavigationProps) => {
       className={classes.component}
     >
       <ul>
+        <li>
+          <Link href="/">Главная</Link>
+        </li>
         {pages.map((page: { slug: string; slug_name: string }) => (
           <li key={page.slug}>
             <Link href={`/${page.slug}`}>{page.slug_name}</Link>

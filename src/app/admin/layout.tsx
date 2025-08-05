@@ -24,11 +24,11 @@ export default async function AdminLayout({
   return (
     <SessionProvider>
       <ApolloWrapper>
-        <header>
+        <header className={classes.header}>
           <AuthPanel />
         </header>
         <main className={classes.main}>
-          <aside>
+          <aside className={classes.aside}>
             <ul>
               <li>
                 <Link href="/admin">Главная</Link>
@@ -41,7 +41,7 @@ export default async function AdminLayout({
               </li>
             </ul>
           </aside>
-          {children}
+          <div className={classes.content}>{children}</div>
         </main>
       </ApolloWrapper>
     </SessionProvider>

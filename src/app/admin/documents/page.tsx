@@ -5,7 +5,7 @@ import { DocumentDelete } from '@/components'
 import classes from './page.module.css'
 
 async function DocumentsPage() {
-  const documents = await readDocuments()
+  const documents = await readDocuments({ type: 'newsItem' })
 
   return (
     <article className={classes.container}>

@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/vercel-postgres'
-import { eq, asc } from 'drizzle-orm'
+import { eq, asc, and } from 'drizzle-orm'
 
 import { documents, documentBlocks } from '@/db/schema'
 import type { DocumentBlockInput, DocumentInput, UserData } from '@/db/types'
@@ -20,10 +20,13 @@ export const createDocument = async (
   return documentSaved
 }
 
-export const readDocuments = async () => {
+export const readDocuments = async (searchParams: {
+  type?: 'newsItem' | 'article' | 'research'
+}) => {
   const documentsResponse = await db
     .select()
     .from(documents)
+    .where(eq(documents.type, searchParams.type))
     .orderBy(asc(documents.created_at))
   return documentsResponse
 }
@@ -68,6 +71,17 @@ export const readDocumentBySlug = async (slug: string) => {
     ...document,
     blocks,
   }
+}
+
+export const readDocumentBySlugAndType = async (
+  slug: string,
+  type: 'newsItem' | 'article' | 'research'
+) => {
+  const [document] = await db
+    .select()
+    .from(documents)
+    .where(and(eq(documents.slug, slug), eq(documents.type, type)))
+  return document
 }
 
 export const updateDocument = async (id: string, document: DocumentInput) => {

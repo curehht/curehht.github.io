@@ -117,6 +117,7 @@ const typeDefs = gql`
 
   type Document {
     id: String!
+    type: String!
     title: String!
     slug: String!
     description: String
@@ -125,6 +126,7 @@ const typeDefs = gql`
   }
 
   input DocumentInput {
+    type: String!
     title: String!
     slug: String!
     description: String

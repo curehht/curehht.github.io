@@ -181,6 +181,7 @@ export const UPDATE_PAGE_BY_ID = gql`
     updatePage(id: $id, page: $page) {
       id
       slug
+      type
       slug_name
       title
       summary

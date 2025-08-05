@@ -11,12 +11,10 @@ export const isAuthorized = ({
   resourceAuthorId?: string
   action: PermissionAction
 }) => {
-  return true
-
   if (!userData) return false
 
   // TODO: remove this
-  if (userData.email === 'alex.baumgertnert@gmail.com') return true
+  // if (userData.email === 'alex.baumgertnert@gmail.com') return true
 
   // Check if user has permission to perform action on resource
   if (

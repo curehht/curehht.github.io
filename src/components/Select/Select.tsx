@@ -1,4 +1,4 @@
-import classes from './select.module.css'
+import classes from './Select.module.css'
 
 type SelectProps = {
   id: string

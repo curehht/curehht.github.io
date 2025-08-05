@@ -3,7 +3,7 @@ import { readDocuments } from '@/db/api/documents'
 import classes from './page.module.css'
 
 const NewsLayout = async ({ children }: { children: React.ReactNode }) => {
-  const documents = await readDocuments()
+  const documents = await readDocuments({ type: 'newsItem' })
 
   return (
     <div className={classes.layout}>

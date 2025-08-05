@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 const NewsPage = async () => {
-  const documents = await readDocuments()
+  const documents = await readDocuments({ type: 'newsItem' })
 
   return (
     <div className={classes.component}>

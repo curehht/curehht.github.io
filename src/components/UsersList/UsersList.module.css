@@ -10,5 +10,18 @@
 
 .item {
   display: flex;
-  padding: 0 0 1rem 0;
+  padding: 1rem;
+}
+
+.item:hover {
+  background-color: #e9ecef;
+}
+
+.email {
+  margin: 0;
+  min-width: 350px;
+}
+
+.roles {
+  margin: 0;
 }

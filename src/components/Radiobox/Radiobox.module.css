@@ -1,0 +1,9 @@
+.component {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label {
+  margin: 0;
+}

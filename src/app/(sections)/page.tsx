@@ -15,18 +15,16 @@ export default async function IndexPage() {
   return (
     <div className="IndexPage">
       <article>
-        <main>
-          <section aria-label="Синонимы">
-            <h2>Новости</h2>
-            <ul>
-              {documents.map((document) => (
-                <li key={document.id}>
-                  <Link href={`/news/${document.slug}`}>{document.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </main>
+        <section aria-label="Синонимы">
+          <h2>Новости</h2>
+          <ul>
+            {documents.map((document) => (
+              <li key={document.id}>
+                <Link href={`/news/${document.slug}`}>{document.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       </article>
     </div>
   )

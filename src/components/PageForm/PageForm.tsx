@@ -4,6 +4,7 @@ import classes from './PageForm.module.css'
 import { Input } from '../Input'
 import { TextArea } from '../TextArea'
 import { Button } from '../Button'
+import { TinyMCEEditor } from './TinyMCEEditor'
 
 export type PageProps = {
   id?: string
@@ -83,13 +84,13 @@ export const PageForm = ({
         />
       </fieldset>
       <fieldset>
-        <TextArea
+        <TinyMCEEditor
           id="content"
           name="content"
           value={formPage.content}
-          onChange={handleChange}
+          onChange={(value) => setFormPage({ ...formPage, content: value })}
           label="Content"
-          rows={10}
+          rows={15}
         />
       </fieldset>
 

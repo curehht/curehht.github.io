@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
 import classes from './PageForm.module.css'
+import { Input } from '../Input'
+import { TextArea } from '../TextArea'
+import { Button } from '../Button'
 
 export type PageProps = {
   id?: string
@@ -43,65 +46,59 @@ export const PageForm = ({
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
       <fieldset>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
+        <Input
           id="title"
           name="title"
           value={formPage.title}
           onChange={handleChange}
+          label="Title"
         />
       </fieldset>
       <fieldset>
-        <label htmlFor="slug">Slug</label>
-        <input
-          type="text"
+        <Input
           id="slug"
           name="slug"
           value={formPage.slug}
           onChange={handleChange}
-          required
+          label="Slug"
         />
       </fieldset>
       <fieldset>
-        <label htmlFor="slug_name">Slug Name</label>
-        <input
-          type="text"
+        <Input
           id="slug_name"
           name="slug_name"
           value={formPage.slug_name}
           onChange={handleChange}
-          required
+          label="Slug Name"
         />
       </fieldset>
       <fieldset>
-        <label htmlFor="summary">Summary</label>
-        <textarea
+        <TextArea
           id="summary"
           name="summary"
           value={formPage.summary}
           onChange={handleChange}
+          label="Summary"
           rows={3}
-          required
         />
       </fieldset>
       <fieldset>
-        <label>Content</label>
-        <textarea
+        <TextArea
           id="content"
           name="content"
           value={formPage.content}
           onChange={handleChange}
+          label="Content"
           rows={10}
         />
       </fieldset>
 
       <div className={classes.buttons}>
-        <button type="submit">Save</button>
+        <Button type="submit">Save</Button>
         {onDelete && (
-          <button data-delete type="button" onClick={handleDelete}>
+          <Button data-delete type="button" onClick={handleDelete}>
             Delete
-          </button>
+          </Button>
         )}
       </div>
     </form>

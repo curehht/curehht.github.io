@@ -1,10 +1,11 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import type { Editor } from '@tinymce/tinymce-react'
 
 // Dynamically import TinyMCE to avoid SSR issues
-const Editor = dynamic(
+const TinyMCEEditorComponent = dynamic(
   () => import('@tinymce/tinymce-react').then((mod) => mod.Editor),
   {
     ssr: false,
@@ -18,7 +19,6 @@ const Editor = dynamic(
 
 interface TinyMCEEditorProps {
   id: string
-  name: string
   value: string
   onChange: (value: string) => void
   label: string
@@ -27,13 +27,12 @@ interface TinyMCEEditorProps {
 
 export const TinyMCEEditor = ({
   id,
-  name,
   value,
   onChange,
   label,
   rows = 10,
 }: TinyMCEEditorProps) => {
-  const editorRef = useRef<any>(null)
+  const editorRef = useRef<Editor | null>(null)
 
   const handleEditorChange = (content: string) => {
     onChange(content)
@@ -44,7 +43,7 @@ export const TinyMCEEditor = ({
       <label htmlFor={id} className="form-label">
         {label}
       </label>
-      <Editor
+      <TinyMCEEditorComponent
         id={id}
         value={value}
         onEditorChange={handleEditorChange}
@@ -101,7 +100,7 @@ export const TinyMCEEditor = ({
           elementpath: false,
           resize: true,
           paste_data_images: true, // Allow pasting images
-          images_upload_handler: (blobInfo, progress) => {
+          images_upload_handler: () => {
             // Handle image uploads here if needed
             return new Promise((resolve) => {
               // For now, just return a placeholder

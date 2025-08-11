@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import classes from './document.module.css'
 
 type DocumentWithBlocks = {
@@ -123,7 +124,7 @@ function DocumentYoutube({ url }: { url: string }) {
 function DocumentImage({ url }: { url: string }) {
   return (
     <div>
-      <img src={url} width={300} />
+      <Image src={url} width={300} height={300} alt="Document image" />
     </div>
   )
 }

@@ -86,7 +86,6 @@ export const PageForm = ({
       <fieldset>
         <TinyMCEEditor
           id="content"
-          name="content"
           value={formPage.content}
           onChange={(value) => setFormPage({ ...formPage, content: value })}
           label="Content"

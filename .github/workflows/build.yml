@@ -20,8 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Remove admin folder from static export
-        run: rm -rf ./src/app/admin
+      - name: Remove folders from static export
+        run: rm -rf ./src/app/admin && rm -rf ./src/app/api/auth && rm -rf ./src/app/api/upload
 
       - name: Build and Static HTML Export
         run: npm run build

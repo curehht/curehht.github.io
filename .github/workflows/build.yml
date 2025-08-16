@@ -27,6 +27,7 @@ jobs:
         run: npm run build
         env:
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          NEXT_EXPORT_TYPE: export
 
       - name: Enable custom domain
         run: cp CNAME ./out

@@ -4,6 +4,7 @@ const { withSentryConfig } = require('@sentry/nextjs')
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  output: 'export',
   images: {
     remotePatterns: [
       {
@@ -21,6 +22,10 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
+}
+
+if (process.env.NEXT_EXPORT_TYPE === 'export') {
+  nextConfig.output = 'export'
 }
 
 // Only apply Sentry config in production

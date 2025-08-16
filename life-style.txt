@@ -1,0 +1,67 @@
+1:"$Sreact.fragment"
+4:I[9766,[],""]
+5:I[8924,[],""]
+7:I[9390,[],"OutletBoundary"]
+9:I[5278,[],"AsyncMetadataOutlet"]
+b:I[9390,[],"ViewportBoundary"]
+d:I[9390,[],"MetadataBoundary"]
+e:"$Sreact.suspense"
+10:I[2030,["219","static/chunks/app/global-error-083640dbcdd7382b.js"],"default"]
+:HL["/_next/static/css/7bea3c8b8deae1cb.css","style"]
+:HL["/_next/static/css/a454a4527bb3c91d.css","style"]
+:HL["/_next/static/css/1b4665dc839e8a7d.css","style"]
+0:{"P":null,"b":"gfP7-Id_OB0DJh3ojZYAc","p":"","c":["","life-style"],"i":false,"f":[[["",{"children":["(sections)",{"children":[["slug","life-style","d"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/7bea3c8b8deae1cb.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/css/a454a4527bb3c91d.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],"$L2"]}],{"children":["(sections)",["$","$1","c",{"children":[null,"$L3"]}],{"children":[["slug","life-style","d"],["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L6",[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/1b4665dc839e8a7d.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","$L7",null,{"children":["$L8",["$","$L9",null,{"promise":"$@a"}]]}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$Lb",null,{"children":"$Lc"}],null],["$","$Ld",null,{"children":["$","div",null,{"hidden":true,"children":["$","$e",null,{"fallback":null,"children":"$Lf"}]}]}]]}],false]],"m":"$undefined","G":["$10",[]],"s":false,"S":true}
+11:I[8854,["619","static/chunks/619-e0ffb04fa2125232.js","692","static/chunks/692-10a74dc5f94e702b.js","842","static/chunks/842-00ebbc0f74a3b146.js","264","static/chunks/264-4d92b78f27432f65.js","583","static/chunks/app/(sections)/layout-5210a5d56efae41c.js"],"SpeedInsights"]
+12:I[8955,["619","static/chunks/619-e0ffb04fa2125232.js","692","static/chunks/692-10a74dc5f94e702b.js","842","static/chunks/842-00ebbc0f74a3b146.js","264","static/chunks/264-4d92b78f27432f65.js","583","static/chunks/app/(sections)/layout-5210a5d56efae41c.js"],"Analytics"]
+2:["$","html",null,{"lang":"ru","children":["$","body",null,{"children":[["$","main",null,{"children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","$L11",null,{}],["$","$L12",null,{}],["$","footer",null,{"className":"Footer_component__4u7Hn","children":[["$","section",null,{"children":[["$","h3",null,{"children":"официальные источники"}],["$","ul",null,{"children":[["$","li",null,{"children":["Сайт ",["$","a",null,{"href":"https://curehht.org","children":"curehht.org"}]]}],["$","li",null,{"children":["Ютуб"," ",["$","a",null,{"href":"https://www.youtube.com/user/HHTFoundation","children":"HHTFoundation"}]]}],["$","li",null,{"children":["Facebook"," ",["$","a",null,{"href":"https://www.facebook.com/hht.org","children":"facebook.com/hht.org"}]]}]]}]]}],["$","section",null,{"children":[["$","h3",null,{"children":"дополнительно"}],["$","ul",null,{"children":[["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/5484437834/","children":"HHT Awareness"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/152612813303/","children":"HHT International"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/L.W.H.H.Tphotosvideos/","children":"Living with HHT Read our stories & see our Photos & More."}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/1503220203260718/","children":"Women with HHT"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/349798917563/","children":"HHT or (Osler-Weber-Rendu Syndrome)"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/238198683185208/","children":"HHT WARRIORS"}]}]]}]]}],["$","section",null,{"children":[["$","h3",null,{"children":"на русском"}],["$","ul",null,{"children":[["$","li",null,{"children":["$","a",null,{"href":"https://www.facebook.com/groups/curehhtru/","children":"facebook/curehhtru"}]}],["$","li",null,{"children":["$","a",null,{"href":"https://vk.com/curehhtru","children":"vk.com/curehhtru"}]}]]}],["$","h3",null,{"children":"код"}],["$","p",null,{"children":["$","a",null,{"href":"https://github.com/curehht/curehht.github.io","children":"curehht.github.io"}]}]]}]]}]]}]}]
+c:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+8:null
+a:{"metadata":[["$","title","0",{"children":"Образ жизни"}]],"error":null,"digest":"$undefined"}
+f:"$a:metadata"
+13:T101a,<h2>Продукты и пищевые добавки, разжижающие кровь</h2>
+<div>
+<h2>Пищевые добавки и продукты</h2>
+<p>При заболевании HHT нельзя принимать добавки:</p>
+<ul>
+<li>витамин E</li>
+<li>Омега 3</li>
+<li>глицин</li>
+<li>Салициловая кислота:
+<ul>
+<li>кайенский перец,</li>
+<li>корица,</li>
+<li>порошок карри,</li>
+<li>укроп,</li>
+<li>имбирь,</li>
+<li>лакрица,</li>
+<li>орегано,</li>
+<li>паприка,</li>
+<li>мята перечная,</li>
+<li>тимьян</li>
+<li>куркума</li>
+</ul>
+</li>
+</ul>
+<p>Между тем есть фрукты, которые могут помочь разжижению крови. К ним относятся:</p>
+<ul>
+<li>черника,</li>
+<li>вишня,</li>
+<li>клюква,</li>
+<li>виноград,</li>
+<li>апельсины,</li>
+<li>чернослив,</li>
+<li>изюм,</li>
+<li>клубника,</li>
+<li>мандарины.</li>
+</ul>
+<p>Есть несколько видов рыб, которые уменьшают свертываемость крови. В их числе альбакорский тунец, анчоусы, сельдь, озерная форель, скумбрия и лосось. Основной причиной этого является высокий уровень омега-3 жирных кислот.</p>
+<p>Хотя приведенный выше список не является полным, есть и другие продукты, включая оливковое масло, чеснок и лук, которые могут способствовать разжижению крови.</p>
+<p>Есть много трав и специй, которые потенциально хороши в разжижении крови. Эти продукты богаты салициловой кислотой, витамином Е, омега-3 жирными кислотами (Омега-3 является одним из наиболее распространенных природных разжижителей крови; он содержится в рыбьем жире) и некоторыми антибиотиками.</p>
+<p>Интересно, что все продукты, богатые витамином Е, не всегда разжижают кровь. Например, некоторые зеленые овощи, такие как шпинат и брокколи, содержат большое количество витамина К наряду с витамином Е.</p>
+<p>Травы, богатые аспирином (салицилат /салициловая кислота), включают мяту перечную, имбирь, паприку, листья карри и порошок карри, тимьян, корицу, укроп, орегано, куркуму и лакрицу. Имбирь, листья карри и орегано-самые распространенные приправы, используемые в приготовлении фастфуда. Те, у кого есть нарушения кровоточивости, должны избегать этих приправ.</p>
+<p>В австралийском исследовании имбирь показал, что он ингибирует образование сгустков крови, вызванное арахидоновой кислотой (полиненасыщенной жирной кислотой, присутствующей в мембранах у человека).</p>
+<p>Все фрукты в ягодном семействе, включая клубнику, клюкву и чернику, являются значительными разжижителями крови. Апельсины, мандарины, вишни, изюм, чернослив, ананасы и помидоры работают таким же образом.</p>
+</div>6:["$","main",null,{"className":"page_main__zzejP","children":["$","article",null,{"className":"page_article__PrSMj","children":[["$","h1",null,{"className":"page_title__4LQBC","children":"Образ жизни"}],["$","div",null,{"className":"page_content__7KiB8","dangerouslySetInnerHTML":{"__html":"$13"}}]]}]}]
+14:I[2619,["619","static/chunks/619-e0ffb04fa2125232.js","676","static/chunks/app/(sections)/page-9331e3b0483e7c98.js"],""]
+15:I[5977,["619","static/chunks/619-e0ffb04fa2125232.js","692","static/chunks/692-10a74dc5f94e702b.js","842","static/chunks/842-00ebbc0f74a3b146.js","264","static/chunks/264-4d92b78f27432f65.js","583","static/chunks/app/(sections)/layout-5210a5d56efae41c.js"],"ApolloWrapper"]
+3:["$","div",null,{"className":"Layout","children":[["$","header",null,{"children":["$","nav",null,{"role":"navigation","aria-label":"Главная навигация","className":"MainNavigation_component__5PrCb","children":["$","ul",null,{"children":[["$","li",null,{"children":["$","$L14",null,{"href":"/","children":"Главная"}]}],[["$","li","about",{"children":["$","$L14",null,{"href":"/about","children":"О болезни"}]}],["$","li","life-style",{"children":["$","$L14",null,{"href":"/life-style","children":"Образ жизни"}]}],["$","li","diagnostics",{"children":["$","$L14",null,{"href":"/diagnostics","children":"Диагностика"}]}],["$","li","treatment",{"children":["$","$L14",null,{"href":"/treatment","children":"Лечение"}]}]]]}]}]}],["$","$L15",null,{"children":[["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":"$2:props:children:props:children:0:props:children:props:notFound:0:1:props:style","children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":"$2:props:children:props:children:0:props:children:props:notFound:0:1:props:children:props:children:1:props:style","children":404}],["$","div",null,{"style":"$2:props:children:props:children:0:props:children:props:notFound:0:1:props:children:props:children:2:props:style","children":["$","h2",null,{"style":"$2:props:children:props:children:0:props:children:props:notFound:0:1:props:children:props:children:2:props:children:props:style","children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L11",null,{}],["$","$L12",null,{}]]}]]}]

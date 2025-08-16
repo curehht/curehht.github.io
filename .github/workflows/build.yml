@@ -28,9 +28,6 @@ jobs:
         env:
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
 
-      - name: Disable Jekyl # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
-        run: touch ./out/.nojekyll
-
       - name: Enable custom domain
         run: cp CNAME ./out
 

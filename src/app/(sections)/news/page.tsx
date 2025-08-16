@@ -1,8 +1,9 @@
 import { readDocuments } from '@/db/api/documents'
 import Link from 'next/link'
+import { Metadata } from 'next'
 import classes from './page.module.css'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Новости',
   description: 'Новости о болезни Рандю-Ослера',
   keywords: 'новости, болезнь Рандю-Ослера',

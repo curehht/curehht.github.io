@@ -1,4 +1,4 @@
-import { readDocumentBySlug } from '@/db/api/documents'
+import { readDocumentBySlug, readDocumentsSlugs } from '@/db/api/documents'
 import { Document } from '@/components'
 import { Metadata } from 'next'
 
@@ -13,6 +13,11 @@ export const generateMetadata = async ({
     title: document.title,
     description: document.description,
   }
+}
+
+export async function generateStaticParams() {
+  const documentsSlugs = await readDocumentsSlugs()
+  return documentsSlugs
 }
 
 const NewsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {

@@ -31,6 +31,13 @@ export const readDocuments = async (searchParams: {
   return documentsResponse
 }
 
+export const readDocumentsSlugs = async () => {
+  const documentsSlugs = await db
+    .select({ slug: documents.slug })
+    .from(documents)
+  return documentsSlugs
+}
+
 export const readDocumentWithBlocks = async (id: string) => {
   // First get the document
   const [document] = await db

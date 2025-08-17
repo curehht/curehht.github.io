@@ -40,6 +40,6 @@
   }
 
   .layout {
-    width: 100%;
+    width: initial;
   }
 }

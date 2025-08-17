@@ -8,11 +8,7 @@ interface MainNavigationProps {
 
 const MainNavigation = ({ pages }: MainNavigationProps) => {
   return (
-    <nav
-      role="navigation"
-      aria-label="Главная навигация"
-      className={classes.component}
-    >
+    <nav aria-label="Главная навигация" className={classes.component}>
       <ul>
         <li>
           <Link href="/">Главная</Link>

@@ -17,7 +17,7 @@ const NewsLayout = async ({ children }: { children: React.ReactNode }) => {
                 className={classes.link}
                 href={`/news/${document.slug}`}
               >
-                {`${document.title.slice(0, 80)}...`}
+                {`${document.title.slice(0, 80)}`}
               </Link>
             </li>
           ))}

@@ -5,22 +5,26 @@ import { ApolloWrapper } from '@/components/Apollo'
 import { MainNavigation } from '@/components'
 import { getPagesSlugs } from '@/db/api/pages'
 
+import classes from './layout.module.css'
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pagesSlugs = await getPagesSlugs()
 
   return (
-    <div className="Layout">
-      <header>
+    <div className={classes.layout}>
+      <div className={classes.leftColumn}>
         <MainNavigation pages={pagesSlugs || []} />
-      </header>
+      </div>
 
-      <ApolloWrapper>
-        {children}
-        <SpeedInsights />
-        <Analytics />
-      </ApolloWrapper>
+      <div className={classes.rightColumn}>
+        <ApolloWrapper>
+          {children}
+          <SpeedInsights />
+          <Analytics />
+        </ApolloWrapper>
+      </div>
     </div>
   )
 }

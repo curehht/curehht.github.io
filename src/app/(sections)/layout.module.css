@@ -1,0 +1,25 @@
+.layout {
+  display: grid;
+  gap: 0 2rem;
+  grid-template-columns: auto 4fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 'leftColumn rightColumn';
+}
+
+.leftColumn {
+  grid-area: leftColumn;
+}
+
+.rightColumn {
+  grid-area: rightColumn;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'leftColumn'
+      'rightColumn';
+  }
+}

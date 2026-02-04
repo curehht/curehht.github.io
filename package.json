@@ -7,7 +7,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@apollo/client-integration-nextjs": "^0.12.2",
-    "@apollo/server": "^5.0.0",
+    "@apollo/server": "^5.4.0",
     "@as-integrations/next": "^4.0.0",
     "@auth/drizzle-adapter": "^1.10.0",
     "@sentry/nextjs": "^9.42.1",

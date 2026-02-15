@@ -1,11 +1,11 @@
 import Link from 'next/link'
 
-import { readDocuments } from '@/db/api/documents'
 import { DocumentDelete } from '@/components'
-import classes from './page.module.css'
-import { auth } from '@/auth'
+import { getDocuments } from '@/controllers/documents'
 import { readUserPermissions } from '@/db/api/roles'
 import { PermissionAction, Resources } from '@/db/types'
+import classes from './page.module.css'
+import { auth } from '@/auth'
 
 async function DocumentsPage() {
   const session = await auth()
@@ -19,7 +19,7 @@ async function DocumentsPage() {
     return <div>You are not authorized to work with documents</div>
   }
 
-  const documents = await readDocuments({ type: 'newsItem' })
+  const documents = await getDocuments('newsItem')
 
   return (
     <article className={classes.container}>

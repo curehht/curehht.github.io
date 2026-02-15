@@ -1,6 +1,6 @@
 import { pgTable, text, integer, boolean } from 'drizzle-orm/pg-core'
 import { users } from './auth'
-import { timestamps, randomId } from './common-fileds'
+import { timestamps, randomId } from './common-fields'
 import { sql } from 'drizzle-orm'
 
 // Main documents table

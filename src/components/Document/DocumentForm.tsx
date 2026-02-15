@@ -1,12 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useMutation } from '@apollo/client'
 import {
-  CREATE_DOCUMENT,
-  UPDATE_DOCUMENT_BY_ID,
-  UPDATE_DOCUMENT_BLOCK_BY_ID,
-} from '@/db/queries-qraphql'
+  createDocument,
+  updateDocument,
+  updateDocumentBlock,
+} from '@/db/api/documents'
 import { DocumentBlockForm } from './DocumentBlockForm'
 import classes from './document.module.css'
 import { useRouter } from 'next/navigation'
@@ -97,40 +96,29 @@ const DocumentForm = ({
   )
   const [draggedBlockId, setDraggedBlockId] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const [createDocument] = useMutation(CREATE_DOCUMENT)
-  const [updateDocument] = useMutation(UPDATE_DOCUMENT_BY_ID)
-  const [updateDocumentBlock] = useMutation(UPDATE_DOCUMENT_BLOCK_BY_ID)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (currentDocument.id) {
-      updateDocument({
-        variables: {
-          id: currentDocument.id,
-          document: {
-            title: currentDocument.title,
-            type: currentDocument.type,
-            slug: currentDocument.slug,
-            description: currentDocument.description,
-            is_published: currentDocument.is_published,
-          },
-        },
+      await updateDocument(currentDocument.id, {
+        title: currentDocument.title,
+        type: currentDocument.type,
+        slug: currentDocument.slug,
+        description: currentDocument.description ?? undefined,
+        is_published: currentDocument.is_published,
       })
     } else {
       const result = await createDocument({
-        variables: {
-          document: {
-            title: currentDocument.title,
-            type: currentDocument.type,
-            slug: currentDocument.slug,
-            description: currentDocument.description,
-            is_published: currentDocument.is_published,
-          },
-        },
+        title: currentDocument.title,
+        type: currentDocument.type,
+        slug: currentDocument.slug,
+        description: currentDocument.description ?? undefined,
+        is_published: currentDocument.is_published,
       })
-
-      router.push(`/admin/documents/${result.data.createDocument.id}`)
+      if (result.success && result.id) {
+        router.push(`/admin/documents/${result.id}`)
+      }
     }
   }
 
@@ -198,21 +186,23 @@ const DocumentForm = ({
     // Update positions in database for saved blocks
     const savedBlocks = updatedBlocks.filter((block) => block.id)
     for (const block of savedBlocks) {
-      try {
-        await updateDocumentBlock({
-          variables: {
-            id: block.id,
-            block: {
-              position: block.position,
-              type: block.type,
-              title: block.title,
-              content: block.content,
-              url: block.url,
-            },
-          },
-        })
-      } catch (error) {
-        console.error('Failed to update block position:', error)
+      if (!block.id) continue
+      const result = await updateDocumentBlock(block.id, {
+        position: block.position,
+        type: block.type as
+          | 'paragraph'
+          | 'heading2'
+          | 'heading3'
+          | 'list'
+          | 'youtube'
+          | 'image'
+          | 'quote',
+        title: block.title ?? '',
+        content: block.content,
+        url: block.url,
+      })
+      if (!result.success) {
+        console.error('Failed to update block position', result.error)
         setDraggedBlockId(null)
       }
     }

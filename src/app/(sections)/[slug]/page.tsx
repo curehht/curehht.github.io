@@ -18,9 +18,10 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { slug } = await params
   const page = await getPageBySlug(slug)
+  if (!page) return { title: 'Not found' }
   return {
     title: page.title,
-    description: page.summary,
+    description: page.summary ?? undefined,
     keywords: '',
   }
 }
@@ -44,7 +45,7 @@ export default async function SlugPage({
         <h1 className={classes.title}>{page.title}</h1>
         <div
           className={classes.content}
-          dangerouslySetInnerHTML={{ __html: page.content }}
+          dangerouslySetInnerHTML={{ __html: page.content ?? '' }}
         />
       </article>
     </main>

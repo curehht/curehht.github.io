@@ -1,7 +1,3 @@
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics } from '@vercel/analytics/next'
-
-import { ApolloWrapper } from '@/components/Apollo'
 import { MainNavigation } from '@/components'
 import { getPagesSlugs } from '@/db/api/pages'
 
@@ -18,13 +14,7 @@ export default async function RootLayout({
         <MainNavigation pages={pagesSlugs || []} />
       </div>
 
-      <div className={classes.rightColumn}>
-        <ApolloWrapper>
-          {children}
-          <SpeedInsights />
-          <Analytics />
-        </ApolloWrapper>
-      </div>
+      <div className={classes.rightColumn}>{children}</div>
     </div>
   )
 }

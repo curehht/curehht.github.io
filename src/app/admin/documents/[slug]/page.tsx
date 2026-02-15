@@ -1,8 +1,9 @@
-import { readDocumentWithBlocks } from '@/db/api/documents'
 import { DocumentForm } from '@/components'
+import { getDocumentById } from '@/controllers/documents'
 import { readUserPermissions } from '@/db/api/roles'
-import { auth } from '@/auth'
 import { PermissionAction, Resources } from '@/db/types'
+import { auth } from '@/auth'
+import { getUserDataFromSession } from '@/utils/getUserDataFromSession'
 
 const DocumentPage = async ({
   params,
@@ -10,6 +11,7 @@ const DocumentPage = async ({
   params: Promise<{ slug: string }>
 }) => {
   const session = await auth()
+  const userData = await getUserDataFromSession(session)
   const userPermissions = await readUserPermissions(session?.user?.id)
 
   const userPermissionsForDocument = userPermissions.find(
@@ -20,13 +22,17 @@ const DocumentPage = async ({
     return <div>You are not authorized to work with documents</div>
   }
 
-  const { slug } = await params
+  const { slug: id } = await params
 
   if (!userPermissionsForDocument.actions.includes(PermissionAction.update)) {
     return <div>You are not authorized to update this document</div>
   }
 
-  const document = await readDocumentWithBlocks(slug)
+  const document = await getDocumentById(id, userData)
+
+  if (!document) {
+    return <div>Document not found</div>
+  }
 
   return (
     <article style={{ flexGrow: 1 }}>

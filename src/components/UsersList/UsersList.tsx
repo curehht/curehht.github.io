@@ -1,33 +1,41 @@
 'use client'
 
 import React from 'react'
-import { useQuery, useMutation } from '@apollo/client'
-import { GET_USERS, GET_ROLES, UPDATE_USER_ROLE } from '@/db/queries-qraphql'
-import classes from './UsersList.module.css'
+import { useRouter } from 'next/navigation'
 import { Radiobox } from '../Radiobox'
+import { updateUserRole } from '@/db/api/users'
+import type { UsersListData } from '@/controllers/users'
+import type { RolesListData } from '@/controllers/roles'
+import classes from './UsersList.module.css'
 
-export const UsersList = () => {
-  const [updateUserRole, { loading }] = useMutation(UPDATE_USER_ROLE)
-  const { data: usersData } = useQuery(GET_USERS)
-  const { data: rolesData } = useQuery(GET_ROLES)
+export const UsersList = ({
+  users,
+  roles,
+}: {
+  users: UsersListData
+  roles: RolesListData
+}) => {
+  const router = useRouter()
+  const [loading, setLoading] = React.useState(false)
 
   const handleUserRoleChange = async (userId: string, roleId: string) => {
-    await updateUserRole({
-      mutation: UPDATE_USER_ROLE,
-      variables: { userId, roleId },
-      refetchQueries: [{ query: GET_USERS }, { query: GET_ROLES }],
-    })
+    setLoading(true)
+    const result = await updateUserRole(userId, roleId)
+    setLoading(false)
+    if (result.success) {
+      router.refresh()
+    }
   }
 
   return (
     <div className={classes.component}>
       <h2>Users</h2>
       <ul className={classes.list}>
-        {usersData?.users?.map((user) => (
+        {users.map((user) => (
           <li key={user.id} className={classes.item}>
             <p className={classes.email}>{user.email}</p>
             <ol className={classes.roles}>
-              {rolesData?.roles?.map((role) => (
+              {roles.map((role) => (
                 <li key={role.id}>
                   <Radiobox
                     name={`user-${user.id}-role`}

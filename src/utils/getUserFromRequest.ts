@@ -1,13 +1,12 @@
 import { NextRequest } from 'next/server'
-import { drizzle } from 'drizzle-orm/vercel-postgres'
 import { eq } from 'drizzle-orm'
 
+import { db } from '@/db/client'
 import { sessions, users, roles } from '@/db/schema'
 
 import { getSessionTokenName } from './getSessionTokenName'
 
 export const getUserDataFromRequest = async (req: NextRequest) => {
-  const db = drizzle()
   const sessionTokenName = getSessionTokenName()
   const sessionId = req.cookies?.get(sessionTokenName)?.value
 

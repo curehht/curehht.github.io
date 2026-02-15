@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { getPages } from '@/db/api/pages'
+import { getPages } from '@/controllers/pages'
 
 export default async function AdminPages() {
   const pages = await getPages()

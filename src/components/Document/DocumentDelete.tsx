@@ -1,7 +1,7 @@
 'use client'
 
-import { useMutation } from '@apollo/client'
-import { DELETE_DOCUMENT_BY_ID } from '@/db/queries-qraphql'
+import { useRouter } from 'next/navigation'
+import { deleteDocument } from '@/db/api/documents'
 
 import classes from './document.module.css'
 
@@ -12,19 +12,17 @@ const DocumentDelete = ({
   documentId: string
   className?: string
 }) => {
-  const [deleteDocument] = useMutation(DELETE_DOCUMENT_BY_ID)
+  const router = useRouter()
 
   const handleDelete = async () => {
     const isConfirmed = window.confirm(
       'Are you sure you want to delete this document?'
     )
     if (isConfirmed) {
-      await deleteDocument({
-        variables: {
-          id: documentId,
-        },
-      })
-      window.location.reload()
+      const result = await deleteDocument(documentId)
+      if (result.success) {
+        router.refresh()
+      }
     }
   }
 

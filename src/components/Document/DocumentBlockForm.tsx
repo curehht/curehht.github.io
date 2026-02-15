@@ -1,9 +1,10 @@
-import { useMutation } from '@apollo/client'
+'use client'
+
 import {
-  CREATE_DOCUMENT_BLOCK,
-  DELETE_DOCUMENT_BLOCK_BY_ID,
-  UPDATE_DOCUMENT_BLOCK_BY_ID,
-} from '@/db/queries-qraphql'
+  createDocumentBlock,
+  updateDocumentBlock,
+  deleteDocumentBlock,
+} from '@/db/api/documents'
 import { useState, useEffect } from 'react'
 import { Button, Input, TextArea } from '@/components'
 import classes from './document.module.css'
@@ -21,12 +22,13 @@ type BlockData = {
 type DocumentBlockFormProps = {
   documentId: string
   blockData: BlockData
-  onDelete?: (id: string) => void
+  onDelete?: (id: string | undefined) => void
   onDragStart?: (e: React.DragEvent, blockId: string) => void
   onDragOver?: (e: React.DragEvent) => void
   onDragEnd?: () => void
   isCollapsed?: boolean
 }
+
 export const DocumentBlockForm = ({
   documentId,
   blockData,
@@ -38,14 +40,10 @@ export const DocumentBlockForm = ({
 }: DocumentBlockFormProps) => {
   const [currentBlockData, setCurrentBlockData] = useState<BlockData>(blockData)
 
-  // Update local state when blockData prop changes
   useEffect(() => {
     setCurrentBlockData(blockData)
   }, [blockData])
 
-  const [deleteDocumentBlock] = useMutation(DELETE_DOCUMENT_BLOCK_BY_ID)
-  const [updateDocumentBlock] = useMutation(UPDATE_DOCUMENT_BLOCK_BY_ID)
-  const [createDocumentBlock] = useMutation(CREATE_DOCUMENT_BLOCK)
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentBlockData({
       ...currentBlockData,
@@ -69,46 +67,51 @@ export const DocumentBlockForm = ({
     const isConfirmed = confirm('Are you sure you want to delete this block?')
     if (!isConfirmed) return
 
-    await deleteDocumentBlock({
-      variables: {
-        id: currentBlockData.id,
-      },
-    })
-
-    onDelete?.(blockData.id)
+    const result = await deleteDocumentBlock(currentBlockData.id)
+    if (result.success) {
+      onDelete?.(blockData.id)
+    }
   }
 
   const handleSubmit = async () => {
+    const blockPayload = {
+      position: currentBlockData.position,
+      type: currentBlockData.type as
+        | 'paragraph'
+        | 'heading2'
+        | 'heading3'
+        | 'list'
+        | 'youtube'
+        | 'image'
+        | 'quote',
+      title: currentBlockData.title ?? '',
+      content: currentBlockData.content,
+      url: currentBlockData.url ?? '',
+    }
+
     if (currentBlockData.id) {
-      await updateDocumentBlock({
-        variables: {
-          id: currentBlockData.id,
-          block: {
-            position: currentBlockData.position,
-            type: currentBlockData.type,
-            title: currentBlockData.title,
-            content: currentBlockData.content,
-            url: currentBlockData.url,
-          },
-        },
-      })
+      const result = await updateDocumentBlock(
+        currentBlockData.id,
+        blockPayload
+      )
+      if (result.success) {
+        setCurrentBlockData({ ...currentBlockData, ...blockPayload })
+      }
     } else {
-      const result = await createDocumentBlock({
-        variables: {
-          block: {
-            position: currentBlockData.position,
-            type: currentBlockData.type,
-            title: currentBlockData.title,
-            content: currentBlockData.content,
-            url: currentBlockData.url,
-          },
-          document_id: documentId,
-        },
+      const result = await createDocumentBlock(documentId, {
+        ...blockPayload,
+        type: blockPayload.type,
       })
-
-      const createdBlock = result.data.createDocumentBlock
-
-      setCurrentBlockData(createdBlock)
+      if (result.success && result.block) {
+        setCurrentBlockData({
+          ...result.block,
+          position: result.block.position,
+          type: result.block.type,
+          title: result.block.title ?? '',
+          content: result.block.content ?? '',
+          url: result.block.url ?? '',
+        })
+      }
     }
   }
 
@@ -120,13 +123,7 @@ export const DocumentBlockForm = ({
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
-    if (onDragOver) {
-      onDragOver(e)
-    }
-  }
-
-  const handleDragEnd = () => {
-    onDragEnd?.()
+    onDragOver?.(e)
   }
 
   return (
@@ -135,7 +132,7 @@ export const DocumentBlockForm = ({
       draggable
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
-      onDragEnd={handleDragEnd}
+      onDragEnd={onDragEnd}
     >
       <div className={classes.blockHeader}>
         <div>{currentBlockData.position}</div>

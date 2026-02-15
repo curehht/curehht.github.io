@@ -1,0 +1,22 @@
+{
+  "endOfLine": "auto",
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^react$",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/utils/(.*)$",
+    "^@/database/(.*)$",
+    "^@/db/(.*)$",
+    "@/auth",
+    "^@/components/(.*)$",
+    "^@/controllers/(.*)$",
+    "",
+    "^[./]"
+  ]
+}

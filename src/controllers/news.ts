@@ -14,7 +14,7 @@ export async function getNewsArticles() {
   return dbGetNewsArticles()
 }
 
-export async function getNewsArticleById(id: number) {
+export async function getNewsArticleById(id: string) {
   return dbGetNewsArticleById(id)
 }
 
@@ -33,7 +33,7 @@ export async function createNewsArticle(
 }
 
 export async function updateNewsArticle(
-  id: number,
+  id: string,
   article: NewsArticleInput,
   userData: UserData | null
 ) {
@@ -47,7 +47,7 @@ export async function updateNewsArticle(
   return dbUpdateNewsArticle(id, article)
 }
 
-export async function deleteNewsArticle(id: number, userData: UserData | null) {
+export async function deleteNewsArticle(id: string, userData: UserData | null) {
   if (!userData) throw new Error('Unauthorized')
   const canDo = isAuthorized({
     userData,

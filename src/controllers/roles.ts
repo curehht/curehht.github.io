@@ -17,7 +17,7 @@ export async function getRoles(userData: UserData | null): Promise<RolesListData
   if (!userData) throw new Error('Unauthorized')
   const canDo = isAuthorized({
     userData,
-    resourceName: Resources.newsArticle,
+    resourceName: Resources.roles,
     action: PermissionAction.read,
   })
   if (!canDo) throw new Error('Unauthorized')

@@ -1,3 +1,5 @@
+'use server'
+
 import { eq } from 'drizzle-orm'
 
 import { db } from '@/db/client'
@@ -16,7 +18,7 @@ export const getNewsArticles = async () => {
   return result
 }
 
-export const getNewsArticleById = async (id: number) => {
+export const getNewsArticleById = async (id: string) => {
   const [article] = await db
     .select()
     .from(newsArticle)
@@ -32,7 +34,7 @@ export const createNewsArticle = async (
     .insert(newsArticle)
     .values({
       ...article,
-      author: userData.id,
+      author_id: userData.id,
       origin_url: article.origin_url ?? '',
     })
     .returning()
@@ -40,7 +42,7 @@ export const createNewsArticle = async (
 }
 
 export const updateNewsArticle = async (
-  id: number,
+  id: string,
   article: NewsArticleInput
 ) => {
   const [updated] = await db
@@ -51,7 +53,7 @@ export const updateNewsArticle = async (
   return updated
 }
 
-export const deleteNewsArticle = async (id: number) => {
+export const deleteNewsArticle = async (id: string) => {
   const [deleted] = await db
     .delete(newsArticle)
     .where(eq(newsArticle.id, id))

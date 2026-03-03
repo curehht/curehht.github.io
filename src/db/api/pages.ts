@@ -45,7 +45,7 @@ export type PageInput = {
 export const createPageDb = async (page: PageInput, authorId: string) => {
   const [created] = await db
     .insert(pages)
-    .values({ ...page, author_id: authorId, slug_name: page.slug_name ?? 'TODO' })
+    .values({ ...page, author_id: authorId, slug_name: page.slug_name ?? page.slug })
     .returning()
   if (!created) throw new Error('Failed to create page')
   return created

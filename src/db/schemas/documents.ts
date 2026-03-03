@@ -1,16 +1,13 @@
 import { pgTable, text, integer, boolean } from 'drizzle-orm/pg-core'
 import { users } from './auth'
 import { timestamps, randomId } from './common-fields'
-import { sql } from 'drizzle-orm'
+// Using sql from drizzle-orm is no longer required here
 
 // Main documents table
 export const documents = pgTable('documents', {
   ...randomId,
   title: text('title').notNull(),
-  slug: text('slug')
-    .notNull()
-    .unique()
-    .default(sql`gen_random_uuid()`),
+  slug: text('slug').notNull().unique(),
   description: text('description'),
   type: text('type', {
     enum: ['no-value', 'newsItem', 'article', 'research'],

@@ -7,7 +7,7 @@ export const pages = pgTable('pages', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   slug: text('slug').notNull().unique(),
-  slug_name: text('slug_name').notNull().default('TODO'),
+  slug_name: text('slug_name').notNull(),
   title: text('title').notNull(),
   author_id: text('author_id').references(() => users.id, {
     onDelete: 'set null',

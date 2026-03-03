@@ -1,12 +1,25 @@
-import { drizzle } from 'drizzle-orm/vercel-postgres'
-import { eq, asc, and } from 'drizzle-orm'
+'use server'
 
+import { eq, asc, and } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
+
+import { auth } from '@/auth'
+import { db } from '@/db/client'
 import { documents, documentBlocks } from '@/db/schema'
 import type { DocumentBlockInput, DocumentInput, UserData } from '@/db/types'
+import { Resources, PermissionAction } from '@/db/types'
+import { isAuthorized } from '@/utils/isAuthorized'
+import { getUserDataFromSession } from '@/utils/getUserDataFromSession'
 
-const db = drizzle()
+export type DocumentInputAction = {
+  title: string
+  type: string
+  slug: string
+  description?: string
+  is_published?: boolean
+}
 
-export const createDocument = async (
+export const createDocumentDb = async (
   document: DocumentInput,
   userData: UserData
 ) => {
@@ -91,7 +104,10 @@ export const readDocumentBySlugAndType = async (
   return document
 }
 
-export const updateDocument = async (id: string, document: DocumentInput) => {
+export const updateDocumentDb = async (
+  id: string,
+  document: Partial<Omit<DocumentInput, 'author_id' | 'blocks'>>
+) => {
   const [documentSaved] = await db
     .update(documents)
     .set(document)
@@ -101,7 +117,7 @@ export const updateDocument = async (id: string, document: DocumentInput) => {
   return documentSaved
 }
 
-export const deleteDocument = async (id: string) => {
+export const deleteDocumentDb = async (id: string) => {
   const [documentDeleted] = await db
     .delete(documents)
     .where(eq(documents.id, id))
@@ -110,7 +126,7 @@ export const deleteDocument = async (id: string) => {
   return documentDeleted
 }
 
-export const createDocumentBlock = async ({
+export const createDocumentBlockDb = async ({
   document_id,
   block,
 }: {
@@ -136,7 +152,7 @@ export const readDocumentBlockById = async (id: string) => {
   return block
 }
 
-export const updateDocumentBlock = async ({
+export const updateDocumentBlockDb = async ({
   id,
   block,
 }: {
@@ -151,11 +167,157 @@ export const updateDocumentBlock = async ({
   return blockUpdated
 }
 
-export const deleteDocumentBlock = async (id: string) => {
+export const deleteDocumentBlockDb = async (id: string) => {
   const [blockDeleted] = await db
     .delete(documentBlocks)
     .where(eq(documentBlocks.id, id))
     .returning()
 
   return blockDeleted
+}
+
+export async function createDocument(document: DocumentInputAction) {
+  try {
+    const session = await auth()
+    const userData = await getUserDataFromSession(session)
+    if (!userData) throw new Error('Unauthorized')
+    const canDo = isAuthorized({
+      userData,
+      resourceName: Resources.document,
+      action: PermissionAction.create,
+    })
+    if (!canDo) throw new Error('Unauthorized')
+    const payload = {
+      title: document.title,
+      type: document.type,
+      slug: document.slug,
+      description: document.description ?? '',
+      is_published: document.is_published ?? false,
+    }
+    const created = await createDocumentDb(
+      { ...payload, author_id: userData.id, blocks: [] } satisfies DocumentInput,
+      userData
+    )
+    revalidatePath('/admin/documents')
+    return { success: true, id: created?.id }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to create document',
+    }
+  }
+}
+
+export async function updateDocument(id: string, document: Partial<DocumentInputAction>) {
+  try {
+    const session = await auth()
+    const userData = await getUserDataFromSession(session)
+    if (!userData) throw new Error('Unauthorized')
+    const canDo = isAuthorized({
+      userData,
+      resourceName: Resources.document,
+      action: PermissionAction.update,
+    })
+    if (!canDo) throw new Error('Unauthorized')
+    await updateDocumentDb(id, document)
+    revalidatePath('/admin/documents')
+    revalidatePath(`/admin/documents/${id}`)
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to update document',
+    }
+  }
+}
+
+export async function deleteDocument(id: string) {
+  try {
+    const session = await auth()
+    const userData = await getUserDataFromSession(session)
+    if (!userData) throw new Error('Unauthorized')
+    const canDo = isAuthorized({
+      userData,
+      resourceName: Resources.document,
+      action: PermissionAction.delete,
+    })
+    if (!canDo) throw new Error('Unauthorized')
+    await deleteDocumentDb(id)
+    revalidatePath('/admin/documents')
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to delete document',
+    }
+  }
+}
+
+export async function createDocumentBlock(documentId: string, block: DocumentBlockInput) {
+  try {
+    const session = await auth()
+    const userData = await getUserDataFromSession(session)
+    if (!userData) throw new Error('Unauthorized')
+    const canDo = isAuthorized({
+      userData,
+      resourceName: Resources.document,
+      action: PermissionAction.create,
+    })
+    if (!canDo) throw new Error('Unauthorized')
+    const created = await createDocumentBlockDb({ document_id: documentId, block })
+    revalidatePath(`/admin/documents/${documentId}`)
+    return { success: true, block: created }
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : 'Failed to create document block',
+    }
+  }
+}
+
+export async function updateDocumentBlock(id: string, block: DocumentBlockInput) {
+  try {
+    const session = await auth()
+    const userData = await getUserDataFromSession(session)
+    if (!userData) throw new Error('Unauthorized')
+    const canDo = isAuthorized({
+      userData,
+      resourceName: Resources.document,
+      action: PermissionAction.update,
+    })
+    if (!canDo) throw new Error('Unauthorized')
+    await updateDocumentBlockDb({ id, block })
+    revalidatePath('/admin/documents')
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : 'Failed to update document block',
+    }
+  }
+}
+
+export async function deleteDocumentBlock(id: string) {
+  try {
+    const session = await auth()
+    const userData = await getUserDataFromSession(session)
+    if (!userData) throw new Error('Unauthorized')
+    const canDo = isAuthorized({
+      userData,
+      resourceName: Resources.document,
+      action: PermissionAction.delete,
+    })
+    if (!canDo) throw new Error('Unauthorized')
+    await deleteDocumentBlockDb(id)
+    revalidatePath('/admin/documents')
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : 'Failed to delete document block',
+    }
+  }
 }

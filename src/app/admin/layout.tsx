@@ -4,11 +4,8 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import { AuthPanel } from '@/components'
 import Link from 'next/link'
-import { ApolloWrapper } from '@/components/Apollo'
 
 import classes from './layout.module.css'
-
-// Metadata is not supported in client components. Please define it in a server component.
 
 export default async function AdminLayout({
   children,
@@ -23,27 +20,25 @@ export default async function AdminLayout({
 
   return (
     <SessionProvider>
-      <ApolloWrapper>
-        <header className={classes.header}>
-          <AuthPanel />
-        </header>
-        <main className={classes.main}>
-          <aside className={classes.aside}>
-            <ul>
-              <li>
-                <Link href="/admin">Главная</Link>
-              </li>
-              <li>
-                <Link href="/admin/pages">Страницы</Link>
-              </li>
-              <li>
-                <Link href="/admin/documents">Документы</Link>
-              </li>
-            </ul>
-          </aside>
-          <div className={classes.content}>{children}</div>
-        </main>
-      </ApolloWrapper>
+      <header className={classes.header}>
+        <AuthPanel />
+      </header>
+      <main className={classes.main}>
+        <aside className={classes.aside}>
+          <ul>
+            <li>
+              <Link href="/admin">Главная</Link>
+            </li>
+            <li>
+              <Link href="/admin/pages">Страницы</Link>
+            </li>
+            <li>
+              <Link href="/admin/documents">Документы</Link>
+            </li>
+          </ul>
+        </aside>
+        <div className={classes.content}>{children}</div>
+      </main>
     </SessionProvider>
   )
 }

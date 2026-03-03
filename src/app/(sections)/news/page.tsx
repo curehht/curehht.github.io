@@ -1,6 +1,8 @@
-import { readDocuments } from '@/db/api/documents'
 import Link from 'next/link'
 import { Metadata } from 'next'
+
+import { readDocuments } from '@/db/api/documents'
+
 import classes from './page.module.css'
 
 export const metadata: Metadata = {

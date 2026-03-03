@@ -1,16 +1,20 @@
 import {
   pgTable,
-  serial,
-  varchar,
   timestamp,
   json,
   text,
 } from 'drizzle-orm/pg-core'
 
+import { users } from './auth'
+
 export const newsArticle = pgTable('news_articles', {
-  id: serial('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   title: text('title').notNull(),
-  author: varchar('author', { length: 255 }).notNull(),
+  author_id: text('author_id').references(() => users.id, {
+    onDelete: 'set null',
+  }),
   summary: text('summary'),
   text: json('text').default([
     {

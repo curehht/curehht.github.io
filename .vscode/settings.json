@@ -1,4 +1,12 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "githubPullRequests.ignoredPullRequestBranches": ["dev"]
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "dev"
+  ],
+  "cSpell.words": [
+    "Baumgertner",
+    "neondatabase",
+    "Osler",
+    "Rendu"
+  ]
 }

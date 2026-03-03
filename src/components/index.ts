@@ -1,4 +1,4 @@
-import { Menu } from './Menu'
+
 import { Footer } from './Footer'
 import { NewsArticleForm } from './NewsArticleForm'
 import { AuthPanel } from './AuthPanel'
@@ -15,7 +15,6 @@ import { Checkbox } from './Checkbox'
 import { Button } from './Button'
 
 export {
-  Menu,
   Footer,
   NewsArticleForm,
   AuthPanel,

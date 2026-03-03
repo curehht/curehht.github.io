@@ -3,6 +3,9 @@
 /.pnp
 .pnp.js
 
+# build
+tsconfig.tsbuildinfo
+
 # testing
 /coverage
 
@@ -30,3 +33,4 @@ yarn-error.log*
 # editors
 .idea/
 .vercel
+.env*.local

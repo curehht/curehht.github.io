@@ -1,51 +1,44 @@
 'use client'
 
 import React from 'react'
-import { useQuery, useMutation } from '@apollo/client'
-
+import { useRouter } from 'next/navigation'
 import { Button, RoleForm } from '@/components'
 import { cleanVariables } from '@/utils/cleanVariables'
-import {
-  GET_ROLES,
-  CREATE_ROLE,
-  UPDATE_ROLE,
-  INIT_ROLE,
-} from '@/db/queries-qraphql'
+import { createRole, updateRole, initRole } from '@/db/api/roles'
+import type { RolesListData } from '@/controllers/roles'
+import type { Permission } from '@/db/types'
 import classes from './RolesList.module.css'
 
-const RolesList: React.FC = () => {
-  const [updateRole] = useMutation(UPDATE_ROLE)
-  const [createRole] = useMutation(CREATE_ROLE)
-  const [initRole] = useMutation(INIT_ROLE, {
-    refetchQueries: [GET_ROLES],
-  })
+const RolesList: React.FC<{ roles: RolesListData }> = ({ roles }) => {
+  const router = useRouter()
+  const [error, setError] = React.useState<string | null>(null)
 
-  const { data: rolesData, loading, error } = useQuery(GET_ROLES)
-
-  const handleRoleUpdate = async (role) => {
+  const handleRoleUpdate = async (role: RolesListData[number] & { id?: string }) => {
+    setError(null)
     if (role.id) {
       const updatingRole = { ...role }
       delete updatingRole.id
-
-      await updateRole({
-        variables: { id: role.id, role: cleanVariables(updatingRole) },
-      })
+      const result = await updateRole(role.id, cleanVariables(updatingRole))
+      if (!result.success) setError(result.error ?? 'Failed')
+      else router.refresh()
     } else {
-      await createRole({
-        variables: { role },
-      })
+      const result = await createRole(cleanVariables(role))
+      if (!result.success) setError(result.error ?? 'Failed')
+      else router.refresh()
     }
   }
 
   const handleInitRole = async () => {
-    await initRole()
+    setError(null)
+    const result = await initRole()
+    if (!result.success) setError(result.error ?? 'Failed')
+    else router.refresh()
   }
 
   return (
     <div className={classes.component}>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {!loading && !rolesData?.roles?.length && !error && (
+      {error && <p>Error: {error}</p>}
+      {!roles.length && !error && (
         <div className={classes.noRoles}>
           <p>No roles found</p>
           <Button onClick={() => handleInitRole()}>
@@ -53,7 +46,7 @@ const RolesList: React.FC = () => {
           </Button>
         </div>
       )}
-      {rolesData?.roles?.map((role) => (
+      {roles.map((role) => (
         <div key={role.id}>
           <h3>{role.name}</h3>
           <RoleForm onSubmit={handleRoleUpdate} {...role} />

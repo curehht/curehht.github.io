@@ -3,7 +3,9 @@ description:
 globs: 
 alwaysApply: true
 ---
-## Tech stack
+
+# Tech stack
+
 - PostgreSQL
 - Drizzle ORM
 
@@ -13,6 +15,6 @@ Define the entire database schema in TypeScript using Drizzle ORM. The schema in
 Use drizzle-kit generate to generate SQL migration files automatically from changes in the TypeScript schema.
 Apply SQL migrations to the database at runtime (e.g., during app startup or deployment) using Drizzle’s migration API.
 
-Use apollo for data request: 
-- on the client-side use useQuery, useMutation hooks from '@apollo/client'
+## Data request
+
 - on the server-side create api in src/db/api with drizzle and use it

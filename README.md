@@ -1,20 +1,21 @@
-## О проекте
-Сайт русскоязыного сообщества поддержки пациентов с болезнью Рандю-Ослера-Вебера.
+# About the Project
 
+A website for the Russian-speaking community supporting patients with [Osler–Weber–Rendu](https://en.wikipedia.org/wiki/Hereditary_hemorrhagic_telangiectasia) disease.
 
-### Технологии
-- [Next.js 15](https://nextjs.org/) - React фреймворк для создания веб-приложений
-- [React 19](https://react.dev/) - JavaScript библиотека для создания пользовательских интерфейсов
-- [TypeScript](https://www.typescriptlang.org/) - Типизированный JavaScript
-- [Apollo Client](https://www.apollographql.com/docs/react/) - GraphQL клиент для работы с API
-- [NextAuth.js](https://next-auth.js.org/) - Аутентификация и авторизация
-- [Drizzle ORM](https://orm.drizzle.team/) - ORM для работы с базой данных
-- [Vercel Postgres](https://vercel.com/storage/postgres) - База данных PostgreSQL
-- [Vercel Blob](https://vercel.com/storage/blob) - Хранилище файлов
-- [Vercel Analytics & Speed Insights](https://vercel.com/analytics) - Аналитика и мониторинг производительности
-- [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) - Линтинг и форматирование кода
+## Technologies
 
-## Добавить поле в базу данных
-1. Добавить поле в схему
-2. Запустить `drizzle-kit generate`
-3. Запустить `drizzle-kit migrate`
+- [Next.js 15](https://nextjs.org/) - React framework for building web applications
+- [React 19](https://react.dev/) - JavaScript library for building user interfaces
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
+- [NextAuth.js](https://next-auth.js.org/) - Authentication and authorization
+- [Drizzle ORM](https://orm.drizzle.team/) - ORM for working with the database
+- [Vercel Postgres](https://vercel.com/storage/postgres) - PostgreSQL database
+- [Vercel Blob](https://vercel.com/storage/blob) - File storage
+- [Vercel Analytics & Speed Insights](https://vercel.com/analytics) - Analytics and performance monitoring
+- [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) - Code linting and formatting
+
+## Add a Field to the Database
+
+1. Add the field to the schema
+2. Run `drizzle-kit generate`
+3. Run `drizzle-kit migrate`

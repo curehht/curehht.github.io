@@ -2,7 +2,7 @@
   "name": "curehht.github.io",
   "private": true,
   "description": "Cure HHT russian-speaking user group",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": "Alex Baumgertner <alex.baumgertner@gmail.com>",
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.1",

@@ -5,7 +5,7 @@
  *
  * WARNING: Deletion is by row id (last 4), not by migration index. If your
  * __drizzle_migrations rows are not in journal order, this can remove the wrong
- * records and cause re-runs of 0003, 0004, etc. Migrations 0003–0007 have been
+ * records and cause re-runs of 0003, 0004, etc. Migrations 0003–0008 have been
  * made idempotent (IF NOT EXISTS / conditional constraints) so re-running them
  * is safe.
  *

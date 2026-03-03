@@ -1,6 +1,5 @@
 import {
   pgTable,
-  varchar,
   timestamp,
   json,
   text,

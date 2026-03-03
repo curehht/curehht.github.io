@@ -1,1 +1,1 @@
-ALTER TABLE "documents" ADD COLUMN "type" text;
+ALTER TABLE "documents" ADD COLUMN IF NOT EXISTS "type" text;

@@ -1,1 +1,1 @@
-ALTER TABLE "pages" ADD COLUMN "description" text;
+ALTER TABLE "pages" ADD COLUMN IF NOT EXISTS "description" text;

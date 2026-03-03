@@ -35,7 +35,8 @@
     "prepare": "husky",
     "lint-staged": "lint-staged --verbose",
     "migration:generate": "drizzle-kit generate",
-    "migration:migrate": "drizzle-kit migrate"
+    "migration:migrate": "drizzle-kit migrate",
+    "migration:repair-state": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/repair-migration-state.ts"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

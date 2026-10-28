@@ -35,11 +35,19 @@ export const createDocumentDb = async (
 
 export const readDocuments = async (searchParams: {
   type?: 'newsItem' | 'article' | 'research'
+  publishedOnly?: boolean
 }) => {
   const documentsResponse = await db
     .select()
     .from(documents)
-    .where(eq(documents.type, searchParams.type))
+    .where(
+      and(
+        eq(documents.type, searchParams.type),
+        searchParams.publishedOnly
+          ? eq(documents.is_published, true)
+          : undefined
+      )
+    )
     .orderBy(asc(documents.created_at))
   return documentsResponse
 }
@@ -48,6 +56,7 @@ export const readDocumentsSlugs = async () => {
   const documentsSlugs = await db
     .select({ slug: documents.slug })
     .from(documents)
+    .where(eq(documents.is_published, true))
   return documentsSlugs
 }
 
@@ -73,11 +82,19 @@ export const readDocumentWithBlocks = async (id: string) => {
   }
 }
 
-export const readDocumentBySlug = async (slug: string) => {
+export const readDocumentBySlug = async (
+  slug: string,
+  options: { publishedOnly?: boolean } = {}
+) => {
   const [document] = await db
     .select()
     .from(documents)
-    .where(eq(documents.slug, slug))
+    .where(
+      and(
+        eq(documents.slug, slug),
+        options.publishedOnly ? eq(documents.is_published, true) : undefined
+      )
+    )
 
   if (!document) return null
 

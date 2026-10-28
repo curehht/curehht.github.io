@@ -10,7 +10,10 @@ export const metadata: Metadata = {
 }
 
 export default async function IndexPage() {
-  const documents = await readDocuments({ type: 'newsItem' })
+  const documents = await readDocuments({
+    type: 'newsItem',
+    publishedOnly: true,
+  })
 
   return (
     <div className="IndexPage">

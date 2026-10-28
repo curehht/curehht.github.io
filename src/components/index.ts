@@ -1,6 +1,5 @@
 
 import { Footer } from './Footer'
-import { NewsArticleForm } from './NewsArticleForm'
 import { AuthPanel } from './AuthPanel'
 import { RoleForm } from './RoleForm'
 import { UsersList } from './UsersList/UsersList'
@@ -16,7 +15,6 @@ import { Button } from './Button'
 
 export {
   Footer,
-  NewsArticleForm,
   AuthPanel,
   RoleForm,
   UsersList,

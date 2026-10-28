@@ -12,7 +12,6 @@ const ADMIN_ROLES = [
   { resource: Resources.users, actions: [PermissionAction.create, PermissionAction.read, PermissionAction.update, PermissionAction.delete] },
   { resource: Resources.page, actions: [PermissionAction.create, PermissionAction.read, PermissionAction.update, PermissionAction.delete] },
   { resource: Resources.document, actions: [PermissionAction.create, PermissionAction.read, PermissionAction.update, PermissionAction.delete] },
-  { resource: Resources.newsArticle, actions: [PermissionAction.create, PermissionAction.read, PermissionAction.update, PermissionAction.delete] },
 ]
 
 /** Creates an admin role with full permissions and returns it. */

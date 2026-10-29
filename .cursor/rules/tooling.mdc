@@ -1,0 +1,17 @@
+---
+description: Safe use of project MCP integrations
+alwaysApply: true
+---
+
+# Project tools
+
+The workspace MCP configuration provides GitHub, Vercel, and read-only Neon
+access.
+
+- Use GitHub and Vercel integrations for inspection before proposing changes.
+- Require explicit user approval before creating or modifying GitHub resources,
+  changing Vercel settings, deploying, or triggering production actions.
+- Neon access is restricted to schema and query inspection. Never use an MCP
+  tool to modify a database, and never connect an agent to production data.
+- Authenticate with OAuth in the editor. Do not add tokens, connection strings,
+  or OAuth client secrets to tracked files.

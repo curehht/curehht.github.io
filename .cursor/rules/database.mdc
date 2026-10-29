@@ -1,20 +1,21 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+description: Database schema, access, and migration requirements
+globs:
+  - src/db/**/*.ts
+  - src/controllers/**/*.ts
+  - drizzle.config.ts
+  - drizzle/**
+alwaysApply: false
 ---
 
-# Tech stack
+# Database changes
 
-- PostgreSQL
-- Drizzle ORM
+Follow the database requirements in `AGENTS.md`.
 
-Follow a codebase-first approach for database schema management:
-
-Define the entire database schema in TypeScript using Drizzle ORM. The schema in code is the single source of truth.
-Use drizzle-kit generate to generate SQL migration files automatically from changes in the TypeScript schema.
-Apply SQL migrations to the database at runtime (e.g., during app startup or deployment) using Drizzle’s migration API.
-
-## Data request
-
-- on the server-side create api in src/db/api with drizzle and use it
+- Define schema changes under `src/db/schemas/` and re-export them from
+  `src/db/schema.ts`.
+- Access the database only through `src/db/api/`. Mutating or admin-only
+  operations must go through controllers and check `isAuthorized`.
+- Generate migrations with `pnpm migration:generate`; do not hand-edit applied
+  migrations or change the database outside the migration workflow.
+- Apply migrations only with explicit approval and a local `POSTGRES_URL`.

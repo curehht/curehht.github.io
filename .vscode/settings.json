@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
+  "chat.mcp.workspaceRootConfig.enabled": true,
   "githubPullRequests.ignoredPullRequestBranches": [
     "dev"
   ],

@@ -22,9 +22,9 @@ A website for the Russian-speaking community supporting patients with [Osler–W
 
 ## Developer tools
 
-Cursor loads project integrations from [`.cursor/mcp.json`](.cursor/mcp.json).
-After opening the repository, authenticate each server with OAuth from Cursor's
-MCP settings:
+VS Code Copilot loads project integrations from [`.mcp.json`](.mcp.json).
+After opening the repository, authenticate each server with OAuth from **Chat:
+Open Customizations** > **MCP Servers**:
 
 - **GitHub** provides repository, pull request, and workflow context.
 - **Vercel** provides project and deployment context. Grant access only to the

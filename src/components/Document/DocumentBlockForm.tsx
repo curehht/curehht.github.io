@@ -41,6 +41,8 @@ export const DocumentBlockForm = ({
   const [currentBlockData, setCurrentBlockData] = useState<BlockData>(blockData)
 
   useEffect(() => {
+    // The parent replaces block data after a save or reorder.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentBlockData(blockData)
   }, [blockData])
 
